@@ -21,7 +21,7 @@ public abstract class Player implements Runnable{
     protected URI myURI;
 
     // view stuff
-    protected PlayerView view;
+    protected PlayerView view = new PlayerView();
 
     abstract public void addUri(String uri);
 
@@ -33,12 +33,6 @@ public abstract class Player implements Runnable{
             switch ((String) t[1]) {
                 case ("ACCEPTED"): {
                     this.name = name;
-                    System.out.println(myURI);
-                    System.out.println(myURI.getScheme() + "://" +
-                            myURI.getHost() + ":" +
-                            myURI.getPort() + "/" +
-                            name + "?" +
-                            myURI.getQuery()); // TODO: DELETE AS IS DEBUG
                     privateSpace = new RemoteSpace(
                             myURI.getScheme() + "://" +
                                     myURI.getHost() + ":" +
@@ -46,7 +40,6 @@ public abstract class Player implements Runnable{
                                     name + "?" +
                                     myURI.getQuery()
                     );
-                    initializeView();
                     return true;
                 }
                 case ("REJECTED"): {
@@ -60,19 +53,18 @@ public abstract class Player implements Runnable{
     }
 
     public void run() {
+        initializeView();
         Task<Void> tupleSpaceTask = new Task<>() {
             @Override
             protected Void call() throws Exception {
                 while (true) {
                     Object[] t = privateSpace.get(new FormalField(String.class));
-                    if (Objects.isNull(t)) break;
-
-                    switch ((String) t[0]) {
-                        case ("NewPlayer") : Platform.runLater(Player.this::handleNewPlayer);
-                        case ("NewPosition") : Platform.runLater(Player.this::handleNewPosition);
+                    if (((String) t[0]).equals("NewPlayer")){
+                        Platform.runLater(Player.this::handleNewPlayer);
+                    } else if (((String) t[0]).equals("NewPosition")){
+                        Platform.runLater(Player.this::handleNewPosition);
                     }
                 }
-                return null;
             }
         };
 
@@ -93,8 +85,9 @@ public abstract class Player implements Runnable{
 
     private void handleNewPosition(){
         try {
-            Object[] t = privateSpace.get(new FormalField(String.class), new FormalField(Object.class));
-            view.update((String) t[0], (double[]) t[1]);
+            System.out.println("FOUND NEW POSITION");
+            Object[] t = privateSpace.get(new ActualField("NewPosition"), new FormalField(String.class), new FormalField(Object.class));
+            view.update((String) t[1], (double[]) t[2]);
         } catch (Exception e){
             e.printStackTrace();
         }
@@ -106,9 +99,9 @@ public abstract class Player implements Runnable{
 
     protected void initializeView() {
         try {
+            view.initialize(privateSpace);
             Object[] infoTuple = privateSpace.get(new ActualField("PlayerInfo"), new FormalField(PlayerInfo.class));
             PlayerInfo info = (PlayerInfo) infoTuple[1];
-            view = new PlayerView(privateSpace);
             view.getSprite().setFill(info.color);
             view.getSprite().move(info.position);
 

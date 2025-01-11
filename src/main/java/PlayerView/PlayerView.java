@@ -17,7 +17,7 @@ public class PlayerView extends Group {
         this.getChildren().add(sprite);
     }
 
-    public PlayerView(Space positionSpace){
+    public void initialize(Space positionSpace){
         sprite.setAsMain(positionSpace);
     }
 
@@ -27,12 +27,13 @@ public class PlayerView extends Group {
 
     public void addPlayer(String name, PlayerInfo info) {
         Sprite newPlayer = new Sprite();
+        this.getChildren().add(newPlayer);
         System.out.println("New player's color " + info.color);
         newPlayer.setFill(info.color);
         System.out.println("New player's position " + Arrays.toString(info.position));
         newPlayer.move(info.position);
-        this.getChildren().add(newPlayer);
         otherPlayers.put(name, newPlayer);
+        System.out.println("Added new player");
     }
 
     public Sprite getSprite() {

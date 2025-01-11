@@ -31,7 +31,7 @@ public class TestJSpaceFX extends Application {
         System.out.println("Please insert URI of the server (enter for default):");
         String uri = scanner.nextLine();
         if (uri.isEmpty()){
-            uri = "tcp://localhost:9001/?keep";
+            uri = "tcp://localhost:9002/?keep";
         }
         me.addUri(uri);
         System.out.println("the uri is " + me.getURI());
@@ -56,7 +56,6 @@ public class TestJSpaceFX extends Application {
         primaryStage.setTitle("Among Peers");
 
         Scene scene = new Scene(me.getView(), WIDTH, HEIGHT);
-        // Use AnimationTimer for continuous updates
 
         me.run();
 

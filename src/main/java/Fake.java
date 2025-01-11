@@ -110,8 +110,6 @@ public class Fake extends Application {
     }
 
     private void handleKeyReleased(KeyEvent event) {
-
-
         // EDIT VELOCITY
         if (event.getCode() == KeyCode.W) {
             this.velocity.set(1, 0.0);

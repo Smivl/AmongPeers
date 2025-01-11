@@ -1,6 +1,8 @@
 package Player;
 
 import PlayerView.PlayerView;
+import javafx.application.Platform;
+import javafx.concurrent.Task;
 import javafx.scene.paint.Color;
 import org.jspace.*;
 import utils.PlayerInfo;
@@ -30,14 +32,12 @@ public class HostPlayer extends Player{
         try {
             myURI = new URI(uri);
             repo.addGate(uri);
-            System.out.println(repo.get("server"));
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
     private void runServer(){
-        System.out.println(name + "is running the server");
         while (true){
             try {
                 Object[] t = serverSpace.get(new FormalField(String.class));
@@ -52,7 +52,37 @@ public class HostPlayer extends Player{
         }
     }
 
-    public void handleJoinRequest() {
+    private void managePlayer(String playerName){
+        while (true){
+            try {
+                Object[] t = playerSpaces.get(playerName).get(new ActualField("SERVER"), new FormalField(String.class));
+                switch ((String)t[1]){
+                    case ("POSITION_CHANGE") : {
+                        broadcastPosition(playerName);
+                    }
+                }
+            } catch (Exception e){
+                e.printStackTrace();
+            }
+        }
+    }
+
+    private void broadcastPosition(String playerName){
+        try {
+            Object[] t = playerSpaces.get(playerName).get(new ActualField("POSITION_CHANGE"), new FormalField(Object.class));
+            playerInfos.get(playerName).position = (double[])t[1];
+            for (String name : playerSpaces.keySet()){
+                if (!name.equals(playerName)){
+                    playerSpaces.get(name).put("NewPosition");
+                    playerSpaces.get(name).put("NewPosition", playerName, t[1]);
+                }
+            }
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void handleJoinRequest() {
         try {
             // read request
             String nameRequest = (String)(serverSpace.get(new ActualField("JoinRequest"), new FormalField(String.class))[1]);
@@ -61,10 +91,13 @@ public class HostPlayer extends Player{
                 serverSpace.put(nameRequest, "REJECTED");
             }
             else { // player name does not exist
+
                 // create new channel
                 Space privateChannel = new SequentialSpace();
                 playerSpaces.put(nameRequest, privateChannel);
                 repo.add(nameRequest, privateChannel);
+
+                new Thread(() -> managePlayer(nameRequest)).start();
 
                 // accept request
                 serverSpace.put(nameRequest, "ACCEPTED");
