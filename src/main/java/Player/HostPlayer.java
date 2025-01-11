@@ -47,7 +47,7 @@ public class HostPlayer extends Player{
                     }
                 }
             } catch (Exception e){
-                System.out.println(e.getMessage());
+                e.printStackTrace();
             }
         }
     }
@@ -83,21 +83,28 @@ public class HostPlayer extends Player{
             double[] randomPosition = new double[]{random.nextDouble()*500, random.nextDouble()*500};
             PlayerInfo newPlayerInfo = new PlayerInfo(randomColor, randomPosition);
 
-        // update players data
-            playerInfos.put(nameRequest, newPlayerInfo);
-
         // inform the player of its data and other players
             playerSpaces.get(nameRequest).put( "PlayerInfo", newPlayerInfo);
             playerSpaces.get(nameRequest).put("OtherPlayersStart"); // inform to start a loop
 
-            for (String playerName : playerSpaces.keySet()){
+            System.out.println("Current players: " + playerInfos.keySet());
+
+            for (String playerName : playerInfos.keySet()){
+                System.out.println("Dealing with " + playerName);
+
                 // tell existing players there is a new player
                 playerSpaces.get(playerName).put("NewPlayer");
                 playerSpaces.get(playerName).put("NewPlayer", nameRequest, newPlayerInfo);
 
                 // tell new player there are existing players
+                playerSpaces.get(nameRequest).put("NewPlayer");
                 playerSpaces.get(nameRequest).put("NewPlayer", playerName, playerInfos.get(playerName));
             }
+
+            // update players data
+            playerInfos.put(nameRequest, newPlayerInfo);
+
+            System.out.println("New players: " + playerInfos.keySet());
 
             playerSpaces.get(nameRequest).put("OtherPlayersEnd"); // end the loop
 

@@ -2,9 +2,11 @@ import Player.Player;
 import Player.HostPlayer;
 import Player.ClientPlayer;
 
+import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import utils.ColorAdapter;
 
 import java.util.*;
 
@@ -15,6 +17,8 @@ public class TestJSpaceFX extends Application {
     private static Player me = new ClientPlayer(); // assume player is not hosting
 
     public static void main(String[] args) throws InterruptedException {
+        ColorAdapter.init();
+
         Scanner scanner = new Scanner(System.in);
 
         System.out.println("Are you hosting? (y/n)");
@@ -52,8 +56,9 @@ public class TestJSpaceFX extends Application {
         primaryStage.setTitle("Among Peers");
 
         Scene scene = new Scene(me.getView(), WIDTH, HEIGHT);
+        // Use AnimationTimer for continuous updates
 
-        (new Thread(me)).start();
+        me.run();
 
         primaryStage.setScene(scene);
         primaryStage.show();

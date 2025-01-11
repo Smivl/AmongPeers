@@ -18,7 +18,7 @@ public class Sprite extends Circle {
 
     public void move(double[] position){
         setCenterX(position[0]);
-        setCenterX(position[1]);
+        setCenterY(position[1]);
     }
 
     public void setAsMain(Space positionSpace) {
