@@ -61,6 +61,7 @@ public abstract class Player implements Runnable{
         return false;
     }
 
+    @Override
     public void run(){
         System.out.println(name + " is Running");
         while (true){

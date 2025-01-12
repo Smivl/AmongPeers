@@ -5,6 +5,8 @@ import Player.ClientPlayer;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import org.jspace.RemoteSpace;
+import org.jspace.Space;
 
 import java.util.*;
 
@@ -19,16 +21,17 @@ public class TestJSpaceFX extends Application {
 
         System.out.println("Are you hosting? (y/n)");
         // Player is hosting
-        if (Objects.equals(scanner.nextLine(), "y")){
+        if (Objects.equals(scanner.nextLine(), "y")) {
             me = new HostPlayer();
             System.out.println("You are hosting.");
         }
 
         System.out.println("Please insert URI of the server (enter for default):");
         String uri = scanner.nextLine();
-        if (uri.isEmpty()){
+        if (uri.isEmpty()) {
             uri = "tcp://localhost:9001/?keep";
         }
+
         me.addUri(uri);
         System.out.println("the uri is " + me.getURI());
 

@@ -7,7 +7,7 @@ import utils.PlayerInfo;
 import java.util.HashMap;
 import java.util.Map;
 
-public class PlayerView extends Group {
+public class    PlayerView extends Group {
 
     private Sprite sprite = new Sprite();
     private Map<String, Sprite> otherPlayers = new HashMap<>();

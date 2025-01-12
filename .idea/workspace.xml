@@ -5,15 +5,15 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="20e64abb-9b4e-4189-a5ca-643a67bdae90" name="Changes" comment="Initialization">
-      <change afterPath="$PROJECT_DIR$/src/main/java/Player/ClientPlayer.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/Player/HostPlayer.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/Player/Player.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/PlayerView/PlayerView.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/PlayerView/Sprite.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/utils/PlayerInfo.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/Main.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/Map/GameMap.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/Map/GameMapView.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/PlayerM/Player.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/PlayerM/PlayerView.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/map.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Player/Player.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Player/Player.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/PlayerView/PlayerView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/PlayerView/PlayerView.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/TestJSpaceFX.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/TestJSpaceFX.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -35,13 +35,21 @@
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
-  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectColorInfo">{
+  &quot;customColor&quot;: &quot;&quot;,
+  &quot;associatedIndex&quot;: 1
+}</component>
+  <component name="ProjectId" id="2rUAcQZQrvOjdQsjVQkWu8k9Xfr" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">{
   &quot;keyToString&quot;: {
+    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
     &quot;Application.TestJSpace.executor&quot;: &quot;Run&quot;,
     &quot;Application.TestJSpaceFX.executor&quot;: &quot;Run&quot;,
     &quot;JUnit.AppTest.executor&quot;: &quot;Run&quot;,
@@ -67,7 +75,7 @@
       <recent name="" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.TestJSpaceFX">
+  <component name="RunManager" selected="Maven.amongpeers [javafx:run]">
     <configuration name="TestJSpace" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="dk.dtu.TestJSpace" />
       <module name="amongpeers" />
@@ -141,8 +149,8 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Application.TestJSpaceFX" />
         <item itemvalue="Maven.amongpeers [javafx:run]" />
+        <item itemvalue="Application.TestJSpaceFX" />
         <item itemvalue="JUnit.AppTest" />
         <item itemvalue="Application.TestJSpace" />
       </list>
@@ -151,7 +159,7 @@
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="jdk-21.0.2-openjdk-21.0.2-4caba194b151-322ed176" />
+        <option value="jdk-21.0.2-openjdk-21.0.2-4caba194b151-4f524021" />
       </set>
     </attachedChunks>
   </component>
@@ -164,6 +172,8 @@
       <option name="presentableId" value="Default" />
       <updated>1736424873032</updated>
       <workItem from="1736424874512" duration="5990000" />
+      <workItem from="1736603361389" duration="11711000" />
+      <workItem from="1736675759569" duration="354000" />
     </task>
     <task id="LOCAL-00001" summary="Initialization">
       <option name="closed" value="true" />
@@ -188,6 +198,7 @@
     <option name="version" value="3" />
   </component>
   <component name="VcsManagerConfiguration">
+    <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
     <MESSAGE value="Initialization" />
     <option name="LAST_COMMIT_MESSAGE" value="Initialization" />
   </component>
