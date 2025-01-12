@@ -1,18 +1,15 @@
 package Player;
 
 import PlayerView.PlayerView;
-import javafx.scene.paint.Color;
+import javafx.application.Platform;
+import javafx.concurrent.Task;
 import org.jspace.ActualField;
 import org.jspace.FormalField;
 import org.jspace.RemoteSpace;
 import org.jspace.Space;
-import utils.Dummy;
 import utils.PlayerInfo;
 
 import java.net.URI;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 public abstract class Player implements Runnable{
     // control stuff
@@ -23,10 +20,11 @@ public abstract class Player implements Runnable{
     protected URI myURI;
 
     // view stuff
-    protected PlayerView view;
+    protected PlayerView view = new PlayerView();
 
     abstract public void addUri(String uri);
 
+    // try to join a game with username. Returns false if fails
     public boolean tryJoin(String name) {
         try {
             serverSpace.put("JoinRequest");
@@ -35,12 +33,6 @@ public abstract class Player implements Runnable{
             switch ((String) t[1]) {
                 case ("ACCEPTED"): {
                     this.name = name;
-                    System.out.println(myURI);
-                    System.out.println(myURI.getScheme() + "://" +
-                            myURI.getHost() + ":" +
-                            myURI.getPort() + "/" +
-                            name + "?" +
-                            myURI.getQuery()); // TODO: DELETE AS IS DEBUG
                     privateSpace = new RemoteSpace(
                             myURI.getScheme() + "://" +
                                     myURI.getHost() + ":" +
@@ -48,7 +40,6 @@ public abstract class Player implements Runnable{
                                     name + "?" +
                                     myURI.getQuery()
                     );
-                    initializeView();
                     return true;
                 }
                 case ("REJECTED"): {
@@ -61,25 +52,29 @@ public abstract class Player implements Runnable{
         return false;
     }
 
-    @Override
-    public void run(){
-        System.out.println(name + " is Running");
-        while (true){
-            try {
-                Object[] t = privateSpace.get(new FormalField(String.class));
-                switch ((String)t[0]){
-                    case ("NewPlayer") : {
-                        handleNewPlayer();
-                    }
-                    case ("NewPosition") : {
-                        handleNewPosition();
+    // private channel process
+    public void run() {
+        // Scene has been initialized. Inform the view
+        initializeView();
+
+        // JavaFX thread syntax
+        Task<Void> tupleSpaceTask = new Task<>() {
+            @Override
+            protected Void call() throws Exception {
+                while (true) {
+                    Object[] t = privateSpace.get(new FormalField(String.class));
+                    if (((String) t[0]).equals("NewPlayer")){
+                        Platform.runLater(Player.this::handleNewPlayer);
+                    } else if (((String) t[0]).equals("NewPosition")){
+                        Platform.runLater(Player.this::handleNewPosition);
                     }
                 }
-            } catch (Exception e){
-                System.out.println(e.getMessage());
             }
-        }
+        };
+
+        new Thread(tupleSpaceTask).start();
     }
+
 
     protected void handleNewPlayer(){
         try {
@@ -92,10 +87,10 @@ public abstract class Player implements Runnable{
 
     private void handleNewPosition(){
         try {
-            Object[] t = privateSpace.get(new FormalField(String.class), new FormalField(Object.class));
-            view.update((String) t[0], (double[]) t[1]);
+            Object[] t = privateSpace.get(new ActualField("NewPosition"), new FormalField(String.class), new FormalField(Object.class));
+            view.update((String) t[1], (double[]) t[2]);
         } catch (Exception e){
-            System.out.println(e.getMessage());
+            e.printStackTrace();
         }
     }
 
@@ -105,32 +100,25 @@ public abstract class Player implements Runnable{
 
     protected void initializeView() {
         try {
-            // get own info
-            privateSpace.put(1);
-            privateSpace.get(new ActualField(1));
-            List<Double> dummyList = new ArrayList<>(Arrays.asList(1.0,2.0,3.0));
-
-            // BUG IN THE LINE BELOW: problem with color class
-            privateSpace.put(new Color(1,1,1,1));
-            privateSpace.get(new FormalField(Color.class));
-            System.out.println(1);
-
-
+            view.initialize(privateSpace);
             Object[] infoTuple = privateSpace.get(new ActualField("PlayerInfo"), new FormalField(PlayerInfo.class));
             PlayerInfo info = (PlayerInfo) infoTuple[1];
-            view = new PlayerView(privateSpace);
             view.getSprite().setFill(info.color);
             view.getSprite().move(info.position);
 
             // get other players info
             privateSpace.get(new ActualField("OtherPlayersStart"));
+            System.out.println("Getting other players...");
             while (true){
                 String message = (String)(privateSpace.get(new FormalField(String.class))[0]);
-                switch (message){
-                    case "NewPlayer" : handleNewPlayer();
-                    case "OtherPlayersEnd" : break;
+                if (message.equals("NewPlayer")) {
+                    handleNewPlayer();
+                } else if (message.equals("OtherPlayersEnd")) {
+                    break;
                 }
             }
+            outs:
+            System.out.println("Got other players!");
 
         } catch (Exception e){
             e.printStackTrace();
