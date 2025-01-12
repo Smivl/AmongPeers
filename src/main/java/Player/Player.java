@@ -87,7 +87,7 @@ public abstract class Player implements Runnable{
 
     private void handleNewPosition(){
         try {
-            Object[] t = privateSpace.get(new ActualField("NewPosition"), new FormalField(String.class), new FormalField(Object.class));
+            Object[] t = privateSpace.get(new ActualField("NewPosition"), new FormalField(String.class), new FormalField(Object.class), new FormalField(Object.class));
             view.update((String) t[1], (double[]) t[2]);
         } catch (Exception e){
             e.printStackTrace();

@@ -71,12 +71,13 @@ public class HostPlayer extends Player{
     // inform players of new player position
     private void broadcastPosition(String playerName){
         try {
-            Object[] t = playerSpaces.get(playerName).get(new ActualField("POSITION_CHANGE"), new FormalField(Object.class));
+            Object[] t = playerSpaces.get(playerName).get(new ActualField("POSITION_CHANGE"), new FormalField(Object.class), new FormalField(Object.class));
             playerInfos.get(playerName).position = (double[])t[1];
+            playerInfos.get(playerName).velocity = (double[])t[2];
             for (String name : playerSpaces.keySet()){
                 if (!name.equals(playerName)){
                     playerSpaces.get(name).put("NewPosition");
-                    playerSpaces.get(name).put("NewPosition", playerName, t[1]);
+                    playerSpaces.get(name).put("NewPosition", playerName, t[1], t[2]);
                 }
             }
         } catch (InterruptedException e) {
@@ -116,7 +117,7 @@ public class HostPlayer extends Player{
         // initialize random data for the player
             Color randomColor = new Color(random.nextDouble(),random.nextDouble(),random.nextDouble(), 1.0);
             double[] randomPosition = new double[]{random.nextDouble()*500, random.nextDouble()*500};
-            PlayerInfo newPlayerInfo = new PlayerInfo(randomColor, randomPosition);
+            PlayerInfo newPlayerInfo = new PlayerInfo(randomColor, randomPosition, new double[]{0,0});
 
         // inform the player of its data and other players
             playerSpaces.get(nameRequest).put( "PlayerInfo", newPlayerInfo);

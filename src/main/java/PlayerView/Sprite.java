@@ -40,7 +40,7 @@ public class Sprite extends Circle {
                 move(newPosition);
                 try {
                     positionSpace.put("SERVER", "POSITION_CHANGE");
-                    positionSpace.put("POSITION_CHANGE", newPosition);
+                    positionSpace.put("POSITION_CHANGE", newPosition, this.velocity);
                 } catch (InterruptedException er) {
                     throw new RuntimeException(er);
                 }

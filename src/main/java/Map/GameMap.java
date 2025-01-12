@@ -1,8 +1,13 @@
 package Map;
 
 import PlayerM.PlayerView;
+import utils.PlayerInfo;
+
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
 import javafx.geometry.Bounds;
 import javafx.scene.Scene;
 import javafx.scene.paint.Color;
@@ -14,6 +19,12 @@ public class GameMap {
 
     private GameMapView view;
     private final List<Shape> collisionShapes = new ArrayList<Shape>() {};
+
+    private Map<String, PlayerView> playerViews = new HashMap<>();
+
+    public GameMapView getView() {
+        return this.view;
+    }
 
     public GameMap(Scene scene) {
         this.view = new GameMapView(scene);
@@ -33,11 +44,19 @@ public class GameMap {
         this.view.getChildren().addAll(this.collisionShapes);
     }
 
-    public GameMapView getView() {
-        return this.view;
+    public void onUpdate(double delta) {
     }
 
-    public void onUpdate(double delta) {
+    public void handlePositionUpdate(String playerName, double[] newPosition, double[] velocity){
+        PlayerView playerView = playerViews.get(playerName);
+        playerView.render(newPosition[0], newPosition[1], velocity);
+    }
+
+    public void handlePlayerJoin(String playerName, PlayerInfo playerInfo){
+        PlayerView newPlayer = new PlayerView(playerName, playerInfo.position[0], playerInfo.position[1], playerInfo.velocity, playerInfo.color);
+        view.getChildren().add(newPlayer);
+        playerViews.put(playerName, newPlayer);
+
     }
 
     public boolean checkCollision(PlayerView playerView) {
@@ -74,4 +93,5 @@ public class GameMap {
         this.collisionShapes.add(ellipse);
 
     }
+
 }

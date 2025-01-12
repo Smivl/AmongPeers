@@ -50,7 +50,7 @@
           <execution>
             <id>default-cli</id>
             <configuration>
-              <mainClass>TestJSpaceFX</mainClass>
+              <mainClass>Main</mainClass>
             </configuration>
           </execution>
         </executions>
