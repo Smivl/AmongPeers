@@ -140,37 +140,6 @@ public class Main extends Application {
         root.getChildren().add(map.getView());
 
         new Thread(this::serverUpdates).start();
-        /*
-        Task<Void> serverUpdates = new Task<>() {
-            @Override
-            protected Void call() throws Exception {
-                while (true){
-                    Object[] update = player.getPlayerSpace().get(new FormalField(ServerUpdate.class));
-
-                    switch ((ServerUpdate) update[0]){
-                        case POSITION:{
-                            Object[] newPosition = player.getPlayerSpace().get(new ActualField(ServerUpdate.POSITION), new FormalField(String.class), new FormalField(Object.class));
-                            Platform.runLater(() -> map.handlePositionUpdate((String) newPosition[1], (double[]) newPosition[2]));
-                            break;
-                        }case PLAYER_JOINED:{
-                            Object[] newPlayer = player.getPlayerSpace().get(new ActualField(ServerUpdate.PLAYER_JOINED), new FormalField(String.class), new FormalField(PlayerInfo.class));
-                            Platform.runLater(() -> map.handlePlayerJoin((String) newPlayer[1], (PlayerInfo) newPlayer[2]));
-                            break;
-                        }case PLAYER_LEFT:{
-                            System.out.println("Player left!");
-                            break;
-                        }case PLAYER_INIT:{
-                            System.out.println("ERROR: got PLAYER_INIT after player has been initialized!");
-                            break;
-                        }
-                    }
-                }
-            }
-        };
-
-        new Thread(serverUpdates).start();
-
-         */
 
         scene.addEventFilter(KeyEvent.KEY_PRESSED, this::handleKeyPressed);
         scene.addEventFilter(KeyEvent.KEY_RELEASED, this::handleKeyReleased);
@@ -202,9 +171,7 @@ public class Main extends Application {
 
     @Override
     public void stop(){
-
         spaceRepository.shutDown();
-
         System.exit(0);
     }
 
