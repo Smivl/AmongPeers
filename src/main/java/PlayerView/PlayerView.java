@@ -4,7 +4,6 @@ import javafx.scene.Group;
 import org.jspace.Space;
 import utils.PlayerInfo;
 
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -27,13 +26,14 @@ public class PlayerView extends Group {
 
     public void addPlayer(String name, PlayerInfo info) {
         Sprite newPlayer = new Sprite();
+
+        // add to collections
         this.getChildren().add(newPlayer);
-        System.out.println("New player's color " + info.color);
-        newPlayer.setFill(info.color);
-        System.out.println("New player's position " + Arrays.toString(info.position));
-        newPlayer.move(info.position);
         otherPlayers.put(name, newPlayer);
-        System.out.println("Added new player");
+
+        // initialize sprite with properties
+        newPlayer.setFill(info.color);
+        newPlayer.move(info.position);
     }
 
     public Sprite getSprite() {

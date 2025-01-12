@@ -1,8 +1,5 @@
 package Player;
 
-import PlayerView.PlayerView;
-import javafx.application.Platform;
-import javafx.concurrent.Task;
 import javafx.scene.paint.Color;
 import org.jspace.*;
 import utils.PlayerInfo;
@@ -37,6 +34,7 @@ public class HostPlayer extends Player{
         }
     }
 
+    // thread to keep track of server changes (new players joining)
     private void runServer(){
         while (true){
             try {
@@ -44,6 +42,7 @@ public class HostPlayer extends Player{
                 switch ((String)t[0]){
                     case ("JoinRequest") : {
                         handleJoinRequest();
+                        break;
                     }
                 }
             } catch (Exception e){
@@ -52,6 +51,7 @@ public class HostPlayer extends Player{
         }
     }
 
+    // thread to interact with single player on private channel
     private void managePlayer(String playerName){
         while (true){
             try {
@@ -59,6 +59,7 @@ public class HostPlayer extends Player{
                 switch ((String)t[1]){
                     case ("POSITION_CHANGE") : {
                         broadcastPosition(playerName);
+                        break;
                     }
                 }
             } catch (Exception e){
@@ -67,6 +68,7 @@ public class HostPlayer extends Player{
         }
     }
 
+    // inform players of new player position
     private void broadcastPosition(String playerName){
         try {
             Object[] t = playerSpaces.get(playerName).get(new ActualField("POSITION_CHANGE"), new FormalField(Object.class));

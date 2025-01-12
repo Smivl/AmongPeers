@@ -32,10 +32,10 @@ public class Sprite extends Circle {
         getScene().addEventFilter(KeyEvent.KEY_RELEASED, this::handleKeyReleased);
     }
 
+    // helper functions
     private Timeline getTimeline(Space positionSpace) {
         Timeline t = new Timeline(new KeyFrame(Duration.millis(16), e ->{
             if (!Arrays.equals(velocity, new double[]{0,0})){
-                System.out.println("moving");
                 double[] newPosition = new double[]{getCenterX() + velocity[0], getCenterY() + velocity[1]};
                 move(newPosition);
                 try {

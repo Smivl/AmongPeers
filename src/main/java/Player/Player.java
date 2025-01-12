@@ -10,7 +10,6 @@ import org.jspace.Space;
 import utils.PlayerInfo;
 
 import java.net.URI;
-import java.util.Objects;
 
 public abstract class Player implements Runnable{
     // control stuff
@@ -25,6 +24,7 @@ public abstract class Player implements Runnable{
 
     abstract public void addUri(String uri);
 
+    // try to join a game with username. Returns false if fails
     public boolean tryJoin(String name) {
         try {
             serverSpace.put("JoinRequest");
@@ -52,8 +52,12 @@ public abstract class Player implements Runnable{
         return false;
     }
 
+    // private channel process
     public void run() {
+        // Scene has been initialized. Inform the view
         initializeView();
+
+        // JavaFX thread syntax
         Task<Void> tupleSpaceTask = new Task<>() {
             @Override
             protected Void call() throws Exception {
@@ -74,9 +78,7 @@ public abstract class Player implements Runnable{
 
     protected void handleNewPlayer(){
         try {
-            System.out.println("Found new Player!");
             Object[] t = privateSpace.get(new ActualField("NewPlayer"), new FormalField(String.class), new FormalField(PlayerInfo.class));
-            System.out.println("Player's name is " + (String)t[1]);
             view.addPlayer((String)t[1], (PlayerInfo) t[2]);
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
@@ -85,7 +87,6 @@ public abstract class Player implements Runnable{
 
     private void handleNewPosition(){
         try {
-            System.out.println("FOUND NEW POSITION");
             Object[] t = privateSpace.get(new ActualField("NewPosition"), new FormalField(String.class), new FormalField(Object.class));
             view.update((String) t[1], (double[]) t[2]);
         } catch (Exception e){
@@ -107,7 +108,7 @@ public abstract class Player implements Runnable{
 
             // get other players info
             privateSpace.get(new ActualField("OtherPlayersStart"));
-            System.out.println("Getting other players");
+            System.out.println("Getting other players...");
             while (true){
                 String message = (String)(privateSpace.get(new FormalField(String.class))[0]);
                 if (message.equals("NewPlayer")) {
@@ -117,7 +118,7 @@ public abstract class Player implements Runnable{
                 }
             }
             outs:
-            System.out.println("Got other players");
+            System.out.println("Got other players!");
 
         } catch (Exception e){
             e.printStackTrace();
