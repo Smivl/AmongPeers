@@ -4,25 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="20e64abb-9b4e-4189-a5ca-643a67bdae90" name="Changes" comment="Fixing merging">
-      <change afterPath="$PROJECT_DIR$/src/main/java/test.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/utils/ClientUpdate.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/utils/Request.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/utils/Response.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/utils/ServerUpdate.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/idle.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/player.png" afterDir="false" />
+    <list default="true" id="20e64abb-9b4e-4189-a5ca-643a67bdae90" name="Changes" comment="Small extra cleanup">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Main.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/Map/GameMap.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Map/GameMap.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Player/HostPlayer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Player/HostPlayer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Player/Player.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Player/Player.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/PlayerM/Player.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/PlayerM/Player.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/PlayerM/PlayerView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/PlayerM/PlayerView.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/PlayerView/PlayerView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/PlayerView/PlayerView.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/PlayerView/Sprite.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/PlayerView/Sprite.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/utils/PlayerInfo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/utils/PlayerInfo.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -56,30 +42,30 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "ASKED_ADD_EXTERNAL_FILES": "true",
-    "Application.TestJSpace.executor": "Run",
-    "Application.TestJSpaceFX.executor": "Run",
-    "Application.test.executor": "Run",
-    "JUnit.AppTest.executor": "Run",
-    "Maven. [org.apache.maven.plugins:maven-archetype-plugin:RELEASE:generate].executor": "Run",
-    "Maven.amongpeers [javafx:run].executor": "Run",
-    "Maven.amongpeers [org.openjfx:javafx-maven-plugin:0.0.6:run].executor": "Run",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "git-widget-placeholder": "master",
-    "kotlin-language-version-configured": "true",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "settings.editor.selected.configurable": "project.propVCSSupport.Mappings",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
+    &quot;Application.TestJSpace.executor&quot;: &quot;Run&quot;,
+    &quot;Application.TestJSpaceFX.executor&quot;: &quot;Run&quot;,
+    &quot;Application.test.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.AppTest.executor&quot;: &quot;Run&quot;,
+    &quot;Maven. [org.apache.maven.plugins:maven-archetype-plugin:RELEASE:generate].executor&quot;: &quot;Run&quot;,
+    &quot;Maven.amongpeers [javafx:run].executor&quot;: &quot;Run&quot;,
+    &quot;Maven.amongpeers [org.openjfx:javafx-maven-plugin:0.0.6:run].executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;project.propVCSSupport.Mappings&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
       <recent name="" />
@@ -191,7 +177,8 @@
       <updated>1736424873032</updated>
       <workItem from="1736424874512" duration="5990000" />
       <workItem from="1736603361389" duration="11711000" />
-      <workItem from="1736675759569" duration="20304000" />
+      <workItem from="1736675759569" duration="20516000" />
+      <workItem from="1736697844793" duration="4630000" />
     </task>
     <task id="LOCAL-00001" summary="Initialization">
       <option name="closed" value="true" />
@@ -217,7 +204,23 @@
       <option name="project" value="LOCAL" />
       <updated>1736676169480</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="Merged networking with basic game w/ collision.">
+      <option name="closed" value="true" />
+      <created>1736696300710</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1736696300710</updated>
+    </task>
+    <task id="LOCAL-00005" summary="Small extra cleanup">
+      <option name="closed" value="true" />
+      <created>1736696464750</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1736696464750</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -227,6 +230,8 @@
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
     <MESSAGE value="Initialization" />
     <MESSAGE value="Fixing merging" />
-    <option name="LAST_COMMIT_MESSAGE" value="Fixing merging" />
+    <MESSAGE value="Merged networking with basic game w/ collision." />
+    <MESSAGE value="Small extra cleanup" />
+    <option name="LAST_COMMIT_MESSAGE" value="Small extra cleanup" />
   </component>
 </project>

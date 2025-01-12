@@ -18,6 +18,7 @@ import java.net.URI;
 public class Player {
 
     private final int SPEED = 400;
+    private boolean wDown, aDown, sDown, dDown;
 
     private PlayerView view;
 
@@ -131,43 +132,72 @@ public class Player {
         }
     }
 
-    public void handleKeyReleased(KeyEvent event) {
-        if (event.getCode() == KeyCode.W) {
-            this.velocity[1] = 0.0;
-        }
-
-        if (event.getCode() == KeyCode.A) {
-            this.velocity[0] = 0.0;
-        }
-
-        if (event.getCode() == KeyCode.S) {
-            this.velocity[1] = 0.0;
-        }
-
-        if (event.getCode() == KeyCode.D) {
-            this.velocity[0] = 0.0;
-        }
-
-    }
-
     public void handleKeyPressed(KeyEvent event) {
-        if (event.getCode() == KeyCode.W) {
-            this.velocity[1] = -SPEED;
+        switch (event.getCode()) {
+            case W: {
+                wDown = true;
+                break;
+            }
+            case A: {
+                aDown = true;
+                break;
+            }
+            case S: {
+                sDown = true;
+                break;
+            }
+            case D: {
+                dDown = true;
+                break;
+            }
         }
 
-        if (event.getCode() == KeyCode.A) {
-            this.velocity[0] = -SPEED;
-        }
-
-        if (event.getCode() == KeyCode.S) {
-            this.velocity[1] = SPEED;
-        }
-
-        if (event.getCode() == KeyCode.D) {
-            this.velocity[0] = SPEED;
-        }
-
+        updateVelocity();
     }
+
+    public void handleKeyReleased(KeyEvent event) {
+        switch (event.getCode()) {
+            case W: {
+                wDown = false;
+                break;
+            }
+            case A: {
+                aDown = false;
+                break;
+            }
+            case S: {
+                sDown = false;
+                break;
+            }
+            case D: {
+                dDown = false;
+                break;
+            }
+        }
+
+        updateVelocity();
+    }
+
+    private void updateVelocity() {
+        double dx = 0;
+        double dy = 0;
+
+        if (wDown) dy -= 1;
+        if (sDown) dy += 1;
+        if (aDown) dx -= 1;
+        if (dDown) dx += 1;
+
+        double length = Math.sqrt(dx * dx + dy * dy);
+        if (length != 0) {
+            dx = dx / length * SPEED;
+            dy = dy / length * SPEED;
+        }
+
+        this.velocity[0] = dx;
+        this.velocity[1] = dy;
+    }
+
+
 
 
 }
