@@ -4,7 +4,29 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="20e64abb-9b4e-4189-a5ca-643a67bdae90" name="Changes" comment="More collision and movement fix" />
+    <list default="true" id="20e64abb-9b4e-4189-a5ca-643a67bdae90" name="Changes" comment="Initialization">
+      <change afterPath="$PROJECT_DIR$/src/main/java/Game/GameController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/Game/Player/Player.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/Game/Player/PlayerView.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/Server/Server.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/Server/ServerState.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Fake.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Map/GameMap.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Game/GameMap/GameMap.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Map/GameMapView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Game/GameMap/GameMapView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Player/HostPlayer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Player/HostPlayer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Player/Player.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Player/Player.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/PlayerM/Player.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Game/GameCharacter/GameCharacter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/PlayerM/PlayerView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Game/GameCharacter/GameCharacterView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/PlayerView/PlayerView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/PlayerView/PlayerView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/utils/ClientUpdate.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Server/ClientUpdate.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/utils/Dummy.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/utils/PlayerInfo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Game/Player/PlayerInfo.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/utils/Request.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Server/Request.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/utils/Response.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Server/Response.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/utils/ServerUpdate.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Server/ServerUpdate.java" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -14,8 +36,8 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="Interface" />
-        <option value="Enum" />
         <option value="Class" />
+        <option value="Enum" />
       </list>
     </option>
   </component>
@@ -158,7 +180,7 @@
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="jdk-21.0.2-openjdk-21.0.2-4caba194b151-4f524021" />
+        <option value="jdk-21.0.2-openjdk-21.0.2-4caba194b151-322ed176" />
       </set>
     </attachedChunks>
   </component>
@@ -174,6 +196,7 @@
       <workItem from="1736603361389" duration="11711000" />
       <workItem from="1736675759569" duration="20516000" />
       <workItem from="1736697844793" duration="4766000" />
+      <workItem from="1736779273982" duration="2096000" />
     </task>
     <task id="LOCAL-00001" summary="Initialization">
       <option name="closed" value="true" />

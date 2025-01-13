@@ -2,7 +2,7 @@ package PlayerView;
 
 import javafx.scene.Group;
 import org.jspace.Space;
-import utils.PlayerInfo;
+import Game.Player.PlayerInfo;
 
 import java.util.HashMap;
 import java.util.Map;

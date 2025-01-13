@@ -1,4 +1,4 @@
-package utils;
+package Server;
 
 // Request responses
 public enum Response {

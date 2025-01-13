@@ -1,4 +1,4 @@
-package utils;
+package Server;
 
 // In-game server updates
 public enum ServerUpdate {

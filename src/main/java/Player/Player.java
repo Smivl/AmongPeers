@@ -7,7 +7,7 @@ import org.jspace.ActualField;
 import org.jspace.FormalField;
 import org.jspace.RemoteSpace;
 import org.jspace.Space;
-import utils.PlayerInfo;
+import Game.Player.PlayerInfo;
 
 import java.net.URI;
 

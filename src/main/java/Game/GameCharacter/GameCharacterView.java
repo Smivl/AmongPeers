@@ -1,6 +1,5 @@
-package PlayerM;
+package Game.GameCharacter;
 
-import javafx.scene.effect.ColorAdjust;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
@@ -9,7 +8,7 @@ import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 
 
-public class PlayerView extends StackPane {
+public class GameCharacterView extends StackPane {
 
     private final ImageView characterImage;
 
@@ -22,7 +21,7 @@ public class PlayerView extends StackPane {
     public double getCenterX() { return centerX; }
     public double getCenterY() { return centerY; }
 
-    public PlayerView(String name, double x, double y, double[] velocity, Color color) {
+    public GameCharacterView(String name, double x, double y, double[] velocity, Color color) {
 
         this.centerX = x;
         this.centerY = y;

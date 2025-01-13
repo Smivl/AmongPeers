@@ -1,4 +1,4 @@
-package utils;
+package Game.Player;
 
 import javafx.scene.paint.Color;
 

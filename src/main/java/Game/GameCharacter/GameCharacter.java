@@ -1,26 +1,26 @@
-package PlayerM;
+package Game.GameCharacter;
 
-import Map.GameMap;
+import Game.GameMap.GameMap;
+import Game.Player.PlayerInfo;
+import Server.ClientUpdate;
+import Server.Request;
+import Server.Response;
+import Server.ServerUpdate;
 import org.jspace.ActualField;
 import org.jspace.FormalField;
 import org.jspace.RemoteSpace;
-import utils.*;
 
-import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.paint.Color;
 import org.jspace.Space;
 
-import javax.sound.midi.Soundbank;
-import java.lang.annotation.Repeatable;
 import java.net.URI;
 
-public class Player {
+public class GameCharacter {
 
     private final int SPEED = 400;
     private boolean wDown, aDown, sDown, dDown;
 
-    private PlayerView view;
+    private GameCharacterView view;
 
     private double[] position;
     private double[] velocity;
@@ -32,7 +32,7 @@ public class Player {
 
     private URI serverURI;
 
-    public PlayerView getView() {
+    public GameCharacterView getView() {
         return this.view;
     }
     public Space getPlayerSpace() { return this.playerSpace; }
@@ -40,7 +40,7 @@ public class Player {
     public void setServerSpace(Space space) { this.serverSpace = space; }
     public void setServerURI(URI uri) { this.serverURI = uri; }
 
-    public Player(String name) {
+    public GameCharacter(String name) {
 
         this.name = name;
         this.velocity = new double[]{0.0, 0.0};
@@ -97,7 +97,7 @@ public class Player {
 
             this.position = info.position;
 
-            this.view = new PlayerView(name, info.position[0], info.position[1], info.velocity,info.color);
+            this.view = new GameCharacterView(name, info.position[0], info.position[1], info.velocity,info.color);
 
         }catch (Exception e){
             System.out.println(e.getMessage());

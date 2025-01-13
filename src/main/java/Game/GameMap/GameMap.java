@@ -1,7 +1,7 @@
-package Map;
+package Game.GameMap;
 
-import PlayerM.PlayerView;
-import utils.PlayerInfo;
+import Game.GameCharacter.GameCharacterView;
+import Game.Player.PlayerInfo;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -20,7 +20,7 @@ public class GameMap {
     private GameMapView view;
     private final List<Shape> collisionShapes = new ArrayList<Shape>() {};
 
-    private Map<String, PlayerView> playerViews = new HashMap<>();
+    private Map<String, GameCharacterView> playerViews = new HashMap<>();
 
     public GameMapView getView() {
         return this.view;
@@ -71,19 +71,19 @@ public class GameMap {
     }
 
     public void handlePositionUpdate(String playerName, double[] newPosition, double[] velocity){
-        PlayerView playerView = playerViews.get(playerName);
-        playerView.render(newPosition[0], newPosition[1], velocity);
+        GameCharacterView gameCharacterView = playerViews.get(playerName);
+        gameCharacterView.render(newPosition[0], newPosition[1], velocity);
     }
 
     public void handlePlayerJoin(String playerName, PlayerInfo playerInfo){
-        PlayerView newPlayer = new PlayerView(playerName, playerInfo.position[0], playerInfo.position[1], playerInfo.velocity, playerInfo.color);
+        GameCharacterView newPlayer = new GameCharacterView(playerName, playerInfo.position[0], playerInfo.position[1], playerInfo.velocity, playerInfo.color);
         view.getChildren().add(newPlayer);
         playerViews.put(playerName, newPlayer);
 
     }
 
-    public boolean checkCollision(PlayerView playerView) {
-        Bounds playerBounds = playerView.getBoundsInParent();
+    public boolean checkCollision(GameCharacterView gameCharacterView) {
+        Bounds playerBounds = gameCharacterView.getBoundsInParent();
         Rectangle playerShape = new Rectangle(playerBounds.getMinX(), playerBounds.getMinY(), playerBounds.getWidth(), playerBounds.getHeight());
         this.view.getChildren().add(playerShape);
 

@@ -2,7 +2,7 @@ package Player;
 
 import javafx.scene.paint.Color;
 import org.jspace.*;
-import utils.PlayerInfo;
+import Game.Player.PlayerInfo;
 
 import java.net.URI;
 import java.util.HashMap;
