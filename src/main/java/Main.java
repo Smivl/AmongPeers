@@ -143,45 +143,9 @@ public class Main extends Application {
 
     @Override
     public void stop(){
-        server.shutdown();
+        //server.shutdown();
         System.exit(0);
     }
-
-    /*
-    // CLIENT SIDE
-    private void serverUpdates(){
-        while (true){
-            try {
-                Object[] update = character.getPlayerSpace().get(new FormalField(ServerUpdate.class));
-
-                switch ((ServerUpdate) update[0]) {
-                    case POSITION: {
-                        Object[] newPosition = character.getPlayerSpace().get(new ActualField(ServerUpdate.POSITION), new FormalField(String.class), new FormalField(Object.class), new FormalField(Object.class));
-                        Platform.runLater(() -> map.handlePositionUpdate((String) newPosition[1], (double[]) newPosition[2], (double[]) newPosition[3]));
-                        break;
-                    }
-                    case PLAYER_JOINED: {
-                        Object[] newPlayer = character.getPlayerSpace().get(new ActualField(ServerUpdate.PLAYER_JOINED), new FormalField(String.class), new FormalField(PlayerInfo.class));
-                        Platform.runLater(() -> map.handlePlayerJoin((String) newPlayer[1], (PlayerInfo) newPlayer[2]));
-                        break;
-                    }
-                    case PLAYER_LEFT: {
-                        System.out.println("Player left!");
-                        break;
-                    }
-                    case PLAYER_INIT: {
-                        System.out.println("ERROR: got PLAYER_INIT after player has been initialized!");
-                        break;
-                    }
-                }
-            }catch (Exception e){
-                System.out.println(e.getMessage());
-                break;
-            }
-        }
-    }
-
-     */
 
 
     private void handleKeyReleased(KeyEvent event) {

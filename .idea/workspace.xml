@@ -5,27 +5,24 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="20e64abb-9b4e-4189-a5ca-643a67bdae90" name="Changes" comment="Initialization">
-      <change afterPath="$PROJECT_DIR$/src/main/java/Game/GameController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/Game/Player/Player.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/Game/Player/PlayerView.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/Server/Server.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/Server/ServerState.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/sprites.psd" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/walk1.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/walk10.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/walk11.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/walk12.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/walk2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/walk3.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/walk4.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/walk5.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/walk6.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/walk7.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/walk8.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/walk9.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Fake.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Game/GameCharacter/GameCharacter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Game/GameCharacter/GameCharacter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Game/GameCharacter/GameCharacterView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Game/GameCharacter/GameCharacterView.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Map/GameMap.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Game/GameMap/GameMap.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Map/GameMapView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Game/GameMap/GameMapView.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Player/HostPlayer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Player/HostPlayer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Player/Player.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Player/Player.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/PlayerM/Player.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Game/GameCharacter/GameCharacter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/PlayerM/PlayerView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Game/GameCharacter/GameCharacterView.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/PlayerView/PlayerView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/PlayerView/PlayerView.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/utils/ClientUpdate.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Server/ClientUpdate.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/utils/Dummy.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/utils/PlayerInfo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Game/Player/PlayerInfo.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/utils/Request.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Server/Request.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/utils/Response.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Server/Response.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/utils/ServerUpdate.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Server/ServerUpdate.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/idle.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/idle.png" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

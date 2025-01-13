@@ -6,6 +6,7 @@ import Server.ClientUpdate;
 import Server.Request;
 import Server.Response;
 import Server.ServerUpdate;
+import javafx.application.Platform;
 import org.jspace.ActualField;
 import org.jspace.FormalField;
 import org.jspace.RemoteSpace;
@@ -17,7 +18,7 @@ import java.net.URI;
 
 public class GameCharacter {
 
-    private final int SPEED = 400;
+    private final int SPEED = 650;
     private boolean wDown, aDown, sDown, dDown;
 
     private GameCharacterView view;
@@ -113,6 +114,7 @@ public class GameCharacter {
 
         // If no collision then move player position
         if (!map.checkCollision(this.view)) {
+
             if(this.position[0] != newX || this.position[1] != newY){
                 // push updated movement to server
                 try{
@@ -123,12 +125,16 @@ public class GameCharacter {
                 }
             }
 
+
             this.position[0] = newX;
             this.position[1] = newY;
 
 
         }else{
             this.view.render(this.position[0], this.position[1], this.velocity);
+
+
+
         }
     }
 
@@ -191,6 +197,17 @@ public class GameCharacter {
         if (length != 0) {
             dx = dx / length * SPEED;
             dy = dy / length * SPEED;
+        } else{
+
+            // Notify that we have stopped moving! Only does once!
+            Platform.runLater(() -> {
+                try {
+                    playerSpace.put("SERVER", ClientUpdate.POSITION);
+                    playerSpace.put(ClientUpdate.POSITION, this.position, this.velocity);
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+            });
         }
 
         this.velocity[0] = dx;
