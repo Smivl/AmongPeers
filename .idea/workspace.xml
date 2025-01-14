@@ -5,24 +5,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="20e64abb-9b4e-4189-a5ca-643a67bdae90" name="Changes" comment="Initialization">
-      <change afterPath="$PROJECT_DIR$/src/main/resources/sprites.psd" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/walk1.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/walk10.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/walk11.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/walk12.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/walk2.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/walk3.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/walk4.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/walk5.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/walk6.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/walk7.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/walk8.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/walk9.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/Game/GameCharacter/GameCharacter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Game/GameCharacter/GameCharacter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Game/GameCharacter/GameCharacterView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Game/GameCharacter/GameCharacterView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Game/GameController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Game/GameController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/idle.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/idle.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Server/ClientUpdate.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Server/ClientUpdate.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Server/Server.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Server/Server.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Server/ServerState.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Server/ServerState.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Server/ServerUpdate.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Server/ServerUpdate.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -33,8 +23,8 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="Interface" />
-        <option value="Class" />
         <option value="Enum" />
+        <option value="Class" />
       </list>
     </option>
   </component>
@@ -56,42 +46,43 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
-    &quot;Application.TestJSpace.executor&quot;: &quot;Run&quot;,
-    &quot;Application.TestJSpaceFX.executor&quot;: &quot;Run&quot;,
-    &quot;Application.test.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.AppTest.executor&quot;: &quot;Run&quot;,
-    &quot;Maven. [org.apache.maven.plugins:maven-archetype-plugin:RELEASE:generate].executor&quot;: &quot;Run&quot;,
-    &quot;Maven.amongpeers [javafx:run].executor&quot;: &quot;Run&quot;,
-    &quot;Maven.amongpeers [org.openjfx:javafx-maven-plugin:0.0.6:run].executor&quot;: &quot;Run&quot;,
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
-    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;project.propVCSSupport.Mappings&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ASKED_ADD_EXTERNAL_FILES": "true",
+    "Application.DummyTest.executor": "Run",
+    "Application.TestJSpace.executor": "Run",
+    "Application.TestJSpaceFX.executor": "Run",
+    "Application.test.executor": "Run",
+    "JUnit.AppTest.executor": "Run",
+    "Maven. [org.apache.maven.plugins:maven-archetype-plugin:RELEASE:generate].executor": "Run",
+    "Maven.amongpeers [javafx:run].executor": "Run",
+    "Maven.amongpeers [org.openjfx:javafx-maven-plugin:0.0.6:run].executor": "Run",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "git-widget-placeholder": "master",
+    "kotlin-language-version-configured": "true",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "project.propVCSSupport.Mappings",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
       <recent name="" />
     </key>
   </component>
-  <component name="RunManager" selected="Maven.amongpeers [javafx:run]">
-    <configuration name="TestJSpace" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="dk.dtu.TestJSpace" />
+  <component name="RunManager" selected="Application.DummyTest">
+    <configuration name="DummyTest" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="dk.dtu.DummyTest" />
       <module name="amongpeers" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value=".*" />
+          <option name="PATTERN" value="dk.dtu.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -166,11 +157,11 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Application.DummyTest" />
         <item itemvalue="Maven.amongpeers [javafx:run]" />
         <item itemvalue="Application.test" />
         <item itemvalue="Application.TestJSpaceFX" />
         <item itemvalue="JUnit.AppTest" />
-        <item itemvalue="Application.TestJSpace" />
       </list>
     </recent_temporary>
   </component>

@@ -118,7 +118,7 @@ public class GameCharacter {
             if(this.position[0] != newX || this.position[1] != newY){
                 // push updated movement to server
                 try{
-                    playerSpace.put("SERVER", ClientUpdate.POSITION);
+                    playerSpace.put(ClientUpdate.POSITION);
                     playerSpace.put(ClientUpdate.POSITION, new double[]{newX, newY}, this.velocity);
                 }catch (Exception e){
                     System.out.println(e.getMessage());
@@ -200,14 +200,14 @@ public class GameCharacter {
         } else{
 
             // Notify that we have stopped moving! Only does once!
-            Platform.runLater(() -> {
+            //Platform.runLater(() -> {
                 try {
-                    playerSpace.put("SERVER", ClientUpdate.POSITION);
+                    playerSpace.put(ClientUpdate.POSITION);
                     playerSpace.put(ClientUpdate.POSITION, this.position, this.velocity);
                 } catch (InterruptedException e) {
                     throw new RuntimeException(e);
                 }
-            });
+            //});
         }
 
         this.velocity[0] = dx;

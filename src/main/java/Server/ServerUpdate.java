@@ -5,5 +5,6 @@ public enum ServerUpdate {
     POSITION,
     PLAYER_JOINED,
     PLAYER_LEFT,
-    PLAYER_INIT
+    PLAYER_INIT,
+    VOTE, MEETING
 }
