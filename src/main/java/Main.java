@@ -5,12 +5,9 @@ import Game.GameCharacter.GameCharacter;
 import java.net.URI;
 import java.util.*;
 
-import Game.GameCharacter.GameCharacterView;
-import Game.Player.PlayerInfo;
 import Server.*;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
-import javafx.application.Platform;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;

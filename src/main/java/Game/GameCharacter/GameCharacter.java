@@ -7,6 +7,7 @@ import Server.Request;
 import Server.Response;
 import Server.ServerUpdate;
 import javafx.application.Platform;
+import javafx.concurrent.Task;
 import org.jspace.ActualField;
 import org.jspace.FormalField;
 import org.jspace.RemoteSpace;
@@ -156,6 +157,15 @@ public class GameCharacter {
                 dDown = true;
                 break;
             }
+            case F1: {
+                try {
+                    playerSpace.put(ClientUpdate.MEETING);
+                    playerSpace.put(ClientUpdate.MEETING, name);
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+                return;
+            }
         }
 
         updateVelocity();
@@ -200,14 +210,14 @@ public class GameCharacter {
         } else{
 
             // Notify that we have stopped moving! Only does once!
-            //Platform.runLater(() -> {
+            Platform.runLater(() -> {
                 try {
                     playerSpace.put(ClientUpdate.POSITION);
                     playerSpace.put(ClientUpdate.POSITION, this.position, this.velocity);
                 } catch (InterruptedException e) {
                     throw new RuntimeException(e);
                 }
-            //});
+            });
         }
 
         this.velocity[0] = dx;

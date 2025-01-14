@@ -8,8 +8,11 @@ import java.net.URI;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.function.Function;
+
 
 public class Server {
+    private Map<String, Integer> playerVotes;
     private Map<String, Space> playerSpaces = new HashMap<>();
     private Map<String, PlayerInfo> playerInfos = new HashMap<>();
 
@@ -19,6 +22,7 @@ public class Server {
     private ServerState state = ServerState.RUNNING_STATE;
 
     private Thread serverThread;
+    private Thread meetingThread;
 
     public Server(URI uri, Space serverSpace){
         this.serverURI = uri;
@@ -45,6 +49,9 @@ public class Server {
         System.out.println("Server offline.");
     }
 
+    /*
+    * Server loop: takes care of lobby requests
+    * */
     private void server(){
         while (true){
             try {
@@ -100,7 +107,7 @@ public class Server {
         try{
 
             PlayerInfo newPlayerInfo = new PlayerInfo(Color.GREEN, new double[]{4900, 1500}, new double[]{0,0});
-            broadcastClientUpdate(ServerUpdate.PLAYER_JOINED, nameRequest, newPlayerInfo);
+            broadcastClientUpdateExcludingSender(ServerUpdate.PLAYER_JOINED, nameRequest, newPlayerInfo);
 
             playerSpaces.get(nameRequest).put(ServerUpdate.PLAYER_INIT, newPlayerInfo);
 
@@ -116,15 +123,12 @@ public class Server {
         }
     }
 
+    /*
+    * player loop: takes case of player actions. One thread for each player
+    * */
     private void handlePlayer(String playerName) {
         while (true){
             try{
-
-                /*
-                    Note:
-                        It could be a good idea to run broadcastUpdate after the switch case (to show every player the new update).
-                        Then use the switch case to perform server actions based on the update (for example to handle leaving of a player).
-                 */
                 Object[] updateTuple = playerSpaces.get(playerName).get(new FormalField(ClientUpdate.class));
                 ClientUpdate update = (ClientUpdate) updateTuple[0];
 
@@ -137,7 +141,7 @@ public class Server {
                                 playerInfos.get(playerName).position = (double[]) infoTuple[1];
                                 playerInfos.get(playerName).velocity = (double[]) infoTuple[2];
 
-                                broadcastClientUpdate(ServerUpdate.POSITION, playerName,
+                                broadcastClientUpdateExcludingSender(ServerUpdate.POSITION, playerName,
                                         playerInfos.get(playerName).position,
                                         playerInfos.get(playerName).velocity
                                 );
@@ -153,11 +157,49 @@ public class Server {
                         switch (state){
                             case RUNNING_STATE:
                             {
+                                // change state
                                 state = ServerState.MEETING_STATE;
-                                broadcastClientUpdate(ServerUpdate.MEETING, playerName);
+
+                                // initialize empty votes
+                                playerVotes = new HashMap<>();
+
+                                // meeting logic
+                                meetingThread = (new Thread(() -> {
+                                    try {
+                                        // timer 1 minute
+                                        Thread.sleep(30*1000);
+                                        /*
+                                        * Tell the player who was eliminated: if there is a tie, it is "NO_ELIMINATION"
+                                        * */
+                                        state = ServerState.RUNNING_STATE;
+
+                                        String eliminatedPlayer = this.votedPlayer();
+                                        broadCastClientUpdateIncludingSender(ServerUpdate.MEETING_DONE, eliminatedPlayer);
+                                    } catch (InterruptedException e) {
+                                        throw new RuntimeException(e);
+                                    }
+                                }));
+                                meetingThread.start();
+
+                                broadCastClientUpdateIncludingSender(ServerUpdate.MEETING_START, playerName);
                                 break;
                             }
                             case MEETING_STATE: {
+                                break;
+                            }
+                        }
+                        break;
+                    }
+                    case MESSAGE:{
+                        switch (state){
+                            case RUNNING_STATE:
+                            {
+                                ignoreUpdate(update, playerName);
+                                break;
+                            }
+                            case MEETING_STATE: {
+                                Object[] infoTuple = playerSpaces.get(playerName).get(new ActualField(ClientUpdate.MESSAGE), new FormalField(String.class));
+                                broadCastClientUpdateIncludingSender(ServerUpdate.MESSAGE, playerName, infoTuple[1]);
                                 break;
                             }
                         }
@@ -168,7 +210,11 @@ public class Server {
                             case MEETING_STATE: {
                                 Object[] infoTuple = playerSpaces.get(playerName).get(new ActualField(ClientUpdate.VOTE), new FormalField(String.class));
                                 String voted = (String) infoTuple[1];
-                                broadcastClientUpdate(ServerUpdate.VOTE, playerName, voted);
+
+                                // add 1 to the votes received from voter
+                                playerVotes.put(voted, playerVotes.getOrDefault(voted, 0) + 1);;
+
+                                broadCastClientUpdateIncludingSender(ServerUpdate.VOTE, playerName, voted);
                                 break;
                             }
                             case RUNNING_STATE: {
@@ -186,45 +232,42 @@ public class Server {
         }
     }
 
-    // todo: Make this more modular so it can broadcast all types of updates
-    private void broadcastClientUpdate(ServerUpdate updateCode, String playerName, Object... toBroadcast){
-        try {
-            switch (updateCode){
-                case POSITION: { // two field cases
-                    for(String name : playerSpaces.keySet()){
-                        if (!name.equals(playerName)){
-                            playerSpaces.get(name).put(updateCode);
-                            playerSpaces.get(name).put(updateCode, playerName, toBroadcast[0], toBroadcast[1]);
-                        }
-                    }
-                    break;
-                }
-                case VOTE:
-                case PLAYER_JOINED:{ // one field cases
-                    for(String name : playerSpaces.keySet()){
-                        if (!name.equals(playerName)){
-                            playerSpaces.get(name).put(updateCode);
-                            playerSpaces.get(name).put(updateCode, playerName, toBroadcast[0]);
-                        }
-                    }
-                    break;
-                }
-                case PLAYER_LEFT: // zero field cases
-                case MEETING:{
-                    for(String name : playerSpaces.keySet()){
-                        if (!name.equals(playerName)){
-                            playerSpaces.get(name).put(updateCode);
-                            playerSpaces.get(name).put(updateCode, playerName);
-                        }
-                    }
-                    break;
-                }
+    private String votedPlayer() {
+        String winner = null;
+        int maxVotes = -1;
+        boolean tie = true;
+
+        for (Map.Entry<String, Integer> entry : playerVotes.entrySet()) {
+            int voteCount = entry.getValue();
+
+            if (voteCount > maxVotes) {
+                // Found a strictly bigger vote count, update winner
+                maxVotes = voteCount;
+                winner = entry.getKey();
+                tie = false; // reset tie flag
+            } else if (voteCount == maxVotes) {
+                // Found another with the same max votes -> it's a tie
+                tie = true;
             }
-        } catch (Exception e){
-            e.printStackTrace();
         }
+
+        // If tie is true, return null; otherwise return the winner's name.
+        return tie ? "NO_ELIMINATION" : winner;
     }
 
+    /*
+    * broadcasts an update from the server to every player.
+    * */
+    private void broadcastClientUpdateExcludingSender(ServerUpdate updateCode, String playerName, Object... toBroadcast){
+        broadcastClientUpdateGivenCondition((String s) -> !s.equals(playerName), updateCode, playerName, toBroadcast);
+    }
+
+    private void broadCastClientUpdateIncludingSender(ServerUpdate updateCode, String playerName, Object... toBroadcast){
+        broadcastClientUpdateGivenCondition(((String s) -> true), updateCode, playerName, toBroadcast);
+    }
+    /*
+    * cleans up after an update that is out of context
+    * */
     private void ignoreUpdate(ClientUpdate update, String playerName){
         try
         {
@@ -237,9 +280,13 @@ public class Server {
                 case VOTE:
                 {
                     playerSpaces.get(playerName).get(new ActualField(ClientUpdate.VOTE), new FormalField(String.class));
+                    break;
                 }
                 case MEETING:{
                     break;
+                }
+                case MESSAGE:{
+                    playerSpaces.get(playerName).get(new ActualField(ClientUpdate.MESSAGE), new FormalField(String.class), new FormalField(String.class));
                 }
 
             }
@@ -248,4 +295,46 @@ public class Server {
         }
     }
 
+    private void broadcastClientUpdateGivenCondition(Function<String, Boolean> condition, ServerUpdate updateCode, String playerName, Object... toBroadcast){
+        try {
+            switch (updateCode){
+                case POSITION:
+                { // two field cases
+                    for(String name : playerSpaces.keySet()){
+                        if (condition.apply(name)){
+                            playerSpaces.get(name).put(updateCode);
+                            playerSpaces.get(name).put(updateCode, playerName, toBroadcast[0], toBroadcast[1]);
+                        }
+                    }
+                    break;
+                }
+                case VOTE:
+                case MESSAGE:
+                case PLAYER_JOINED:
+                { // one field cases
+                    for(String name : playerSpaces.keySet()){
+                        if (condition.apply(name)){
+                        playerSpaces.get(name).put(updateCode);
+                        playerSpaces.get(name).put(updateCode, playerName, toBroadcast[0]);
+                        }
+                    }
+                    break;
+                }
+                case PLAYER_LEFT: // zero field cases
+                case MEETING_START: // meeting is called by one player (playerName field)
+                case MEETING_DONE: // meeting is ended by server. playerName is the player to kick out
+                {
+                    for(String name : playerSpaces.keySet()){
+                        if (condition.apply(name)){
+                        playerSpaces.get(name).put(updateCode);
+                        playerSpaces.get(name).put(updateCode, playerName);
+                        }
+                    }
+                    break;
+                }
+            }
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+    }
 }
