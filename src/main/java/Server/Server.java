@@ -106,7 +106,7 @@ public class Server {
     private void initializePlayer(String nameRequest){
         try{
 
-            PlayerInfo newPlayerInfo = new PlayerInfo(Color.GREEN, new double[]{4900, 1500}, new double[]{0,0});
+            PlayerInfo newPlayerInfo = new PlayerInfo(Color.GREEN, new double[]{4900, 1500}, new double[]{0,0}, true);
             broadcastClientUpdateExcludingSender(ServerUpdate.PLAYER_JOINED, nameRequest, newPlayerInfo);
 
             playerSpaces.get(nameRequest).put(ServerUpdate.PLAYER_INIT, newPlayerInfo);
@@ -150,6 +150,26 @@ public class Server {
                             case MEETING_STATE:
                                 ignoreUpdate(update, playerName);
                                 break;
+                        }
+                        break;
+                    }
+                    case KILL:{
+                        switch (state){
+                            case RUNNING_STATE:{
+                                Object[] infoTuple = playerSpaces.get(playerName).get(new ActualField(ClientUpdate.KILL), new FormalField(String.class) ,new FormalField(String.class));
+
+                                // todo: Make sure that the killer is an imposter here!!
+
+                                String killedPlayerName = (String) infoTuple[2];
+
+                                playerInfos.get(killedPlayerName).isAlive = false;
+                                broadCastClientUpdateIncludingSender(ServerUpdate.KILLED, killedPlayerName);
+                                break;
+                            }
+                            case MEETING_STATE:{
+                                ignoreUpdate(update, playerName);
+                                break;
+                            }
                         }
                         break;
                     }
@@ -272,13 +292,11 @@ public class Server {
         try
         {
             switch (update){
-                case POSITION:
-                {
+                case POSITION: {
                     playerSpaces.get(playerName).get(new ActualField(ClientUpdate.POSITION),new FormalField(Object.class), new FormalField(Object.class));
                     break;
                 }
-                case VOTE:
-                {
+                case VOTE: {
                     playerSpaces.get(playerName).get(new ActualField(ClientUpdate.VOTE), new FormalField(String.class));
                     break;
                 }
@@ -287,6 +305,9 @@ public class Server {
                 }
                 case MESSAGE:{
                     playerSpaces.get(playerName).get(new ActualField(ClientUpdate.MESSAGE), new FormalField(String.class), new FormalField(String.class));
+                }
+                case KILL:{
+                    break;
                 }
 
             }
@@ -298,8 +319,7 @@ public class Server {
     private void broadcastClientUpdateGivenCondition(Function<String, Boolean> condition, ServerUpdate updateCode, String playerName, Object... toBroadcast){
         try {
             switch (updateCode){
-                case POSITION:
-                { // two field cases
+                case POSITION: { // two field cases
                     for(String name : playerSpaces.keySet()){
                         if (condition.apply(name)){
                             playerSpaces.get(name).put(updateCode);
@@ -310,8 +330,7 @@ public class Server {
                 }
                 case VOTE:
                 case MESSAGE:
-                case PLAYER_JOINED:
-                { // one field cases
+                case PLAYER_JOINED: { // one field cases
                     for(String name : playerSpaces.keySet()){
                         if (condition.apply(name)){
                         playerSpaces.get(name).put(updateCode);
@@ -320,10 +339,10 @@ public class Server {
                     }
                     break;
                 }
+                case KILLED: // playerName is the name to kill
                 case PLAYER_LEFT: // zero field cases
                 case MEETING_START: // meeting is called by one player (playerName field)
-                case MEETING_DONE: // meeting is ended by server. playerName is the player to kick out
-                {
+                case MEETING_DONE: { // meeting is ended by server. playerName is the player to kick out
                     for(String name : playerSpaces.keySet()){
                         if (condition.apply(name)){
                         playerSpaces.get(name).put(updateCode);
@@ -334,7 +353,7 @@ public class Server {
                 }
             }
         } catch (Exception e){
-            e.printStackTrace();
+            System.out.println(Arrays.toString(e.getStackTrace()));
         }
     }
 }

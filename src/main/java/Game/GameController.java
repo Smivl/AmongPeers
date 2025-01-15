@@ -10,6 +10,7 @@ import javafx.concurrent.Task;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
 import org.jspace.ActualField;
 import org.jspace.FormalField;
 import org.jspace.Space;
@@ -19,6 +20,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URI;
 import java.util.Objects;
+import java.util.Stack;
 
 public class GameController {
 
@@ -38,11 +40,18 @@ public class GameController {
     public void start(Scene scene){
         map = new GameMap(scene);
 
+        player.getCharacter().setMap(map);
+
+
         // Add player to map and add map to root
         map.getView().getChildren().add(player.getCharacter().getView());
 
-        if (scene.getRoot() instanceof Pane){
-            ((Pane) scene.getRoot()).getChildren().add(map.getView());
+        if (scene.getRoot() instanceof StackPane){
+            StackPane root = (StackPane) scene.getRoot();
+            root.getChildren().addAll(map.getView(), player.getPlayerView());
+
+            player.getPlayerView().prefWidthProperty().bind(root.widthProperty());
+            player.getPlayerView().prefHeightProperty().bind(root.heightProperty());
         }
 
         serverUpdateThread = new Thread(this::serverUpdates);
@@ -74,6 +83,16 @@ public class GameController {
                     case PLAYER_JOINED: {
                         Object[] newPlayer = player.getCharacter().getPlayerSpace().get(new ActualField(ServerUpdate.PLAYER_JOINED), new FormalField(String.class), new FormalField(PlayerInfo.class));
                         Platform.runLater(() -> map.handlePlayerJoin((String) newPlayer[1], (PlayerInfo) newPlayer[2]));
+                        break;
+                    }
+                    case KILLED: {
+                        Object[] killedInfo = player.getCharacter().getPlayerSpace().get(new ActualField(ServerUpdate.KILLED), new FormalField(String.class));
+
+                        String playerKilled = (String) killedInfo[1];
+
+                        if(playerKilled.equals(name)) player.getCharacter().onKilled();
+
+                        Platform.runLater(() -> map.handlePlayerKilled(playerKilled, player.getCharacter().getView().getIsAlive()));
                         break;
                     }
                     case MEETING_START: {

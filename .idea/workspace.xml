@@ -5,10 +5,72 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="20e64abb-9b4e-4189-a5ca-643a67bdae90" name="Changes" comment="Server state and updates functions">
+      <change afterPath="$PROJECT_DIR$/src/main/java/Game/GameCharacter/GameCharacterType.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/Game/Task/Task.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/Game/Task/TaskFactory.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/Game/Task/TaskManager.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/Game/Task/TaskType.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/Game/Task/UploadTask.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/Game/Task/WiringTask.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/ghost1.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/ghost10.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/ghost11.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/ghost12.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/ghost13.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/ghost14.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/ghost15.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/ghost16.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/ghost17.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/ghost18.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/ghost19.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/ghost2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/ghost20.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/ghost21.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/ghost22.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/ghost23.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/ghost24.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/ghost25.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/ghost26.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/ghost27.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/ghost28.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/ghost29.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/ghost3.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/ghost30.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/ghost31.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/ghost32.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/ghost33.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/ghost34.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/ghost35.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/ghost36.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/ghost37.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/ghost38.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/ghost39.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/ghost4.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/ghost40.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/ghost41.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/ghost42.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/ghost43.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/ghost44.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/ghost45.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/ghost46.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/ghost47.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/ghost48.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/ghost5.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/ghost6.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/ghost7.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/ghost8.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/ghost9.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/ghostSprite.psd" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/Game/GameCharacter/GameCharacter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Game/GameCharacter/GameCharacter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Game/GameCharacter/GameCharacterView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Game/GameCharacter/GameCharacterView.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/Game/GameController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Game/GameController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Game/GameMap/GameMap.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Game/GameMap/GameMap.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Game/Player/Player.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Game/Player/Player.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Game/Player/PlayerInfo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Game/Player/PlayerInfo.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Game/Player/PlayerView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Game/Player/PlayerView.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Player/HostPlayer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Player/HostPlayer.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/Server/ClientUpdate.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Server/ClientUpdate.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/Server/Server.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Server/Server.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/Server/ServerUpdate.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Server/ServerUpdate.java" afterDir="false" />
@@ -48,37 +110,37 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "ASKED_ADD_EXTERNAL_FILES": "true",
-    "Application.DummyTest.executor": "Run",
-    "Application.TestJSpace.executor": "Run",
-    "Application.TestJSpaceFX.executor": "Run",
-    "Application.test.executor": "Run",
-    "JUnit.AppTest.executor": "Run",
-    "Maven. [org.apache.maven.plugins:maven-archetype-plugin:RELEASE:generate].executor": "Run",
-    "Maven.amongpeers [javafx:run].executor": "Run",
-    "Maven.amongpeers [org.openjfx:javafx-maven-plugin:0.0.6:run].executor": "Run",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "git-widget-placeholder": "master",
-    "kotlin-language-version-configured": "true",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "settings.editor.selected.configurable": "project.propVCSSupport.Mappings",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
+    &quot;Application.DummyTest.executor&quot;: &quot;Run&quot;,
+    &quot;Application.TestJSpace.executor&quot;: &quot;Run&quot;,
+    &quot;Application.TestJSpaceFX.executor&quot;: &quot;Run&quot;,
+    &quot;Application.test.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.AppTest.executor&quot;: &quot;Run&quot;,
+    &quot;Maven. [org.apache.maven.plugins:maven-archetype-plugin:RELEASE:generate].executor&quot;: &quot;Run&quot;,
+    &quot;Maven.amongpeers [javafx:run].executor&quot;: &quot;Run&quot;,
+    &quot;Maven.amongpeers [org.openjfx:javafx-maven-plugin:0.0.6:run].executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;project.propVCSSupport.Mappings&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
       <recent name="" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.DummyTest">
+  <component name="RunManager" selected="Maven.amongpeers [javafx:run]">
     <configuration name="DummyTest" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="dk.dtu.DummyTest" />
       <module name="amongpeers" />
@@ -159,8 +221,8 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Application.DummyTest" />
         <item itemvalue="Maven.amongpeers [javafx:run]" />
+        <item itemvalue="Application.DummyTest" />
         <item itemvalue="Application.test" />
         <item itemvalue="Application.TestJSpaceFX" />
         <item itemvalue="JUnit.AppTest" />
@@ -170,7 +232,7 @@
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="jdk-21.0.2-openjdk-21.0.2-4caba194b151-322ed176" />
+        <option value="jdk-21.0.2-openjdk-21.0.2-4caba194b151-4f524021" />
       </set>
     </attachedChunks>
   </component>
@@ -187,6 +249,7 @@
       <workItem from="1736675759569" duration="20516000" />
       <workItem from="1736697844793" duration="4766000" />
       <workItem from="1736779273982" duration="2096000" />
+      <workItem from="1736931444822" duration="17663000" />
     </task>
     <task id="LOCAL-00001" summary="Initialization">
       <option name="closed" value="true" />

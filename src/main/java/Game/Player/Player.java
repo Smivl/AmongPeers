@@ -8,11 +8,16 @@ import java.net.URI;
 
 public class Player {
     private GameCharacter character;
+    private PlayerView view;
     private String name;
 
+    public PlayerView getPlayerView() { return view; }
     public GameCharacter getCharacter() { return character; }
 
     public Player(String name, Space serverSpace, URI uri){
+
+        this.view = new PlayerView();
+
         this.name = name;
         this.character = new GameCharacter(name);
 
@@ -24,7 +29,8 @@ public class Player {
         character.init();
     }
 
+
     public void onUpdate(double delta, GameMap map){
-        character.onUpdate(delta, map);
+        character.onUpdate(delta);
     }
 }

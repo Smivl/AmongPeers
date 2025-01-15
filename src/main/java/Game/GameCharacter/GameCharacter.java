@@ -16,6 +16,7 @@ import javafx.scene.input.KeyEvent;
 import org.jspace.Space;
 
 import java.net.URI;
+import java.util.Arrays;
 
 public class GameCharacter {
 
@@ -23,11 +24,13 @@ public class GameCharacter {
     private boolean wDown, aDown, sDown, dDown;
 
     private GameCharacterView view;
+    private GameMap map;
 
     private double[] position;
     private double[] velocity;
 
     private String name;
+    private boolean isAlive;
 
     private Space playerSpace;
     private Space serverSpace;
@@ -38,14 +41,18 @@ public class GameCharacter {
         return this.view;
     }
     public Space getPlayerSpace() { return this.playerSpace; }
+    public boolean getIsAlive() { return this.isAlive; }
 
     public void setServerSpace(Space space) { this.serverSpace = space; }
     public void setServerURI(URI uri) { this.serverURI = uri; }
+
+    public void setMap(GameMap map) { this.map = map; }
 
     public GameCharacter(String name) {
 
         this.name = name;
         this.velocity = new double[]{0.0, 0.0};
+        this.isAlive = true;
     }
 
     public void join() {
@@ -99,14 +106,19 @@ public class GameCharacter {
 
             this.position = info.position;
 
-            this.view = new GameCharacterView(name, info.position[0], info.position[1], info.velocity,info.color);
+            this.view = new GameCharacterView(name, info.position[0], info.position[1], info.velocity,info.color, info.isAlive);
 
         }catch (Exception e){
             System.out.println(e.getMessage());
         }
     }
 
-    public void onUpdate(double delta, GameMap map) {
+    public void onKilled(){
+        this.isAlive = false;
+        this.view.onKilled();
+    }
+
+    public void onUpdate(double delta) {
 
         double newX = this.position[0] + this.velocity[0] * delta;
         double newY = this.position[1] + this.velocity[1] * delta;
@@ -156,13 +168,36 @@ public class GameCharacter {
             case D: {
                 dDown = true;
                 break;
+            } case F:{
+                if(isAlive) {
+                    GameCharacterView playerKilled = map.getPlayerToKill(this.view);
+
+                    if (playerKilled != null) {
+                        this.position = new double[]{playerKilled.getCenterX(), playerKilled.getCenterY()};
+                        this.view.render(playerKilled.getCenterX(), playerKilled.getCenterY(), this.velocity);
+
+                        try {
+                            playerSpace.put(ClientUpdate.POSITION);
+                            playerSpace.put(ClientUpdate.POSITION, new double[]{this.position[0], this.position[1]}, this.velocity);
+
+                            playerSpace.put(ClientUpdate.KILL);
+                            playerSpace.put(ClientUpdate.KILL, name, playerKilled.getName());
+                        } catch (Exception e) {
+                            System.out.println(Arrays.toString(e.getStackTrace()));
+                        }
+                    }
+                }
+                return;
+
             }
             case F1: {
-                try {
-                    playerSpace.put(ClientUpdate.MEETING);
-                    playerSpace.put(ClientUpdate.MEETING, name);
-                } catch (InterruptedException e) {
-                    throw new RuntimeException(e);
+                if(isAlive) {
+                    try {
+                        playerSpace.put(ClientUpdate.MEETING);
+                        playerSpace.put(ClientUpdate.MEETING, name);
+                    } catch (InterruptedException e) {
+                        throw new RuntimeException(e);
+                    }
                 }
                 return;
             }
