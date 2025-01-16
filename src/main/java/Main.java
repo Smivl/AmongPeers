@@ -11,6 +11,7 @@ import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import org.jspace.*;
@@ -102,7 +103,7 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) {
 
-        Pane root = new Pane();
+        StackPane root = new StackPane();
 
         // Create Scene and set background to black
         int WIDTH = 1280;
@@ -110,6 +111,7 @@ public class Main extends Application {
 
         Scene scene = new Scene(root, WIDTH, HEIGHT);
         scene.setFill(Color.BLACK);
+        scene.getStylesheets().add(getClass().getResource("/stylesheet.css").toExternalForm());
 
         gameController.start(scene);
 
@@ -143,7 +145,6 @@ public class Main extends Application {
         //server.shutdown();
         System.exit(0);
     }
-
 
     private void handleKeyReleased(KeyEvent event) {
         gameController.handleKeyReleased(event);

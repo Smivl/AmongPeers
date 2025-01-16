@@ -3,20 +3,18 @@ package Game;
 import Game.GameMap.GameMap;
 import Game.Player.Player;
 import Game.Player.PlayerInfo;
+import Game.Meeting.MeetingView;
 import Server.ClientUpdate;
 import Server.ServerUpdate;
 import javafx.application.Platform;
-import javafx.concurrent.Task;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
+import javafx.scene.paint.Color;
 import org.jspace.ActualField;
 import org.jspace.FormalField;
 import org.jspace.Space;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
 import java.net.URI;
 import java.util.Objects;
 
@@ -24,26 +22,34 @@ public class GameController {
 
     private Player player;
     private GameMap map;
+    private MeetingView meetingView;
     private boolean inMeeting = false;
 
     private Thread serverUpdateThread;
-    private String name;
     private Space serverspace;
 
     public GameController(String name, Space serverSpace, URI uri){
-        this.name = name;
         player = new Player(name, serverSpace, uri);
     }
 
     public void start(Scene scene){
         map = new GameMap(scene);
+        meetingView = new MeetingView(scene,
+                message -> {
+                    try {
+                        player.getCharacter().getPlayerSpace().put(ClientUpdate.MESSAGE);
+                        player.getCharacter().getPlayerSpace().put(ClientUpdate.MESSAGE, message);;
+                    } catch (Exception e){
+                        e.printStackTrace(System.out);
+                    }
+                    return null;
+                });
 
         // Add player to map and add map to root
         map.getView().getChildren().add(player.getCharacter().getView());
 
-        if (scene.getRoot() instanceof Pane){
-            ((Pane) scene.getRoot()).getChildren().add(map.getView());
-        }
+        ((StackPane)scene.getRoot()).getChildren().add(map.getView());
+        ((StackPane) scene.getRoot()).getChildren().add(meetingView);
 
         serverUpdateThread = new Thread(this::serverUpdates);
         serverUpdateThread.start();
@@ -77,32 +83,34 @@ public class GameController {
                         break;
                     }
                     case MEETING_START: {
-                        inMeeting = true;
+                        // inMeeting = true;
                         Object[] caller = player.getCharacter().getPlayerSpace().get(new ActualField(ServerUpdate.MEETING_START), new FormalField(String.class));
                         String callerName = (String) caller[1];
                         System.out.println(callerName + " requested chat. Start chatting...");
-                        new Thread(() -> {
-                                BufferedReader input = new BufferedReader(new InputStreamReader(System.in));
-                                while(inMeeting){
-                                    try {
-                                        String message = input.readLine();
-                                        player.getCharacter().getPlayerSpace().put(ClientUpdate.MESSAGE);
-                                        player.getCharacter().getPlayerSpace().put(ClientUpdate.MESSAGE, message);
-                                    } catch (IOException | InterruptedException e) {
-                                        throw new RuntimeException(e);
-                                    }
-                                }
-                            }).start();
+//                        new Thread(() -> {
+//                                BufferedReader input = new BufferedReader(new InputStreamReader(System.in));
+//                                while(inMeeting){
+//                                    try {
+//                                        String message = input.readLine();
+//                                        player.getCharacter().getPlayerSpace().put(ClientUpdate.MESSAGE);
+//                                        player.getCharacter().getPlayerSpace().put(ClientUpdate.MESSAGE, message);
+//                                    } catch (IOException | InterruptedException e) {
+//                                        throw new RuntimeException(e);
+//                                    }
+//                                }
+//                            }).start();
+                        Platform.runLater(() -> meetingView.show());
                         break;
                     }
                     case MESSAGE: {
                         Object[] message = player.getCharacter().getPlayerSpace().get(new ActualField(ServerUpdate.MESSAGE), new FormalField(String.class), new FormalField(String.class));
-                        System.out.println(message[1] + " : " + message[2]);
+                        // System.out.println(message[1] + " : " + message[2]);
+                        Platform.runLater(() -> meetingView.addMessage((String) message[1],(String) message[2], Color.BLUE));
                         break;
                     }
                     case MEETING_DONE: {
-                        inMeeting = false;
-
+                        // inMeeting = false;
+                        Platform.runLater(() -> meetingView.hide());
                         Object[] t = player.getCharacter().getPlayerSpace().get(new ActualField(ServerUpdate.MEETING_DONE), new FormalField(String.class));
                         if (Objects.equals((String) t[1], "NO_ELIMINATION")){
                             System.out.println("No one was eliminated");
