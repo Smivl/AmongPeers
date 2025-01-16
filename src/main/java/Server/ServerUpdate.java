@@ -2,7 +2,7 @@ package Server;
 
 // In-game server updates
 public enum ServerUpdate {
-    POSITION,
+    POSITION, KILLED,
     PLAYER_JOINED,
     PLAYER_LEFT,
     VOTE, MESSAGE, MEETING_START, MEETING_DONE,

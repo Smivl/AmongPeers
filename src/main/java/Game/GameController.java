@@ -7,16 +7,22 @@ import Game.Meeting.MeetingView;
 import Server.ClientUpdate;
 import Server.ServerUpdate;
 import javafx.application.Platform;
+import javafx.concurrent.Task;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
+import javafx.scene.layout.StackPane;
 import org.jspace.ActualField;
 import org.jspace.FormalField;
 import org.jspace.Space;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.net.URI;
 import java.util.Objects;
+import java.util.Stack;
 
 public class GameController {
 
@@ -26,9 +32,11 @@ public class GameController {
     private boolean inMeeting = false;
 
     private Thread serverUpdateThread;
+    private String name;
     private Space serverspace;
 
     public GameController(String name, Space serverSpace, URI uri){
+        this.name = name;
         player = new Player(name, serverSpace, uri);
     }
 
@@ -45,11 +53,20 @@ public class GameController {
                     return null;
                 });
 
+        player.getCharacter().setMap(map);
+
+
         // Add player to map and add map to root
         map.getView().getChildren().add(player.getCharacter().getView());
 
-        ((StackPane)scene.getRoot()).getChildren().add(map.getView());
-        ((StackPane) scene.getRoot()).getChildren().add(meetingView);
+        if (scene.getRoot() instanceof StackPane){
+            StackPane root = (StackPane) scene.getRoot();
+            root.getChildren().addAll(map.getView(), player.getPlayerView(), meetingView);
+
+            player.getPlayerView().prefWidthProperty().bind(root.widthProperty());
+            player.getPlayerView().prefHeightProperty().bind(root.heightProperty());
+        }
+
 
         serverUpdateThread = new Thread(this::serverUpdates);
         serverUpdateThread.start();
@@ -80,6 +97,16 @@ public class GameController {
                     case PLAYER_JOINED: {
                         Object[] newPlayer = player.getCharacter().getPlayerSpace().get(new ActualField(ServerUpdate.PLAYER_JOINED), new FormalField(String.class), new FormalField(PlayerInfo.class));
                         Platform.runLater(() -> map.handlePlayerJoin((String) newPlayer[1], (PlayerInfo) newPlayer[2]));
+                        break;
+                    }
+                    case KILLED: {
+                        Object[] killedInfo = player.getCharacter().getPlayerSpace().get(new ActualField(ServerUpdate.KILLED), new FormalField(String.class));
+
+                        String playerKilled = (String) killedInfo[1];
+
+                        if(playerKilled.equals(name)) player.getCharacter().onKilled();
+
+                        Platform.runLater(() -> map.handlePlayerKilled(playerKilled, player.getCharacter().getView().getIsAlive()));
                         break;
                     }
                     case MEETING_START: {
