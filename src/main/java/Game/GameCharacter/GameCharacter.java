@@ -1,5 +1,6 @@
 package Game.GameCharacter;
 
+import Game.GameController;
 import Game.GameMap.GameMap;
 import Game.Player.PlayerInfo;
 import Server.ClientUpdate;
@@ -8,6 +9,7 @@ import Server.Response;
 import Server.ServerUpdate;
 import javafx.application.Platform;
 import javafx.concurrent.Task;
+import javafx.scene.paint.Color;
 import org.jspace.ActualField;
 import org.jspace.FormalField;
 import org.jspace.RemoteSpace;
@@ -23,130 +25,63 @@ public class GameCharacter {
     private final int SPEED = 650;
     private boolean wDown, aDown, sDown, dDown;
 
-    private GameCharacterView view;
+    private final GameCharacterView view;
     private GameMap map;
+    private GameController controller;
 
-    private double[] position;
-    private double[] velocity;
-
-    private String name;
-    private boolean isAlive;
-
+    private final String name;
+    private final PlayerInfo playerInfo;
     private Space playerSpace;
-    private Space serverSpace;
-
-    private URI serverURI;
 
     public GameCharacterView getView() {
         return this.view;
     }
     public Space getPlayerSpace() { return this.playerSpace; }
-    public boolean getIsAlive() { return this.isAlive; }
 
-    public void setServerSpace(Space space) { this.serverSpace = space; }
-    public void setServerURI(URI uri) { this.serverURI = uri; }
+    public void setPlayerSpace(Space playerSpace) { this.playerSpace = playerSpace; }
+    public void setController(GameController gameController) { this.controller = gameController; }
+    public void setMap(GameMap gameMap) { this.map = gameMap; }
 
-    public void setMap(GameMap map) { this.map = map; }
-
-    public GameCharacter(String name) {
+    public GameCharacter(String name, PlayerInfo info) {
 
         this.name = name;
-        this.velocity = new double[]{0.0, 0.0};
-        this.isAlive = true;
-    }
+        this.playerInfo = info;
 
-    public void join() {
-        try{
-            serverSpace.put(Request.JOIN);
-            serverSpace.put(Request.JOIN, name);
-
-            Object[] response = serverSpace.get(new ActualField(name), new FormalField(Response.class));
-
-            switch ((Response) response[1]){
-                case SUCCESS:
-                case ACCEPTED:{
-                    playerSpace = new RemoteSpace(
-                            serverURI.getScheme() + "://" +
-                                serverURI.getHost() + ":" +
-                                serverURI.getPort() + "/" +
-                                name + "?" +
-                                serverURI.getQuery()
-                    );
-
-                    break;
-                }
-                case CONFLICT:{
-                    System.out.println("Player name already exists! Pick another name.");
-                    break;
-                }
-                case PERMISSION_DENIED:{
-                    System.out.println("Permission denied to join server!");
-                    break;
-                }
-                case ERROR:
-                case FAILURE:{
-                    System.out.println("Server does not exist!");
-                    break;
-                }
-            }
-
-
-        }catch (Exception e){
-            System.out.println("Error in join");
-            System.out.println(e.getMessage());
-        }
-
-    }
-
-    // Call init before starting after join
-    public void init(){
-        try{
-            Object[] playerInfo = playerSpace.get(new ActualField(ServerUpdate.PLAYER_INIT), new FormalField(PlayerInfo.class));
-            PlayerInfo info = (PlayerInfo) playerInfo[1];
-
-            this.position = info.position;
-
-            this.view = new GameCharacterView(name, info.position[0], info.position[1], info.velocity,info.color, info.isAlive);
-
-        }catch (Exception e){
-            System.out.println(e.getMessage());
-        }
+        this.view = new GameCharacterView(name, info, info.isImposter ? Color.RED : Color.WHITE);
     }
 
     public void onKilled(){
-        this.isAlive = false;
+        playerInfo.isAlive = false;
         this.view.onKilled();
     }
 
     public void onUpdate(double delta) {
 
-        double newX = this.position[0] + this.velocity[0] * delta;
-        double newY = this.position[1] + this.velocity[1] * delta;
+        double newX = playerInfo.position[0] + playerInfo.velocity[0] * delta;
+        double newY = playerInfo.position[1] + playerInfo.velocity[1] * delta;
 
-        this.view.render(newX, newY, velocity);
+        this.view.render(new double[]{newX, newY}, playerInfo.velocity);
 
         // If no collision then move player position
         if (!map.checkCollision(this.view)) {
 
-            if(this.position[0] != newX || this.position[1] != newY){
+            if(playerInfo.position[0] != newX || playerInfo.position[1] != newY){
                 // push updated movement to server
                 try{
                     playerSpace.put(ClientUpdate.POSITION);
-                    playerSpace.put(ClientUpdate.POSITION, new double[]{newX, newY}, this.velocity);
+                    playerSpace.put(ClientUpdate.POSITION, new double[]{newX, newY}, playerInfo.velocity);
                 }catch (Exception e){
                     System.out.println(e.getMessage());
                 }
             }
 
 
-            this.position[0] = newX;
-            this.position[1] = newY;
+            playerInfo.position[0] = newX;
+            playerInfo.position[1] = newY;
 
 
         }else{
-            this.view.render(this.position[0], this.position[1], this.velocity);
-
-
+            this.view.render(playerInfo.position, playerInfo.velocity);
 
         }
     }
@@ -168,17 +103,18 @@ public class GameCharacter {
             case D: {
                 dDown = true;
                 break;
-            } case F:{
-                if(isAlive) {
-                    GameCharacterView playerKilled = map.getPlayerToKill(this.view);
+            }
+            case F:{ // Kill player
+                if(playerInfo.isAlive && playerInfo.isImposter) {
+                    GameCharacterView playerKilled = controller.getPlayerToKill(this.view);
 
                     if (playerKilled != null) {
-                        this.position = new double[]{playerKilled.getCenterX(), playerKilled.getCenterY()};
-                        this.view.render(playerKilled.getCenterX(), playerKilled.getCenterY(), this.velocity);
+                        playerInfo.position = new double[]{playerKilled.getCenterX(), playerKilled.getCenterY()};
+                        this.view.render(playerInfo.position, playerInfo.velocity);
 
                         try {
                             playerSpace.put(ClientUpdate.POSITION);
-                            playerSpace.put(ClientUpdate.POSITION, new double[]{this.position[0], this.position[1]}, this.velocity);
+                            playerSpace.put(ClientUpdate.POSITION, playerInfo.position, playerInfo.velocity);
 
                             playerSpace.put(ClientUpdate.KILL);
                             playerSpace.put(ClientUpdate.KILL, name, playerKilled.getName());
@@ -188,10 +124,9 @@ public class GameCharacter {
                     }
                 }
                 return;
-
             }
-            case F1: {
-                if(isAlive) {
+            case F1: { // Call meeting
+                if(playerInfo.isAlive) {
                     try {
                         playerSpace.put(ClientUpdate.MEETING);
                         playerSpace.put(ClientUpdate.MEETING, name);
@@ -248,17 +183,15 @@ public class GameCharacter {
             Platform.runLater(() -> {
                 try {
                     playerSpace.put(ClientUpdate.POSITION);
-                    playerSpace.put(ClientUpdate.POSITION, this.position, this.velocity);
+                    playerSpace.put(ClientUpdate.POSITION, playerInfo.position, playerInfo.velocity);
                 } catch (InterruptedException e) {
                     throw new RuntimeException(e);
                 }
             });
         }
 
-        this.velocity[0] = dx;
-        this.velocity[1] = dy;
+        playerInfo.velocity[0] = dx;
+        playerInfo.velocity[1] = dy;
     }
-
-
 
 }

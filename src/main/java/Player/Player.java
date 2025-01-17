@@ -3,6 +3,7 @@ package Player;
 import PlayerView.PlayerView;
 import javafx.application.Platform;
 import javafx.concurrent.Task;
+import javafx.scene.paint.Color;
 import org.jspace.ActualField;
 import org.jspace.FormalField;
 import org.jspace.RemoteSpace;
@@ -103,7 +104,7 @@ public abstract class Player implements Runnable{
             view.initialize(privateSpace);
             Object[] infoTuple = privateSpace.get(new ActualField("PlayerInfo"), new FormalField(PlayerInfo.class));
             PlayerInfo info = (PlayerInfo) infoTuple[1];
-            view.getSprite().setFill(info.color);
+            view.getSprite().setFill(Color.RED);
             view.getSprite().move(info.position);
 
             // get other players info

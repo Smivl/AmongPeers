@@ -1,5 +1,6 @@
 package Player;
 
+import Game.GameCharacter.GameCharacterType;
 import javafx.scene.paint.Color;
 import org.jspace.*;
 import Game.Player.PlayerInfo;
@@ -117,7 +118,7 @@ public class HostPlayer extends Player{
         // initialize random data for the player
             Color randomColor = new Color(random.nextDouble(),random.nextDouble(),random.nextDouble(), 1.0);
             double[] randomPosition = new double[]{random.nextDouble()*500, random.nextDouble()*500};
-            PlayerInfo newPlayerInfo = new PlayerInfo(randomColor, randomPosition, new double[]{0,0}, true);
+            PlayerInfo newPlayerInfo = new PlayerInfo(GameCharacterType.RED, randomPosition, new double[]{0,0}, true, false);
 
         // inform the player of its data and other players
             playerSpaces.get(nameRequest).put( "PlayerInfo", newPlayerInfo);

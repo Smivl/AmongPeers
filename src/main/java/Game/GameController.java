@@ -1,5 +1,6 @@
 package Game;
 
+import Game.GameCharacter.GameCharacterView;
 import Game.GameMap.GameMap;
 import Game.Player.Player;
 import Game.Player.PlayerInfo;
@@ -13,6 +14,7 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.layout.StackPane;
+import javafx.scene.paint.Color;
 import org.jspace.ActualField;
 import org.jspace.FormalField;
 import org.jspace.Space;
@@ -21,23 +23,31 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URI;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Stack;
 
 public class GameController {
 
-    private Player player;
+    private final Map<String, GameCharacterView> otherPlayerViews = new HashMap<>();
+
+    private final Player player;
     private GameMap map;
     private MeetingView meetingView;
     private boolean inMeeting = false;
 
     private Thread serverUpdateThread;
-    private String name;
+    private final String name;
     private Space serverspace;
 
     public GameController(String name, Space serverSpace, URI uri){
         this.name = name;
+
         player = new Player(name, serverSpace, uri);
+
+        player.join();
+        player.init();
     }
 
     public void start(Scene scene){
@@ -53,8 +63,8 @@ public class GameController {
                     return null;
                 });
 
+        player.getCharacter().setController(this);
         player.getCharacter().setMap(map);
-
 
         // Add player to map and add map to root
         map.getView().getChildren().add(player.getCharacter().getView());
@@ -91,22 +101,23 @@ public class GameController {
                 switch ((ServerUpdate) update[0]) {
                     case POSITION: {
                         Object[] newPosition = player.getCharacter().getPlayerSpace().get(new ActualField(ServerUpdate.POSITION), new FormalField(String.class), new FormalField(Object.class), new FormalField(Object.class));
-                        Platform.runLater(() -> map.handlePositionUpdate((String) newPosition[1], (double[]) newPosition[2], (double[]) newPosition[3]));
+
+                        Platform.runLater(() -> handlePositionUpdate((String) newPosition[1], (double[]) newPosition[2], (double[]) newPosition[3]));
                         break;
                     }
                     case PLAYER_JOINED: {
-                        Object[] newPlayer = player.getCharacter().getPlayerSpace().get(new ActualField(ServerUpdate.PLAYER_JOINED), new FormalField(String.class), new FormalField(PlayerInfo.class));
-                        Platform.runLater(() -> map.handlePlayerJoin((String) newPlayer[1], (PlayerInfo) newPlayer[2]));
+                        Object[] newPlayerObject = player.getCharacter().getPlayerSpace().get(
+                                new ActualField(ServerUpdate.PLAYER_JOINED),
+                                new FormalField(String.class),
+                                new FormalField(PlayerInfo.class)
+                        );
+
+                        Platform.runLater(() -> handleJoinedUpdate((String) newPlayerObject[1], (PlayerInfo) newPlayerObject[2]));
                         break;
                     }
                     case KILLED: {
                         Object[] killedInfo = player.getCharacter().getPlayerSpace().get(new ActualField(ServerUpdate.KILLED), new FormalField(String.class));
-
-                        String playerKilled = (String) killedInfo[1];
-
-                        if(playerKilled.equals(name)) player.getCharacter().onKilled();
-
-                        Platform.runLater(() -> map.handlePlayerKilled(playerKilled, player.getCharacter().getView().getIsAlive()));
+                        Platform.runLater(() -> handleKilledUpdate((String) killedInfo[1]));
                         break;
                     }
                     case MEETING_START: {
@@ -166,11 +177,63 @@ public class GameController {
         }
     }
 
+    public GameCharacterView getPlayerToKill(GameCharacterView killer){
+
+        GameCharacterView result = null;
+        double min_dist = 0;
+
+        for(GameCharacterView player : otherPlayerViews.values()){
+
+            if (player.getIsImposter()) continue;
+
+            double dist = Math.sqrt(Math.pow(killer.getCenterX()-player.getCenterX(), 2)+Math.pow(killer.getCenterY()-player.getCenterY(), 2));
+            if(dist < 100 && (result == null || dist < min_dist)){
+                result = player;
+                min_dist = dist;
+            }
+        }
+
+        return result;
+    }
+
+    public void handlePositionUpdate(String playerName, double[] position, double[] velocity){
+        GameCharacterView gameCharacterView = otherPlayerViews.get(playerName);
+        gameCharacterView.render(position, velocity);
+    }
+
+    public void handleKilledUpdate(String playerName){
+        if(playerName.equals(name)) player.onKilled();
+
+        for(GameCharacterView gameCharacterView : otherPlayerViews.values()){
+            if(gameCharacterView.getName().equals(playerName)){
+                gameCharacterView.onKilled();
+            }
+
+            gameCharacterView.setVisible(!player.getInfo().isAlive || gameCharacterView.getIsAlive());
+        }
+
+    }
+
+    public void handleJoinedUpdate(String newPlayerName, PlayerInfo newPlayerInfo){
+        PlayerInfo mainPlayerInfo = player.getInfo();
+
+        GameCharacterView newPlayer = new GameCharacterView(
+                newPlayerName,
+                newPlayerInfo,
+                (newPlayerInfo.isImposter && mainPlayerInfo.isImposter) ? Color.RED : Color.WHITE
+        );
+
+        otherPlayerViews.put(newPlayerName, newPlayer);
+
+        // add player and set visibility
+        map.addPlayer(newPlayer, !mainPlayerInfo.isAlive || newPlayer.getIsAlive());
+    }
+
     public void handleKeyReleased(KeyEvent event) {
-        player.getCharacter().handleKeyReleased(event);
+        player.handleKeyReleased(event);
     }
 
     public void handleKeyPressed(KeyEvent event) {
-        player.getCharacter().handleKeyPressed(event);
+        player.handleKeyPressed(event);
     }
 }

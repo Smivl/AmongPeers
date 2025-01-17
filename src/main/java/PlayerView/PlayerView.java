@@ -1,6 +1,8 @@
 package PlayerView;
 
 import javafx.scene.Group;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
 import org.jspace.Space;
 import Game.Player.PlayerInfo;
 
@@ -32,7 +34,7 @@ public class PlayerView extends Group {
         otherPlayers.put(name, newPlayer);
 
         // initialize sprite with properties
-        newPlayer.setFill(info.color);
+        newPlayer.setFill(Color.RED);
         newPlayer.move(info.position);
     }
 

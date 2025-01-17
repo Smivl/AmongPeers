@@ -1,5 +1,6 @@
 package Server;
 
+import Game.GameCharacter.GameCharacterType;
 import Game.Player.PlayerInfo;
 import javafx.scene.paint.Color;
 import org.jspace.*;
@@ -12,6 +13,8 @@ import java.util.function.Function;
 
 
 public class Server {
+    static boolean imposterSwitch = false;
+
     private Map<String, Integer> playerVotes;
     private Map<String, Space> playerSpaces = new HashMap<>();
     private Map<String, PlayerInfo> playerInfos = new HashMap<>();
@@ -104,9 +107,13 @@ public class Server {
     }
 
     private void initializePlayer(String nameRequest){
+
+
         try{
 
-            PlayerInfo newPlayerInfo = new PlayerInfo(Color.GREEN, new double[]{4900, 1500}, new double[]{0,0}, true);
+            PlayerInfo newPlayerInfo = new PlayerInfo(GameCharacterType.RED, new double[]{4900, 1500}, new double[]{0,0}, true, imposterSwitch);
+            imposterSwitch = !imposterSwitch;
+
             broadcastClientUpdateExcludingSender(ServerUpdate.PLAYER_JOINED, nameRequest, newPlayerInfo);
 
             playerSpaces.get(nameRequest).put(ServerUpdate.PLAYER_INIT, newPlayerInfo);
@@ -158,12 +165,14 @@ public class Server {
                             case RUNNING_STATE:{
                                 Object[] infoTuple = playerSpaces.get(playerName).get(new ActualField(ClientUpdate.KILL), new FormalField(String.class) ,new FormalField(String.class));
 
-                                // todo: Make sure that the killer is an imposter here!!
+                                String killerPlayerName = (String) infoTuple[1];
+                                if (playerInfos.get(killerPlayerName).isImposter){
+                                    String killedPlayerName = (String) infoTuple[2];
 
-                                String killedPlayerName = (String) infoTuple[2];
+                                    playerInfos.get(killedPlayerName).isAlive = false;
+                                    broadCastClientUpdateIncludingSender(ServerUpdate.KILLED, killedPlayerName);
+                                }
 
-                                playerInfos.get(killedPlayerName).isAlive = false;
-                                broadCastClientUpdateIncludingSender(ServerUpdate.KILLED, killedPlayerName);
                                 break;
                             }
                             case MEETING_STATE:{

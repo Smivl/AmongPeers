@@ -2,6 +2,7 @@ package Game.GameMap;
 
 import Game.GameCharacter.GameCharacterView;
 import Game.Player.PlayerInfo;
+import Game.Player.Player;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -17,16 +18,10 @@ import javafx.scene.shape.Shape;
 
 public class GameMap {
 
-    private GameMapView view;
+    private final GameMapView view;
     private final List<Shape> collisionShapes = new ArrayList<Shape>() {};
 
-    private boolean isPlayerAlive = true;
-
-    private Map<String, GameCharacterView> playerViews = new HashMap<>();
-
-    public GameMapView getView() {
-        return this.view;
-    }
+    public GameMapView getView() { return this.view; }
 
     public GameMap(Scene scene) {
         this.view = new GameMapView(scene);
@@ -72,29 +67,10 @@ public class GameMap {
     public void onUpdate(double delta) {
     }
 
-    public void handlePositionUpdate(String playerName, double[] newPosition, double[] velocity){
-        GameCharacterView gameCharacterView = playerViews.get(playerName);
-        gameCharacterView.render(newPosition[0], newPosition[1], velocity);
-    }
+    public void addPlayer(GameCharacterView playerView, boolean isVisible){
+        view.getChildren().add(playerView);
+        playerView.setVisible(isVisible);
 
-    public void handlePlayerJoin(String playerName, PlayerInfo playerInfo){
-        GameCharacterView newPlayer = new GameCharacterView(playerName, playerInfo.position[0], playerInfo.position[1], playerInfo.velocity, playerInfo.color, playerInfo.isAlive);
-        view.getChildren().add(newPlayer);
-        playerViews.put(playerName, newPlayer);
-        newPlayer.setVisible(!isPlayerAlive || newPlayer.getIsAlive());
-
-    }
-
-    public void handlePlayerKilled(String playerKilled, boolean isPlayerAlive) {
-
-        this.isPlayerAlive = isPlayerAlive;
-
-        for(GameCharacterView gameCharacterView : playerViews.values()){
-            if(gameCharacterView.getName().equals(playerKilled)){
-                gameCharacterView.onKilled();
-            }
-            gameCharacterView.setVisible(!isPlayerAlive || gameCharacterView.getIsAlive());
-        }
     }
 
     public boolean checkCollision(GameCharacterView gameCharacterView) {
@@ -112,22 +88,6 @@ public class GameMap {
 
         this.view.getChildren().remove(playerShape);
         return false;
-    }
-
-    public GameCharacterView getPlayerToKill(GameCharacterView killer){
-
-        GameCharacterView result = null;
-        double min_dist = 0;
-
-        for(GameCharacterView player : playerViews.values()){
-            double dist = Math.sqrt(Math.pow(killer.getCenterX()-player.getCenterX(), 2)+Math.pow(killer.getCenterY()-player.getCenterY(), 2));
-            if(dist < 100 && (result == null || dist < min_dist)){
-                result = player;
-                min_dist = dist;
-            }
-        }
-
-        return result;
     }
 
     private void createCollisionRectangle(int x, int y, int width, int height, int angle) {
