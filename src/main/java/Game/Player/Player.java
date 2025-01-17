@@ -31,6 +31,8 @@ public class Player {
     private CharacterView characterView;
 
     private final BooleanProperty canKill = new SimpleBooleanProperty(false);
+    private final BooleanProperty canReport = new SimpleBooleanProperty(false);
+
     private PlayerInfo playerInfo;
     private final String name;
 
@@ -111,7 +113,7 @@ public class Player {
                     new BooleanProperty[]{ // order is: use, map, report, kill, sabotage
                             new SimpleBooleanProperty(true),
                             new SimpleBooleanProperty(true),
-                            new SimpleBooleanProperty(true),
+                            canReport,
                             canKill,
                             new SimpleBooleanProperty(true)
                     },
@@ -168,9 +170,18 @@ public class Player {
 
         // set conditions for killing
         canKill.set(
-                !(playerInfo.isAlive &&
+            !(
+                playerInfo.isAlive &&
                 playerInfo.isImposter &&
-                controller.getPlayerToKill(this.characterView) != null)
+                controller.getPlayerToKill(this.characterView) != null
+            )
+        );
+
+        canReport.set(
+            !(
+                map.checkCollisionsWithBodies(this.characterView) &&
+                playerInfo.isAlive
+            )
         );
     }
 
@@ -270,7 +281,7 @@ public class Player {
     }
 
     private void onReportClicked(){
-        System.out.println("Report not implemented yet");
+        System.out.println("Report clicked");
     }
 
     private void onKillClicked(){

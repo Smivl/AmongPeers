@@ -5,17 +5,26 @@ import Game.GameCharacter.CharacterView;
 import java.util.ArrayList;
 import java.util.List;
 
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.geometry.Bounds;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Ellipse;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
+import javafx.util.Duration;
+
 
 public class GameMap {
 
     private final GameMapView view;
-    private final List<Shape> collisionShapes = new ArrayList<Shape>() {};
+    private final List<Shape> collisionShapes = new ArrayList<>() {};
+    private List<ImageView> bodies = new ArrayList<>();
 
     public GameMapView getView() { return this.view; }
 
@@ -69,6 +78,32 @@ public class GameMap {
 
     }
 
+    public void onPlayerKilled(double[] position) {
+        Image i = new Image("dead1.png");
+        ImageView newBody = new ImageView(i);
+
+        newBody.setLayoutX(position[0] - (i.getWidth()/2));
+        newBody.setLayoutY(position[1] - (i.getHeight()/4));
+
+        bodies.add(newBody);
+
+        this.view.onPlayerKilled(newBody);
+    }
+
+    public boolean checkCollisionsWithBodies(CharacterView characterView){
+        for (ImageView body : bodies){
+            double centreX = body.getLayoutX() + 50;
+            double centreY = body.getLayoutY() + 25;
+
+            double dist = Math.sqrt(Math.pow(characterView.getCenterX()-centreX, 2)+Math.pow(characterView.getCenterY()-centreY, 2));
+            if(dist < 150) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     public boolean checkCollision(CharacterView characterView) {
         Bounds playerBounds = characterView.getBoundsInParent();
         Rectangle playerShape = new Rectangle(playerBounds.getMinX(), playerBounds.getMinY(), playerBounds.getWidth(), playerBounds.getHeight());
@@ -103,4 +138,5 @@ public class GameMap {
         this.collisionShapes.add(ellipse);
 
     }
+
 }

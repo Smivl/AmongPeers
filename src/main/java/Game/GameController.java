@@ -164,7 +164,7 @@ public class GameController {
 
         for(CharacterView player : otherPlayerViews.values()){
 
-            if (player.getIsImposter()) continue;
+            if (player.getIsImposter() || !player.getIsAlive()) continue;
 
             double dist = Math.sqrt(Math.pow(killer.getCenterX()-player.getCenterX(), 2)+Math.pow(killer.getCenterY()-player.getCenterY(), 2));
             if(dist < 100 && (result == null || dist < min_dist)){
@@ -182,15 +182,22 @@ public class GameController {
     }
 
     public void handleKilledUpdate(String playerName){
-        if(playerName.equals(name)) player.onKilled();
+        if(playerName.equals(name)) {
+            player.onKilled();
+            map.onPlayerKilled(new double[]{player.getInfo().position[0], player.getInfo().position[1]});
+        }
 
         for(CharacterView characterView : otherPlayerViews.values()){
             if(characterView.getName().equals(playerName)){
                 characterView.onKilled();
+                map.onPlayerKilled(new double[]{characterView.getCenterX(), characterView.getCenterY()});
             }
 
             characterView.setVisible(!player.getInfo().isAlive || characterView.getIsAlive());
         }
+
+
+
 
     }
 
