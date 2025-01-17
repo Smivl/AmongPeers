@@ -1,5 +1,6 @@
 package Game.GameCharacter;
 
+import Game.Player.PlayerInfo;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -20,6 +21,7 @@ public class GameCharacterView extends StackPane {
     private String name;
 
     private boolean isAlive;
+    private boolean isImposter;
     private double centerX;
     private double centerY;
     private double[] velocity;
@@ -90,36 +92,34 @@ public class GameCharacterView extends StackPane {
             new Image("ghost48.png")
     };
 
+    private final Image idleImage = new Image("idle.png");
 
     // Animation fields
-    private final Image idleImage;
     private int currentFrameIndex = 0;
     private Timeline movementAnimation;
 
+    public boolean getIsImposter() { return  isImposter; }
     public boolean getIsAlive() { return isAlive; }
     public String getName() { return name; }
     public ImageView getCharacterImage() { return characterImage; }
     public double getCenterX() { return centerX; }
     public double getCenterY() { return centerY; }
 
-    public GameCharacterView(String name, double x, double y, double[] velocity, Color color, boolean isAlive) {
+    public GameCharacterView(String name, PlayerInfo info, Color nameColor) {
 
-        this.isAlive = isAlive;
-        this.centerX = x;
-        this.centerY = y;
-        this.velocity = velocity;
+        this.isImposter = info.isImposter;
+        this.isAlive = info.isAlive;
+        this.centerX = info.position[0];
+        this.centerY = info.position[1];
+        this.velocity = info.velocity;
         this.name = name;
-
-        idleImage = new Image("idle.png");
 
         characterImage = new ImageView();
 
         characterImage.setFitWidth(90);
         characterImage.setPreserveRatio(true);
 
-
         /*
-
         // todo: Adjust color of character here!
 
         ColorAdjust colorAdjust = new ColorAdjust();
@@ -129,7 +129,7 @@ public class GameCharacterView extends StackPane {
          */
 
         Text nameplate = new Text(name);
-        nameplate.setFill(Color.WHITE);
+        nameplate.setFill(nameColor);
         nameplate.setFont(new Font(20));
 
         getChildren().addAll(characterImage, nameplate);
@@ -144,7 +144,7 @@ public class GameCharacterView extends StackPane {
         if(velocity[0] > 0) this.characterImage.setScaleX(1);
 
         setupMovementAnimation();
-        render(x, y, velocity);
+        render(info.position, info.velocity);
     }
 
     private void setupMovementAnimation() {
@@ -172,11 +172,10 @@ public class GameCharacterView extends StackPane {
         movementAnimation.playFromStart();
     }
 
+    public void render(double[] position, double[] velocity) {
 
-    public void render(double x, double y, double[] velocity) {
-
-        this.centerX = x;
-        this.centerY = y;
+        this.centerX = position[0];
+        this.centerY = position[1];
         this.velocity = velocity;
 
         setLayoutX(centerX - (getPrefWidth()/2));
