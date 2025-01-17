@@ -1,6 +1,6 @@
 package Game.GameMap;
 
-import Game.GameCharacter.GameCharacterView;
+import Game.GameCharacter.CharacterView;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -17,7 +17,7 @@ public class GameMapView extends Pane {
         this.getChildren().add(this.mapImage);
     }
 
-    public void render(GameCharacterView player) {
+    public void render(CharacterView player) {
 
         double offsetX = this.scene.getWidth() / 2.0 - player.getCenterX();
         double offsetY = this.scene.getHeight() / 2.0 - player.getCenterY();

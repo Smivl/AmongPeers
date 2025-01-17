@@ -1,13 +1,9 @@
 package Game.GameMap;
 
-import Game.GameCharacter.GameCharacterView;
-import Game.Player.PlayerInfo;
-import Game.Player.Player;
+import Game.GameCharacter.CharacterView;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javafx.geometry.Bounds;
 import javafx.scene.Scene;
@@ -67,14 +63,14 @@ public class GameMap {
     public void onUpdate(double delta) {
     }
 
-    public void addPlayer(GameCharacterView playerView, boolean isVisible){
+    public void addPlayer(CharacterView playerView, boolean isVisible){
         view.getChildren().add(playerView);
         playerView.setVisible(isVisible);
 
     }
 
-    public boolean checkCollision(GameCharacterView gameCharacterView) {
-        Bounds playerBounds = gameCharacterView.getBoundsInParent();
+    public boolean checkCollision(CharacterView characterView) {
+        Bounds playerBounds = characterView.getBoundsInParent();
         Rectangle playerShape = new Rectangle(playerBounds.getMinX(), playerBounds.getMinY(), playerBounds.getWidth(), playerBounds.getHeight());
         this.view.getChildren().add(playerShape);
 

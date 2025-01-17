@@ -1,17 +1,15 @@
 package Game.Player;
 
-import Game.GameCharacter.GameCharacter;
-import Game.GameCharacter.GameCharacterType;
-import javafx.scene.paint.Color;
+import Game.GameCharacter.CharacterType;
 
 public class PlayerInfo{
-    public GameCharacterType color;
+    public CharacterType color;
     public double[] position;
     public double[] velocity;
     public boolean isAlive;
     public boolean isImposter;
 
-    public PlayerInfo(GameCharacterType color, double[] position, double[] velocity, boolean isAlive, boolean isImposter){
+    public PlayerInfo(CharacterType color, double[] position, double[] velocity, boolean isAlive, boolean isImposter){
         this.color = color;
         this.position = position;
         this.velocity = velocity;

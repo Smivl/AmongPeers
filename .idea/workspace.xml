@@ -4,23 +4,25 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="20e64abb-9b4e-4189-a5ca-643a67bdae90" name="Changes" comment="basic killing + basic player ui + basic task system">
-      <change afterPath="$PROJECT_DIR$/src/main/java/testingServer.java" afterDir="false" />
+    <list default="true" id="20e64abb-9b4e-4189-a5ca-643a67bdae90" name="Changes" comment="refactoring, player UI update">
+      <change afterPath="$PROJECT_DIR$/src/main/resources/killIcon.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/reportIcon.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/sabotageIcon.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/useIcon.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/ventIcon.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Game/GameCharacter/GameCharacter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Game/GameCharacter/GameCharacter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Game/GameCharacter/GameCharacterView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Game/GameCharacter/GameCharacterView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Game/GameCharacter/GameCharacter.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Game/GameCharacter/GameCharacterType.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Game/GameCharacter/CharacterType.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Game/GameCharacter/GameCharacterView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Game/GameCharacter/CharacterView.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/Game/GameController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Game/GameController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/Game/GameMap/GameMap.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Game/GameMap/GameMap.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Game/GameMap/GameMapView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Game/GameMap/GameMapView.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/Game/Player/Player.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Game/Player/Player.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/Game/Player/PlayerInfo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Game/Player/PlayerInfo.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/Game/Player/PlayerView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Game/Player/PlayerView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Main.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/Player/HostPlayer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Player/HostPlayer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Player/Player.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Player/Player.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/PlayerView/PlayerView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/PlayerView/PlayerView.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Server/ClientUpdate.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Server/ClientUpdate.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/Server/Server.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Server/Server.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Server/ServerUpdate.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Server/ServerUpdate.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/ghostSprite.psd" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/ghostSprite.psd" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -191,7 +193,7 @@
       <workItem from="1736779273982" duration="2096000" />
       <workItem from="1736931444822" duration="18316000" />
       <workItem from="1737018189004" duration="8769000" />
-      <workItem from="1737109055907" duration="8407000" />
+      <workItem from="1737109055907" duration="17719000" />
     </task>
     <task id="LOCAL-00001" summary="Initialization">
       <option name="closed" value="true" />
@@ -257,7 +259,15 @@
       <option name="project" value="LOCAL" />
       <updated>1736981308379</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="refactoring, player UI update">
+      <option name="closed" value="true" />
+      <created>1737124391685</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1737124391685</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -272,6 +282,7 @@
     <MESSAGE value="More collision and movement fix" />
     <MESSAGE value="Server state and updates functions" />
     <MESSAGE value="basic killing + basic player ui + basic task system" />
-    <option name="LAST_COMMIT_MESSAGE" value="basic killing + basic player ui + basic task system" />
+    <MESSAGE value="refactoring, player UI update" />
+    <option name="LAST_COMMIT_MESSAGE" value="refactoring, player UI update" />
   </component>
 </project>

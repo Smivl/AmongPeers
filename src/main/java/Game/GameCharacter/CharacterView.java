@@ -15,7 +15,7 @@ import javafx.scene.text.Text;
 import javafx.util.Duration;
 
 
-public class GameCharacterView extends StackPane {
+public class CharacterView extends StackPane {
 
     private final ImageView characterImage;
     private String name;
@@ -105,7 +105,7 @@ public class GameCharacterView extends StackPane {
     public double getCenterX() { return centerX; }
     public double getCenterY() { return centerY; }
 
-    public GameCharacterView(String name, PlayerInfo info, Color nameColor) {
+    public CharacterView(String name, PlayerInfo info, Color nameColor) {
 
         this.isImposter = info.isImposter;
         this.isAlive = info.isAlive;

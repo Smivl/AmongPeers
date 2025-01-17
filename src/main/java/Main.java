@@ -1,6 +1,6 @@
 import Game.GameController;
 import Game.GameMap.GameMap;
-import Game.GameCharacter.GameCharacter;
+
 
 import java.net.URI;
 import java.util.*;
@@ -8,11 +8,12 @@ import java.util.*;
 import Server.*;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
+import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.StackPane;
+import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
 import org.jspace.*;
 import utils.*;
@@ -111,6 +112,16 @@ public class Main extends Application {
 
         Scene scene = new Scene(root, WIDTH, HEIGHT);
         scene.setFill(Color.BLACK);
+        root.setBackground(
+                new Background(
+                        new BackgroundFill(
+                                Color.BLACK,
+                                CornerRadii.EMPTY,
+                                Insets.EMPTY
+                        )
+                )
+        );
+
 
         gameController.start(scene);
 
