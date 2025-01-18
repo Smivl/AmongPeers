@@ -1,0 +1,25 @@
+
+
+.progress-bar {
+    -fx-background-color: rgb(46, 65, 46); /* Make the background transparent */
+    -fx-border-color: black, rgb(171, 185, 186); /* Metallic outer frame color */
+    -fx-border-width: 3px, 5px; /* Thin border */
+    -fx-border-radius: 0, 0px; /* Slightly rounded edges */
+    -fx-padding: 3px; /* Inner padding */
+}
+
+/* The track (unfilled portion) */
+.progress-bar .track {
+    -fx-background-color: rgb(46, 65, 46); /* Dark green/black background */
+    -fx-padding: 3px; /* No padding to avoid gaps */
+    -fx-background-insets: 1; /* Space between the bar and track border */
+    -fx-border-radius: 3px; /* Match border rounding */
+}
+
+/* The moving “fill” portion (progress) */
+.progress-bar .bar {
+    -fx-background-color: rgb(68, 217, 70); /* Bright green */
+    -fx-background-insets: 0; /* Align to the track */
+    -fx-padding: 0px; /* No padding */
+    -fx-border-radius: 0px; /* Keep rounded corners */
+}

@@ -5,12 +5,17 @@ import javafx.beans.property.BooleanProperty;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
+import javafx.scene.control.ProgressBar;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
 import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 
+import java.util.Arrays;
 import java.util.function.Function;
 
 
@@ -21,86 +26,114 @@ public class PlayerView extends BorderPane {
     private Button reportButton;
     private Button sabotageButton;
     private Button useButton;
+    private Button ventButton;
+    private Button settingsButton;
 
+    private ProgressBar taskProgressBar;
 
     public PlayerView(PlayerInfo info, BooleanProperty[] booleanProperties, Runnable[] callbackFunctions){
 
-        this.setPadding(new Insets(25));
+        this.setPadding(new Insets(15));
 
-        Text tasksLabel = new Text("Tasks 0/5");
-        tasksLabel.setFont(new Font(50));
-        this.setTop(tasksLabel);
+        // PROGRESS BAR AND SETTINGS
+        HBox topBox = new HBox();
+        topBox.setAlignment(Pos.CENTER_LEFT); // aligns children to the right
+
+        StackPane progressBarWithText = new StackPane();
+        progressBarWithText.setPadding(new Insets(0, 0, 0, 15));
+
+
+        taskProgressBar = new ProgressBar();
+        taskProgressBar.setProgress(0.0);
+        taskProgressBar.setPrefWidth(550);
+        taskProgressBar.setPrefHeight(45);
+
+        taskProgressBar.getStylesheets().add("progressbar.css");
+
+        Text tasksLabel = new Text("TOTAL TASKS COMPLETED");
+        tasksLabel.setFont(Font.font("System", javafx.scene.text.FontWeight.BOLD, 14));
+        tasksLabel.setFill(Color.WHITE);
+        tasksLabel.setStroke(Color.BLACK);
+        tasksLabel.setStrokeWidth(.5);
+
+        Region hspacer = new Region();
+        HBox.setHgrow(hspacer, Priority.ALWAYS);
+
+        settingsButton = createButtonWithIcon("settingsIcon.png");
+        settingsButton.setOnAction(e -> {callbackFunctions[6].run();});
+
+        mapButton = createButtonWithIcon("mapIcon.png");
+        mapButton.setOnAction(e -> {callbackFunctions[1].run();});
+
+        progressBarWithText.getChildren().addAll(taskProgressBar, tasksLabel);
+        topBox.getChildren().addAll(progressBarWithText, hspacer, mapButton, settingsButton);
+
+        this.setTop(topBox);
 
         HBox bottomBox = new HBox();
         bottomBox.setAlignment(Pos.CENTER_RIGHT); // aligns children to the right
         bottomBox.setSpacing(10);                 // optional spacing between children
 
+        VBox rightBox = new VBox();
+        rightBox.setSpacing(10);
+        rightBox.setPadding(new Insets(25, 0, 0, 0));
+        rightBox.setAlignment(Pos.TOP_CENTER);
 
-        if(info.isImposter){
-            // add imposter buttons
-            killButton = new Button();
-            killButton.setGraphic(new ImageView(new Image("killIcon.png")));
-            killButton.setStyle("-fx-background-color: transparent; "
-                    + "-fx-border-color: transparent; "
-                    + "-fx-background-radius: 0;");
-
-            killButton.disableProperty().bind(booleanProperties[3]);
-            killButton.setOnAction(e -> {callbackFunctions[3].run();});
-
-
-            sabotageButton = new Button();
-            sabotageButton.setGraphic(new ImageView(new Image("sabotageIcon.png")));
-            sabotageButton.setStyle("-fx-background-color: transparent; "
-                    + "-fx-border-color: transparent; "
-                    + "-fx-background-radius: 0;");
-
-            sabotageButton.disableProperty().bind(booleanProperties[4]);
-            sabotageButton.setOnAction(e -> {callbackFunctions[4].run();});
-
-            bottomBox.getChildren().addAll(killButton, sabotageButton);
-
-        }
-
-        useButton = new Button();
-        useButton.setGraphic(new ImageView(new Image("useIcon.png")));
-        useButton.setStyle("-fx-background-color: transparent; "
-                + "-fx-border-color: transparent; "
-                + "-fx-background-radius: 0;");
-
+        useButton = createButtonWithIcon("useIcon.png");
         useButton.disableProperty().bind(booleanProperties[0]);
         useButton.setOnAction(e -> {callbackFunctions[0].run();});
 
-        bottomBox.getChildren().add(useButton);
-
-
-
-        VBox rightBox = new VBox();
-        rightBox.setSpacing(10);
-        rightBox.setPadding(new Insets(25, 0, 25, 0));
-        rightBox.setAlignment(Pos.TOP_CENTER);
-
-        mapButton = new Button("Map");
-
-        mapButton.disableProperty().bind(booleanProperties[1]);
-        mapButton.setOnAction(e -> {callbackFunctions[1].run();});
+        reportButton = createButtonWithIcon("reportIcon.png");
+        reportButton.disableProperty().bind(booleanProperties[1]);
+        reportButton.setOnAction(e -> {callbackFunctions[2].run();});
 
         Region spacer = new Region();
         VBox.setVgrow(spacer, Priority.ALWAYS);
 
-        reportButton = new Button();
-        reportButton.setGraphic(new ImageView(new Image("reportIcon.png")));
-        reportButton.setStyle("-fx-background-color: transparent; "
-                + "-fx-border-color: transparent; "
-                + "-fx-background-radius: 0;");
+        if(info.isImposter){
 
-        reportButton.disableProperty().bind(booleanProperties[2]);
-        reportButton.setOnAction(e -> {callbackFunctions[2].run();});
+            // add imposter buttons
+            killButton = createButtonWithIcon("killIcon.png");
+            killButton.disableProperty().bind(booleanProperties[2]);
+            killButton.setOnAction(e -> {callbackFunctions[3].run();});
 
-        rightBox.getChildren().addAll(mapButton, spacer, reportButton);
+            sabotageButton = createButtonWithIcon("sabotageIcon.png");
+            sabotageButton.disableProperty().bind(booleanProperties[3]);
+            sabotageButton.setOnAction(e -> {callbackFunctions[4].run();});
+
+            ventButton = createButtonWithIcon("ventIcon.png");
+            ventButton.disableProperty().bind(booleanProperties[4]);
+            ventButton.setOnAction(e -> {callbackFunctions[5].run();});
+
+            bottomBox.getChildren().addAll(killButton, sabotageButton, ventButton);
+
+            HBox rightBottomBox = new HBox();
+            rightBottomBox.setSpacing(10);
+
+            rightBottomBox.getChildren().addAll(useButton, reportButton);
+            rightBox.getChildren().addAll(spacer, rightBottomBox);
+
+
+        } else{
+            bottomBox.getChildren().add(useButton);
+            rightBox.getChildren().addAll(spacer, reportButton);
+        }
 
         this.setBottom(bottomBox);
         this.setRight(rightBox);
         //this.setStyle("-fx-background-color: rgba(0,0,0,0.3)");
     }
 
+    public void setTaskProgressBar(double progress){
+        taskProgressBar.setProgress(progress);
+    }
+
+    private Button createButtonWithIcon(String iconPath){
+        Button res = new Button();
+        res.setGraphic(new ImageView(new Image(iconPath)));
+        res.setStyle("-fx-background-color: transparent; "
+                + "-fx-border-color: transparent; "
+                + "-fx-background-radius: 0;");
+        return res;
+    }
 }

@@ -1,0 +1,19 @@
+<changelist name="Uncommitted_changes_before_Update_at_18_01_2025_15_15_[Changes]1" date="1737209882286" recycled="true" deleted="true">
+  <option name="PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_18_01_2025_15_15_[Changes]1/shelved.patch" />
+  <option name="DESCRIPTION" value="Uncommitted changes before Update at 18/01/2025 15.15 [Changes]" />
+  <binary>
+    <option name="BEFORE_PATH" />
+    <option name="AFTER_PATH" value="src/main/resources/mapIcon.png" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_18_01_2025_15_15_[Changes]1/mapIcon.png" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="src/main/resources/mapCollision.psd" />
+    <option name="AFTER_PATH" value="src/main/resources/mapCollision.psd" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_18_01_2025_15_15_[Changes]1/mapCollision.psd" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" />
+    <option name="AFTER_PATH" value="src/main/resources/settingsIcon.png" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_18_01_2025_15_15_[Changes]1/settingsIcon.png" />
+  </binary>
+</changelist>

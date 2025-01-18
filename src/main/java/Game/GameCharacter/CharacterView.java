@@ -204,6 +204,9 @@ public class CharacterView extends StackPane {
                 movementAnimation.playFromStart();
             }
         }
+
+        this.setViewOrder(-this.getCenterY());
+
     }
 
 }

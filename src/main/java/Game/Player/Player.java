@@ -3,6 +3,7 @@ package Game.Player;
 import Game.GameCharacter.CharacterView;
 import Game.GameController;
 import Game.GameMap.GameMap;
+import Game.Interactables.Interactable;
 import Server.ClientUpdate;
 import Server.Request;
 import Server.Response;
@@ -25,6 +26,9 @@ public class Player {
     private final int SPEED = 650;
     private boolean wDown, aDown, sDown, dDown;
 
+    private Interactable interactableInFocus = null;
+    private Interactable ventInFocus = null;
+
     private GameController controller;
 
     private PlayerView playerView;
@@ -32,20 +36,19 @@ public class Player {
 
     private final BooleanProperty canKill = new SimpleBooleanProperty(false);
     private final BooleanProperty canReport = new SimpleBooleanProperty(false);
+    private final BooleanProperty canInteract = new SimpleBooleanProperty(false);
+    private final BooleanProperty canVent = new SimpleBooleanProperty(false);
 
     private PlayerInfo playerInfo;
     private final String name;
 
     private Space playerSpace;
 
-
     public PlayerInfo getInfo() { return playerInfo; }
     public PlayerView getPlayerView() { return playerView; }
     public CharacterView getCharacterView() { return characterView; }
-    public Space getPlayerSpace() { return playerSpace; }
 
     public void setController(GameController controller) { this.controller = controller; }
-
 
     public Player(String name, Space playerSpace){
 
@@ -62,19 +65,21 @@ public class Player {
             this.playerInfo = info;
             this.playerView = new PlayerView(
                     info,
-                    new BooleanProperty[]{ // order is: use, map, report, kill, sabotage
-                            new SimpleBooleanProperty(true),
-                            new SimpleBooleanProperty(true),
+                    new BooleanProperty[]{ // order is: interact, report, kill, sabotage, vent
+                            canInteract,
                             canReport,
                             canKill,
-                            new SimpleBooleanProperty(true)
+                            new SimpleBooleanProperty(true),
+                            canVent
                     },
-                    new Runnable[]{ // order is: use, map, report, kill, sabotage
-                            this::onUseClicked,
+                    new Runnable[]{ // order is: interact, map, report, kill, sabotage, vent, settings
+                            this::onInteractClicked,
                             this::onMapClicked,
                             this::onReportClicked,
                             this::onKillClicked,
-                            this::onSabotageClicked
+                            this::onSabotageClicked,
+                            this::onVentClicked,
+                            this::onSettingsClicked
                     }
             );
 
@@ -117,24 +122,37 @@ public class Player {
 
         }else{
             this.characterView.render(playerInfo.position, playerInfo.velocity);
-
         }
 
-        // set conditions for killing
         canKill.set(
-            !(
-                playerInfo.isAlive &&
-                playerInfo.isImposter &&
-                controller.getPlayerToKill(this.characterView) != null
-            )
+                !(
+                        playerInfo.isAlive &&
+                                playerInfo.isImposter &&
+                                controller.getPlayerToKill(this.characterView) != null
+                )
         );
-
         canReport.set(
-            !(
-                map.checkCollisionsWithBodies(this.characterView) &&
-                playerInfo.isAlive
-            )
+                !(
+                        map.checkCollisionWithBodies(this.characterView) &&
+                                playerInfo.isAlive
+                )
         );
+        interactableInFocus = map.getInteractable(this.characterView);
+        canInteract.set(
+                !(
+                        interactableInFocus != null &&
+                                interactableInFocus.canInteract(playerInfo)
+                )
+        );
+        if(playerInfo.isImposter){
+            ventInFocus = map.getVent(this.characterView);
+            canVent.set(
+                    !(
+                            ventInFocus != null &&
+                                    ventInFocus.canInteract(playerInfo)
+                    )
+            );
+        }
     }
 
     public void handleKeyPressed(KeyEvent event) {
@@ -194,37 +212,12 @@ public class Player {
         updateVelocity();
     }
 
-    private void updateVelocity() {
-        double dx = 0;
-        double dy = 0;
 
-        if (wDown) dy -= 1;
-        if (sDown) dy += 1;
-        if (aDown) dx -= 1;
-        if (dDown) dx += 1;
-
-        double length = Math.sqrt(dx * dx + dy * dy);
-        if (length != 0) {
-            dx = dx / length * SPEED;
-            dy = dy / length * SPEED;
-        } else{
-
-            // Notify that we have stopped moving! Only does once!
-            Platform.runLater(() -> {
-                try {
-                    playerSpace.put(ClientUpdate.POSITION);
-                    playerSpace.put(ClientUpdate.POSITION, playerInfo.position, playerInfo.velocity);
-                } catch (InterruptedException e) {
-                    throw new RuntimeException(e);
-                }
-            });
-        }
-
-        playerInfo.velocity[0] = dx;
-        playerInfo.velocity[1] = dy;
+    private void onSettingsClicked(){
+        System.out.println("Settings not implemented yet");
     }
 
-    private void onUseClicked(){
+    private void onInteractClicked(){
         System.out.println("Use not implemented yet");
     }
 
@@ -259,5 +252,43 @@ public class Player {
 
     private void onSabotageClicked(){
         System.out.println("Sabotage not implemented yet");
+    }
+
+    private void onVentClicked(){
+        System.out.println("Vent not implemented yet");
+
+        if(ventInFocus != null){
+            ventInFocus.interact();
+        }
+    }
+
+    private void updateVelocity() {
+        double dx = 0;
+        double dy = 0;
+
+        if (wDown) dy -= 1;
+        if (sDown) dy += 1;
+        if (aDown) dx -= 1;
+        if (dDown) dx += 1;
+
+        double length = Math.sqrt(dx * dx + dy * dy);
+        if (length != 0) {
+            dx = dx / length * SPEED;
+            dy = dy / length * SPEED;
+        } else{
+
+            // Notify that we have stopped moving! Only does once!
+            Platform.runLater(() -> {
+                try {
+                    playerSpace.put(ClientUpdate.POSITION);
+                    playerSpace.put(ClientUpdate.POSITION, playerInfo.position, playerInfo.velocity);
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+            });
+        }
+
+        playerInfo.velocity[0] = dx;
+        playerInfo.velocity[1] = dy;
     }
 }
