@@ -15,7 +15,7 @@ import javafx.scene.text.Text;
 import javafx.util.Duration;
 
 
-public class GameCharacterView extends StackPane {
+public class CharacterView extends StackPane {
 
     private final ImageView characterImage;
     private String name;
@@ -105,9 +105,9 @@ public class GameCharacterView extends StackPane {
     public double getCenterX() { return centerX; }
     public double getCenterY() { return centerY; }
 
-    public GameCharacterView(String name, PlayerInfo info, Color nameColor) {
+    public CharacterView(String name, PlayerInfo info, Color nameColor) {
 
-        this.isImposter = info.isImposter;
+    this.isImposter = info.isImposter;
         this.isAlive = info.isAlive;
         this.centerX = info.position[0];
         this.centerY = info.position[1];
@@ -137,7 +137,7 @@ public class GameCharacterView extends StackPane {
         setPrefSize(characterImage.getFitWidth(), characterImage.getFitHeight());
 
         setLayoutX(centerX - (getPrefWidth()/2));
-        setLayoutY(centerY - (getPrefHeight()/2));
+        setLayoutY(centerY - ((double) 129 /2));
 
         // Flip image based on velocity (facing direction we are going)
         if(velocity[0] < 0) this.characterImage.setScaleX(-1);
@@ -179,7 +179,7 @@ public class GameCharacterView extends StackPane {
         this.velocity = velocity;
 
         setLayoutX(centerX - (getPrefWidth()/2));
-        setLayoutY(centerY - (getPrefHeight()/2));
+        setLayoutY(centerY - ((double) 129 /2));
 
         if(velocity[0] < 0) this.characterImage.setScaleX(-1);
         if(velocity[0] > 0) this.characterImage.setScaleX(1);

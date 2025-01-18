@@ -111,7 +111,6 @@ public class Main extends Application {
 
         Scene scene = new Scene(root, WIDTH, HEIGHT);
         scene.setFill(Color.BLACK);
-        scene.getStylesheets().add(getClass().getResource("/stylesheet.css").toExternalForm());
 
         gameController.start(scene);
 
@@ -145,6 +144,7 @@ public class Main extends Application {
         //server.shutdown();
         System.exit(0);
     }
+
 
     private void handleKeyReleased(KeyEvent event) {
         gameController.handleKeyReleased(event);

@@ -1,6 +1,6 @@
 package Game;
 
-import Game.GameCharacter.GameCharacterView;
+import Game.GameCharacter.CharacterView;
 import Game.GameMap.GameMap;
 import Game.Player.Player;
 import Game.Player.PlayerInfo;
@@ -8,11 +8,8 @@ import Game.Meeting.MeetingView;
 import Server.ClientUpdate;
 import Server.ServerUpdate;
 import javafx.application.Platform;
-import javafx.concurrent.Task;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.layout.StackPane;
-import javafx.scene.paint.Color;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import org.jspace.ActualField;
@@ -26,11 +23,10 @@ import java.net.URI;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
-import java.util.Stack;
 
 public class GameController {
 
-    private final Map<String, GameCharacterView> otherPlayerViews = new HashMap<>();
+    private final Map<String, CharacterView> otherPlayerViews = new HashMap<>();
 
     private final Player player;
     private GameMap map;
@@ -63,11 +59,10 @@ public class GameController {
                     return null;
                 });
 
-        player.getCharacter().setController(this);
-        player.getCharacter().setMap(map);
+        player.setController(this);
 
         // Add player to map and add map to root
-        map.getView().getChildren().add(player.getCharacter().getView());
+        map.getView().getChildren().add(player.getCharacterView());
 
         if (scene.getRoot() instanceof StackPane){
             StackPane root = (StackPane) scene.getRoot();
@@ -87,7 +82,7 @@ public class GameController {
         player.onUpdate(delta, map);
         map.onUpdate(delta);
 
-        map.getView().render(player.getCharacter().getView());
+        map.getView().render(player.getCharacterView());
 
     }
 
@@ -96,17 +91,17 @@ public class GameController {
     private void serverUpdates(){
         while (true){
             try {
-                Object[] update = player.getCharacter().getPlayerSpace().get(new FormalField(ServerUpdate.class));
+                Object[] update = player.getPlayerSpace().get(new FormalField(ServerUpdate.class));
 
                 switch ((ServerUpdate) update[0]) {
                     case POSITION: {
-                        Object[] newPosition = player.getCharacter().getPlayerSpace().get(new ActualField(ServerUpdate.POSITION), new FormalField(String.class), new FormalField(Object.class), new FormalField(Object.class));
+                        Object[] newPosition = player.getPlayerSpace().get(new ActualField(ServerUpdate.POSITION), new FormalField(String.class), new FormalField(Object.class), new FormalField(Object.class));
 
                         Platform.runLater(() -> handlePositionUpdate((String) newPosition[1], (double[]) newPosition[2], (double[]) newPosition[3]));
                         break;
                     }
                     case PLAYER_JOINED: {
-                        Object[] newPlayerObject = player.getCharacter().getPlayerSpace().get(
+                        Object[] newPlayerObject = player.getPlayerSpace().get(
                                 new ActualField(ServerUpdate.PLAYER_JOINED),
                                 new FormalField(String.class),
                                 new FormalField(PlayerInfo.class)
@@ -116,7 +111,7 @@ public class GameController {
                         break;
                     }
                     case KILLED: {
-                        Object[] killedInfo = player.getCharacter().getPlayerSpace().get(new ActualField(ServerUpdate.KILLED), new FormalField(String.class));
+                        Object[] killedInfo = player.getPlayerSpace().get(new ActualField(ServerUpdate.KILLED), new FormalField(String.class));
                         Platform.runLater(() -> handleKilledUpdate((String) killedInfo[1]));
                         break;
                     }
@@ -177,14 +172,14 @@ public class GameController {
         }
     }
 
-    public GameCharacterView getPlayerToKill(GameCharacterView killer){
+    public CharacterView getPlayerToKill(CharacterView killer){
 
-        GameCharacterView result = null;
+        CharacterView result = null;
         double min_dist = 0;
 
-        for(GameCharacterView player : otherPlayerViews.values()){
+        for(CharacterView player : otherPlayerViews.values()){
 
-            if (player.getIsImposter()) continue;
+            if (player.getIsImposter() || !player.getIsAlive()) continue;
 
             double dist = Math.sqrt(Math.pow(killer.getCenterX()-player.getCenterX(), 2)+Math.pow(killer.getCenterY()-player.getCenterY(), 2));
             if(dist < 100 && (result == null || dist < min_dist)){
@@ -197,27 +192,34 @@ public class GameController {
     }
 
     public void handlePositionUpdate(String playerName, double[] position, double[] velocity){
-        GameCharacterView gameCharacterView = otherPlayerViews.get(playerName);
-        gameCharacterView.render(position, velocity);
+        CharacterView characterView = otherPlayerViews.get(playerName);
+        characterView.render(position, velocity);
     }
 
     public void handleKilledUpdate(String playerName){
-        if(playerName.equals(name)) player.onKilled();
+        if(playerName.equals(name)) {
+            player.onKilled();
+            map.onPlayerKilled(new double[]{player.getInfo().position[0], player.getInfo().position[1]});
+        }
 
-        for(GameCharacterView gameCharacterView : otherPlayerViews.values()){
-            if(gameCharacterView.getName().equals(playerName)){
-                gameCharacterView.onKilled();
+        for(CharacterView characterView : otherPlayerViews.values()){
+            if(characterView.getName().equals(playerName)){
+                characterView.onKilled();
+                map.onPlayerKilled(new double[]{characterView.getCenterX(), characterView.getCenterY()});
             }
 
-            gameCharacterView.setVisible(!player.getInfo().isAlive || gameCharacterView.getIsAlive());
+            characterView.setVisible(!player.getInfo().isAlive || characterView.getIsAlive());
         }
+
+
+
 
     }
 
     public void handleJoinedUpdate(String newPlayerName, PlayerInfo newPlayerInfo){
         PlayerInfo mainPlayerInfo = player.getInfo();
 
-        GameCharacterView newPlayer = new GameCharacterView(
+        CharacterView newPlayer = new CharacterView(
                 newPlayerName,
                 newPlayerInfo,
                 (newPlayerInfo.isImposter && mainPlayerInfo.isImposter) ? Color.RED : Color.WHITE

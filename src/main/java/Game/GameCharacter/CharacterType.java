@@ -1,6 +1,6 @@
 package Game.GameCharacter;
 
-public enum GameCharacterType {
+public enum CharacterType {
     RED,
     BLACK,
     BLUE,

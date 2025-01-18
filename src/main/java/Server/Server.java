@@ -1,8 +1,7 @@
 package Server;
 
-import Game.GameCharacter.GameCharacterType;
+import Game.GameCharacter.CharacterType;
 import Game.Player.PlayerInfo;
-import javafx.scene.paint.Color;
 import org.jspace.*;
 
 import java.net.URI;
@@ -111,7 +110,7 @@ public class Server {
 
         try{
 
-            PlayerInfo newPlayerInfo = new PlayerInfo(GameCharacterType.RED, new double[]{4900, 1500}, new double[]{0,0}, true, imposterSwitch);
+            PlayerInfo newPlayerInfo = new PlayerInfo(CharacterType.RED, new double[]{4900, 1500}, new double[]{0,0}, true, imposterSwitch);
             imposterSwitch = !imposterSwitch;
 
             broadcastClientUpdateExcludingSender(ServerUpdate.PLAYER_JOINED, nameRequest, newPlayerInfo);
