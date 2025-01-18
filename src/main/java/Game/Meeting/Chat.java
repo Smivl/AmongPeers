@@ -1,5 +1,6 @@
 package Game.Meeting;
 
+import Game.Player.PlayerInfo;
 import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -12,20 +13,79 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.function.Function;
 
 public class Chat extends StackPane {
 
-    private VBox messagesContainer; // 5 px spacing
+    // view Stuff
+    private VBox messagesContainer;
     private VBox chatArea;
     private ScrollPane scrollPane;
     private TextField inputField;
-    private Function<String,Void> sendMessageFunction;
 
-    public Chat(Function<String,Void> sendMessageFunction){
+    // logic stuff
+    private Function<String,Void> sendMessageFunction;
+    private Function<String,Void> voteForFunction;
+    private Map<String, PlayerInfo> playerInfoMap = new HashMap<>();
+    private boolean hasVoted;
+
+
+    // logic functions
+    public void addSendMessageFunction(Function<String,Void> sendMessageFunction){
         this.sendMessageFunction = sendMessageFunction;
     }
 
+    public void addVoteForFunction(Function<String, Void> voteForFunction) {
+        this.voteForFunction = voteForFunction;
+    }
+
+    public void addPlayer(String playerName, PlayerInfo playerInfo){
+        System.out.println("Added player " + playerName);
+        playerInfoMap.put(playerName, playerInfo);
+    }
+
+    public void removePlayer(String playerName, PlayerInfo playerInfo){
+        playerInfoMap.remove(playerName);
+    }
+
+    public void killPlayer(String playerName){
+        playerInfoMap.get(playerName).isAlive = false;
+    }
+
+    public void processInput(){
+        // read input
+        String input = inputField.getText();
+
+        // case 1: voting command
+        if (input!= null && input.trim().startsWith("/vote")){
+            if (hasVoted){
+                addPrivateMessage("You have already voted already!");
+            }
+            String[] parts = input.trim().split("\\s+");
+
+            if (parts.length == 2){
+                if (!playerInfoMap.containsKey(parts[1])){
+                    addPrivateMessage("The player " + parts[1] + " does not exist.");
+                } else if (!playerInfoMap.get(parts[1]).isAlive) {
+                    addPrivateMessage("The player " + parts[1] + " is dead and cannot be voted.");
+                } else {
+                    voteForFunction.apply(parts[1]);
+                }
+            } else {
+                addPrivateMessage("Wrong syntax. Usage: /vote [playerName]");
+            }
+        }else if (input != null && !input.trim().isEmpty()) {
+            sendMessageFunction.apply(input);
+
+            inputField.clear();
+        }
+        inputField.clear();
+    }
+
+    // view functions
     public void initialize(){
 
         hide();
@@ -87,9 +147,9 @@ public class Chat extends StackPane {
         setAlignment(chatArea, Pos.BOTTOM_CENTER);
 
         // Event handlers
-        sendButton.setOnAction(e -> sendMessage());
+        sendButton.setOnAction(e -> processInput());
         // Pressing ENTER in the text field also sends
-        inputField.setOnAction(e -> sendMessage());
+        inputField.setOnAction(e -> processInput());
     }
 
     public void show() {
@@ -103,29 +163,28 @@ public class Chat extends StackPane {
         this.setDisable(true);
     }
 
-    public void sendMessage(){
-        String text = inputField.getText();
-        if (text != null && !text.trim().isEmpty()) {
-            // 1) Send message to the network (or your game logic)
-            //    e.g., player.getCharacter().getPlayerSpace().put(...)
-            //    or however you've set up your chat protocol
-
-            sendMessageFunction.apply(text);
-
-            // 2) Clear the input field
-            inputField.clear();
-        }
-    }
 
     public void addMessage(String playerName, String message, Color nameLabelColor){
-        MessageBox messageBox = new MessageBox(playerName, message, nameLabelColor);
-        messagesContainer.getChildren().add(messageBox);
-        messageBox.setFillWidth(true);
-        scrollPaneToBottom();
+        Platform.runLater(() -> {
+            MessageBox messageBox = new MessageBox(playerName, message, nameLabelColor);
+            messagesContainer.getChildren().add(messageBox);
+            messageBox.setFillWidth(true);
+            scrollPaneToBottom();
+        });
+
+    }
+
+    public void addPrivateMessage(String message){
+        Platform.runLater(() -> {
+            MessageBox messageBox = new MessageBox("Private message", message, Color.RED);
+            messagesContainer.getChildren().add(messageBox);
+            messageBox.setFillWidth(true);
+            scrollPaneToBottom();
+        });
     }
 
     private void scrollPaneToBottom() {
-        Platform.runLater(() -> scrollPane.setVvalue(scrollPane.getVmax()));
+        scrollPane.setVvalue(Double.MAX_VALUE);
     }
 }
 

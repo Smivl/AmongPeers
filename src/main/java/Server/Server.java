@@ -19,8 +19,8 @@ public class Server {
     private Map<String, PlayerInfo> playerInfos = new HashMap<>();
 
     private SpaceRepository spaceRepository = new SpaceRepository();
-    private Space serverSpace;
-    private URI serverURI;
+    private final Space serverSpace;
+    private final URI serverURI;
     private ServerState state = ServerState.RUNNING_STATE;
 
     private Thread serverThread;
@@ -106,8 +106,6 @@ public class Server {
     }
 
     private void initializePlayer(String nameRequest){
-
-
         try{
 
             PlayerInfo newPlayerInfo = new PlayerInfo(CharacterType.RED, new double[]{4900, 1500}, new double[]{0,0}, true, imposterSwitch);
@@ -363,5 +361,16 @@ public class Server {
         } catch (Exception e){
             System.out.println(Arrays.toString(e.getStackTrace()));
         }
+    }
+
+    public void startGame() {
+        for (Space playerSpace : playerSpaces.values()){
+            System.out.println(1);
+            try {
+                playerSpace.put(ServerUpdate.GAME_START);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+        };
     }
 }

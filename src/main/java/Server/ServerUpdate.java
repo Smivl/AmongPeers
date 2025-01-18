@@ -9,5 +9,5 @@ public enum ServerUpdate {
     VOTE, MESSAGE, MEETING_START, MEETING_DONE,
 
     // not broadcast updates:
-    PLAYER_INIT,
+    PLAYER_INIT, GAME_START,
 }

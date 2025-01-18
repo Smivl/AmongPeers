@@ -5,47 +5,20 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="20e64abb-9b4e-4189-a5ca-643a67bdae90" name="Changes" comment="refactoring more, player UI update, working callbacks">
-      <change afterPath="$PROJECT_DIR$/src/main/resources/corpse.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/dead1.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/dead10.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/dead11.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/dead12.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/dead13.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/dead14.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/dead15.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/dead16.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/dead17.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/dead18.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/dead19.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/dead2.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/dead20.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/dead21.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/dead22.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/dead23.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/dead24.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/dead25.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/dead26.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/dead27.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/dead28.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/dead29.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/dead3.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/dead30.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/dead31.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/dead32.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/dead33.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/dead4.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/dead5.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/dead6.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/dead7.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/dead8.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/dead9.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/deathSprite.psd" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Game/GameCharacter/CharacterView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Game/GameCharacter/CharacterView.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/Menu/StartMenu.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Game/GameCharacter/CharacterType.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Game/GameCharacter/CharacterType.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/Game/GameController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Game/GameController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Game/GameMap/GameMap.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Game/GameMap/GameMap.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Game/GameMap/GameMapView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Game/GameMap/GameMapView.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Game/Player/Player.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Game/Player/Player.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Game/Meeting/Chat.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Game/Meeting/Chat.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Game/Meeting/MeetingView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Game/Meeting/MeetingView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Game/Meeting/VoteView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Game/Meeting/VoteView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Player/ClientPlayer.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Player/HostPlayer.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Player/Player.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/PlayerView/PlayerView.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/PlayerView/Sprite.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/TestJSpaceFX.java" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

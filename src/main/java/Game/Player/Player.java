@@ -37,9 +37,6 @@ public class Player {
     private final String name;
 
     private Space playerSpace;
-    private final Space serverSpace;
-
-    private final URI serverURI;
 
 
     public PlayerInfo getInfo() { return playerInfo; }
@@ -50,55 +47,10 @@ public class Player {
     public void setController(GameController controller) { this.controller = controller; }
 
 
-    public Player(String name, Space serverSpace, URI serverURI){
+    public Player(String name, Space playerSpace){
 
         this.name = name;
-
-        this.serverSpace = serverSpace;
-        this.serverURI = serverURI;
-    }
-
-    public void join() {
-        try{
-            serverSpace.put(Request.JOIN);
-            serverSpace.put(Request.JOIN, name);
-
-            Object[] response = serverSpace.get(new ActualField(name), new FormalField(Response.class));
-
-            switch ((Response) response[1]){
-                case SUCCESS:
-                case ACCEPTED:{
-                    playerSpace = new RemoteSpace(
-                            serverURI.getScheme() + "://" +
-                                    serverURI.getHost() + ":" +
-                                    serverURI.getPort() + "/" +
-                                    name + "?" +
-                                    serverURI.getQuery()
-                    );
-
-                    break;
-                }
-                case CONFLICT:{
-                    System.out.println("Player name already exists! Pick another name.");
-                    break;
-                }
-                case PERMISSION_DENIED:{
-                    System.out.println("Permission denied to join server!");
-                    break;
-                }
-                case ERROR:
-                case FAILURE:{
-                    System.out.println("Server does not exist!");
-                    break;
-                }
-            }
-
-
-        }catch (Exception e){
-            System.out.println("Error in join");
-            System.out.println(e.getMessage());
-        }
-
+        this.playerSpace = playerSpace;
     }
 
     // Aka start game (after joining)
