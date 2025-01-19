@@ -2,14 +2,20 @@ package Menu;
 
 import Game.GameController;
 import Server.Server;
+import Server.ServerScan;
 import Server.Response;
+import Server.ServerBroadcast;
 import javafx.scene.Scene;
 import org.jspace.SequentialSpace;
 import org.jspace.Space;
 
+import java.net.DatagramPacket;
+import java.net.InetAddress;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.Map;
 import java.util.Objects;
+
 
 public class MenuManager {
     private final Scene scene;
@@ -35,6 +41,7 @@ public class MenuManager {
 
     public void transitionToMainMenu() {
         if (!Objects.isNull(server)){ // any server created is killed
+            ServerBroadcast.stopServer();
             server.shutdown();
         }
         if (!Objects.isNull(gameWaitingThread)){ // if were waiting to start game, abort
@@ -50,12 +57,23 @@ public class MenuManager {
     public void transitionToJoinMenu() {
         scene.setRoot(joinMenu);
         joinMenu.hideErrorMessage();
+
+        joinMenu.clearServers();
+        Map<String, DatagramPacket> servers = ServerScan.scanForServers();
+        if(servers != null) {
+            for(Map.Entry<String, DatagramPacket> server : servers.entrySet()) joinMenu.addServer(server);
+        }
     }
 
-    public void transitionToLobbyMenu(boolean isHosting, String name, String IP) {
+    public void transitionToLobbyMenu(boolean isHosting, String name, String IP, int Port) {
         try {
-            URI serverURI = new URI("tcp://" + IP + ":9001/?keep");
+
+            URI serverURI = new URI("tcp://" + IP.replace("/", "") + ":" + Port + "/?keep");
+
             if (isHosting) {
+
+                new Thread(() -> ServerBroadcast.startServer(name)).start();
+
                 Space serverSpace = new SequentialSpace();
                 server = new Server(serverURI, serverSpace);
 
@@ -84,6 +102,7 @@ public class MenuManager {
     }
 
     public void startGame() {
+        ServerBroadcast.stopServer();
         server.startGame();
     }
 }

@@ -1,6 +1,7 @@
 package Game.Interactables.Task;
 
 import Game.Player.PlayerInfo;
+import org.jspace.Space;
 
 public class WiringTask implements Task{
 
@@ -37,6 +38,16 @@ public class WiringTask implements Task{
     @Override
     public void completeTask() {
         this.completed = true;
+    }
+
+    @Override
+    public void setPlayerName(String name) {
+
+    }
+
+    @Override
+    public void setPlayerSpace(Space playerSpace) {
+
     }
 
     @Override

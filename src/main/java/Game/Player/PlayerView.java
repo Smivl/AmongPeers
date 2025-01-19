@@ -40,8 +40,7 @@ public class PlayerView extends BorderPane {
         topBox.setAlignment(Pos.CENTER_LEFT); // aligns children to the right
 
         StackPane progressBarWithText = new StackPane();
-        progressBarWithText.setPadding(new Insets(0, 0, 0, 15));
-
+        //progressBarWithText.setPadding(new Insets(0, 0, 0, 15));
 
         taskProgressBar = new ProgressBar();
         taskProgressBar.setProgress(0.0);
@@ -59,10 +58,10 @@ public class PlayerView extends BorderPane {
         Region hspacer = new Region();
         HBox.setHgrow(hspacer, Priority.ALWAYS);
 
-        settingsButton = createButtonWithIcon("settingsIcon.png");
+        settingsButton = createButtonWithIcon("settingsButtonIcon.png");
         settingsButton.setOnAction(e -> {callbackFunctions[6].run();});
 
-        mapButton = createButtonWithIcon("mapIcon.png");
+        mapButton = createButtonWithIcon("mapButtonIcon.png");
         mapButton.setOnAction(e -> {callbackFunctions[1].run();});
 
         progressBarWithText.getChildren().addAll(taskProgressBar, tasksLabel);
@@ -121,7 +120,6 @@ public class PlayerView extends BorderPane {
 
         this.setBottom(bottomBox);
         this.setRight(rightBox);
-        //this.setStyle("-fx-background-color: rgba(0,0,0,0.3)");
     }
 
     public void setTaskProgressBar(double progress){

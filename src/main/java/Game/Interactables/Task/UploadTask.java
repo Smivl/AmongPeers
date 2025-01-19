@@ -1,6 +1,7 @@
 package Game.Interactables.Task;
 
 import Game.Player.PlayerInfo;
+import org.jspace.Space;
 
 public class UploadTask implements Task {
     private final TaskType taskType;
@@ -35,6 +36,16 @@ public class UploadTask implements Task {
     @Override
     public void completeTask() {
         this.completed = true;
+    }
+
+    @Override
+    public void setPlayerName(String name) {
+
+    }
+
+    @Override
+    public void setPlayerSpace(Space playerSpace) {
+
     }
 
     @Override

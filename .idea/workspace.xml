@@ -4,41 +4,41 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="20e64abb-9b4e-4189-a5ca-643a67bdae90" name="Changes" comment="Player death + reporting">
-      <change afterPath="$PROJECT_DIR$/src/main/java/Game/Interactables/Interactable.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/Game/Interactables/Meeting.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/Game/Interactables/Vent.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/mapIcon.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/progressbar.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/settingsIcon.png" afterDir="false" />
+    <list default="true" id="0da40e2d-179e-4870-afcb-4409baa8c408" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/src/main/java/Server/ServerBroadcast.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/Server/ServerInfo.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/Server/ServerScan.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/mapButtonIcon.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/settingsButtonIcon.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_11_01_2025_14_45_[Changes]/map.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_11_01_2025_14_45_[Changes]/shelved.patch" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_18_01_2025_15_15_[Changes]/mapCollision.psd" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_18_01_2025_15_15_[Changes]/mapIcon.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_18_01_2025_15_15_[Changes]/settingsIcon.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_18_01_2025_15_15_[Changes]/shelved.patch" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_18_01_2025_15_15_[Changes]1/mapCollision.psd" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_18_01_2025_15_15_[Changes]1/mapIcon.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_18_01_2025_15_15_[Changes]1/settingsIcon.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_18_01_2025_15_15_[Changes]1/shelved.patch" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_18_01_2025_15_15__Changes_.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_18_01_2025_15_15__Changes_1.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Game/GameCharacter/CharacterView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Game/GameCharacter/CharacterView.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Game/GameMap/GameMap.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Game/GameMap/GameMap.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Game/GameController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Game/GameController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Game/Interactables/Interactable.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Game/Interactables/Interactable.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Game/Interactables/Meeting.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Game/Interactables/Meeting.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Game/Interactables/Task/UploadTask.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Game/Interactables/Task/UploadTask.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Game/Interactables/Task/WiringTask.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Game/Interactables/Task/WiringTask.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Game/Interactables/Vent.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Game/Interactables/Vent.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/Game/Player/Player.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Game/Player/Player.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/Game/Player/PlayerView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Game/Player/PlayerView.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Game/Task/Task.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Game/Interactables/Task/Task.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Game/Task/TaskFactory.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Game/Interactables/Task/TaskFactory.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Game/Task/TaskManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Game/Interactables/Task/TaskManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Game/Task/TaskType.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Game/Interactables/Task/TaskType.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Game/Task/UploadTask.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Game/Interactables/Task/UploadTask.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Game/Task/WiringTask.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Game/Interactables/Task/WiringTask.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/mapCollision.psd" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/mapCollision.psd" afterDir="false" />
-    <list default="true" id="20e64abb-9b4e-4189-a5ca-643a67bdae90" name="Changes" comment="refactoring more, player UI update, working callbacks">
-      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/Menu/StartMenu.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Game/GameCharacter/CharacterType.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Game/GameCharacter/CharacterType.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Game/GameController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Game/GameController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Game/Meeting/Chat.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Game/Meeting/Chat.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Game/Meeting/MeetingView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Game/Meeting/MeetingView.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Game/Meeting/VoteView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Game/Meeting/VoteView.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Player/ClientPlayer.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Player/HostPlayer.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Player/Player.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/PlayerView/PlayerView.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/PlayerView/Sprite.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/TestJSpaceFX.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Menu/HostMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Menu/HostMenu.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Menu/JoinMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Menu/JoinMenu.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Menu/MenuManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Menu/MenuManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/testingServer.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/mapIcon.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/settingsIcon.png" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -48,8 +48,6 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="Enum" />
-        <option value="Interface" />
         <option value="Class" />
       </list>
     </option>
@@ -60,61 +58,51 @@
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
-  <component name="ProblemsViewState">
-    <option name="selectedTabId" value="ProjectErrors" />
-  </component>
   <component name="ProjectColorInfo">{
   &quot;customColor&quot;: &quot;&quot;,
-  &quot;associatedIndex&quot;: 1
+  &quot;associatedIndex&quot;: 2
 }</component>
-  <component name="ProjectId" id="2rUAcQZQrvOjdQsjVQkWu8k9Xfr" />
-  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+  <component name="ProjectId" id="2ro6dIlMDizVZrF96WVBsIb3QWS" />
+  <component name="ProjectLevelVcsManager">
     <ConfirmationsSetting value="2" id="Add" />
   </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "ASKED_ADD_EXTERNAL_FILES": "true",
-    "Application.DummyTest.executor": "Run",
-    "Application.TestJSpace.executor": "Run",
-    "Application.TestJSpaceFX.executor": "Run",
-    "Application.test.executor": "Run",
-    "Application.testingServer.executor": "Run",
-    "JUnit.AppTest.executor": "Run",
-    "Maven. [org.apache.maven.plugins:maven-archetype-plugin:RELEASE:generate].executor": "Run",
-    "Maven.amongpeers [javafx:run].executor": "Run",
-    "Maven.amongpeers [org.openjfx:javafx-maven-plugin:0.0.6:jlink].executor": "Run",
-    "Maven.amongpeers [org.openjfx:javafx-maven-plugin:0.0.6:run].executor": "Run",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "extract.method.default.visibility": "private",
-    "git-widget-placeholder": "master",
-    "kotlin-language-version-configured": "true",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "settings.editor.selected.configurable": "project.propVCSSupport.Mappings",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
+    &quot;Application.BroadcastFinder.executor&quot;: &quot;Run&quot;,
+    &quot;Application.ServerBroadcast.executor&quot;: &quot;Run&quot;,
+    &quot;Application.testingServer.executor&quot;: &quot;Run&quot;,
+    &quot;Application.testingServer2.executor&quot;: &quot;Run&quot;,
+    &quot;Maven.amongpeers [org.openjfx:javafx-maven-plugin:0.0.6:run].executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;D:/projects&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
-    <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
+    <key name="CopyClassDialog.RECENTS_KEY">
       <recent name="" />
     </key>
   </component>
-  <component name="RunManager" selected="Maven.amongpeers [javafx:run]">
-    <configuration name="DummyTest" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="dk.dtu.DummyTest" />
+  <component name="RunManager" selected="Application.ServerBroadcast">
+    <configuration name="BroadcastFinder" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="Server.BroadcastFinder" />
       <module name="amongpeers" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="dk.dtu.*" />
+          <option name="PATTERN" value="Server.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -122,22 +110,15 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="TestJSpaceFX" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="TestJSpaceFX" />
+    <configuration name="ServerBroadcast" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="Server.ServerBroadcast" />
       <module name="amongpeers" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value=".*" />
+          <option name="PATTERN" value="Server.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="test" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="test" />
-      <module name="amongpeers" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -149,43 +130,19 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="amongpeers [javafx:run]" type="MavenRunConfiguration" factoryName="Maven" temporary="true">
-      <MavenSettings>
-        <option name="myGeneralSettings" />
-        <option name="myRunnerSettings" />
-        <option name="myRunnerParameters">
-          <MavenRunnerParameters>
-            <option name="cmdOptions" />
-            <option name="profiles">
-              <set />
-            </option>
-            <option name="goals">
-              <list>
-                <option value="javafx:run" />
-              </list>
-            </option>
-            <option name="multimoduleDir" />
-            <option name="pomFileName" value="pom.xml" />
-            <option name="profilesMap">
-              <map />
-            </option>
-            <option name="projectsCmdOptionValues">
-              <list />
-            </option>
-            <option name="resolveToWorkspace" value="false" />
-            <option name="workingDirPath" value="$PROJECT_DIR$" />
-          </MavenRunnerParameters>
-        </option>
-      </MavenSettings>
-      <method v="2" />
+    <configuration name="testingServer2" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="testingServer2" />
+      <module name="amongpeers" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Maven.amongpeers [javafx:run]" />
+        <item itemvalue="Application.ServerBroadcast" />
+        <item itemvalue="Application.BroadcastFinder" />
         <item itemvalue="Application.testingServer" />
-        <item itemvalue="Application.DummyTest" />
-        <item itemvalue="Application.test" />
-        <item itemvalue="Application.TestJSpaceFX" />
+        <item itemvalue="Application.testingServer2" />
       </list>
     </recent_temporary>
   </component>
@@ -199,111 +156,14 @@
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="20e64abb-9b4e-4189-a5ca-643a67bdae90" name="Changes" comment="" />
-      <created>1736424873032</created>
+      <changelist id="0da40e2d-179e-4870-afcb-4409baa8c408" name="Changes" comment="" />
+      <created>1737213167568</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
-      <updated>1736424873032</updated>
-      <workItem from="1736424874512" duration="5990000" />
-      <workItem from="1736603361389" duration="11711000" />
-      <workItem from="1736675759569" duration="20516000" />
-      <workItem from="1736697844793" duration="4766000" />
-      <workItem from="1736779273982" duration="2096000" />
-      <workItem from="1736931444822" duration="18316000" />
-      <workItem from="1737018189004" duration="8769000" />
-      <workItem from="1737109055907" duration="18632000" />
-      <workItem from="1737139896410" duration="6616000" />
-      <workItem from="1737189188522" duration="13692000" />
+      <updated>1737213167568</updated>
+      <workItem from="1737213169402" duration="6670000" />
+      <workItem from="1737308782323" duration="6883000" />
     </task>
-    <task id="LOCAL-00001" summary="Initialization">
-      <option name="closed" value="true" />
-      <created>1736425481182</created>
-      <option name="number" value="00001" />
-      <option name="presentableId" value="LOCAL-00001" />
-      <option name="project" value="LOCAL" />
-      <updated>1736425481182</updated>
-    </task>
-    <task id="LOCAL-00002" summary="Initialization">
-      <option name="closed" value="true" />
-      <created>1736426210845</created>
-      <option name="number" value="00002" />
-      <option name="presentableId" value="LOCAL-00002" />
-      <option name="project" value="LOCAL" />
-      <updated>1736426210845</updated>
-    </task>
-    <task id="LOCAL-00003" summary="Fixing merging">
-      <option name="closed" value="true" />
-      <created>1736676169479</created>
-      <option name="number" value="00003" />
-      <option name="presentableId" value="LOCAL-00003" />
-      <option name="project" value="LOCAL" />
-      <updated>1736676169480</updated>
-    </task>
-    <task id="LOCAL-00004" summary="Merged networking with basic game w/ collision.">
-      <option name="closed" value="true" />
-      <created>1736696300710</created>
-      <option name="number" value="00004" />
-      <option name="presentableId" value="LOCAL-00004" />
-      <option name="project" value="LOCAL" />
-      <updated>1736696300710</updated>
-    </task>
-    <task id="LOCAL-00005" summary="Small extra cleanup">
-      <option name="closed" value="true" />
-      <created>1736696464750</created>
-      <option name="number" value="00005" />
-      <option name="presentableId" value="LOCAL-00005" />
-      <option name="project" value="LOCAL" />
-      <updated>1736696464750</updated>
-    </task>
-    <task id="LOCAL-00006" summary="More collision and movement fix">
-      <option name="closed" value="true" />
-      <created>1736702592445</created>
-      <option name="number" value="00006" />
-      <option name="presentableId" value="LOCAL-00006" />
-      <option name="project" value="LOCAL" />
-      <updated>1736702592445</updated>
-    </task>
-    <task id="LOCAL-00007" summary="Server state and updates functions">
-      <option name="closed" value="true" />
-      <created>1736854381602</created>
-      <option name="number" value="00007" />
-      <option name="presentableId" value="LOCAL-00007" />
-      <option name="project" value="LOCAL" />
-      <updated>1736854381602</updated>
-    </task>
-    <task id="LOCAL-00008" summary="basic killing + basic player ui + basic task system">
-      <option name="closed" value="true" />
-      <created>1736981308379</created>
-      <option name="number" value="00008" />
-      <option name="presentableId" value="LOCAL-00008" />
-      <option name="project" value="LOCAL" />
-      <updated>1736981308379</updated>
-    </task>
-    <task id="LOCAL-00009" summary="refactoring, player UI update">
-      <option name="closed" value="true" />
-      <created>1737124391685</created>
-      <option name="number" value="00009" />
-      <option name="presentableId" value="LOCAL-00009" />
-      <option name="project" value="LOCAL" />
-      <updated>1737124391685</updated>
-    </task>
-    <task id="LOCAL-00010" summary="refactoring more, player UI update, working callbacks">
-      <option name="closed" value="true" />
-      <created>1737136487921</created>
-      <option name="number" value="00010" />
-      <option name="presentableId" value="LOCAL-00010" />
-      <option name="project" value="LOCAL" />
-      <updated>1737136487921</updated>
-    </task>
-    <task id="LOCAL-00011" summary="Player death + reporting">
-      <option name="closed" value="true" />
-      <created>1737147171245</created>
-      <option name="number" value="00011" />
-      <option name="presentableId" value="LOCAL-00011" />
-      <option name="project" value="LOCAL" />
-      <updated>1737147171245</updated>
-    </task>
-    <option name="localTasksCounter" value="12" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -311,16 +171,5 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-    <MESSAGE value="Initialization" />
-    <MESSAGE value="Fixing merging" />
-    <MESSAGE value="Merged networking with basic game w/ collision." />
-    <MESSAGE value="Small extra cleanup" />
-    <MESSAGE value="More collision and movement fix" />
-    <MESSAGE value="Server state and updates functions" />
-    <MESSAGE value="basic killing + basic player ui + basic task system" />
-    <MESSAGE value="refactoring, player UI update" />
-    <MESSAGE value="refactoring more, player UI update, working callbacks" />
-    <MESSAGE value="Player death + reporting" />
-    <option name="LAST_COMMIT_MESSAGE" value="Player death + reporting" />
   </component>
 </project>

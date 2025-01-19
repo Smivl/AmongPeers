@@ -1,12 +1,10 @@
 package Menu;
 
+import Server.ServerBroadcast;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
-
-import java.net.InetAddress;
-import java.net.UnknownHostException;
 
 public class HostMenu extends VBox {
     public HostMenu(MenuManager menuManager) {
@@ -15,11 +13,11 @@ public class HostMenu extends VBox {
         Label title = new Label("Host Game");
 
         Label ipLabel = new Label();
-        try {
-            ipLabel.setText("Your IP: " + InetAddress.getLocalHost().getHostAddress());
-        } catch (UnknownHostException e) {
-            ipLabel.setText("Unable to fetch IP");
-        }
+
+        String ip = ServerBroadcast.getIPAddress();
+
+        if (ip == null) ipLabel.setText("Unable to find IP address");
+        else ipLabel.setText("Your IP: " + ServerBroadcast.getIPAddress());
 
         TextField nameField = new TextField();
         nameField.setPromptText("Enter your name");
@@ -36,11 +34,7 @@ public class HostMenu extends VBox {
         });
 
         startButton.setOnAction(e -> {
-            try {
-                menuManager.transitionToLobbyMenu(true, nameField.getText(), InetAddress.getLocalHost().getHostAddress());
-            } catch (UnknownHostException ex) {
-                throw new RuntimeException(ex);
-            }
+            menuManager.transitionToLobbyMenu(true, nameField.getText(), ip, ServerBroadcast.setupServerPort());
         });
 
         Button backButton = new Button("Back");

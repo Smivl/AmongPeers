@@ -173,17 +173,6 @@ public class Player {
                 dDown = true;
                 break;
             }
-            case F1: { // Call meeting
-                if(playerInfo.isAlive) {
-                    try {
-                        playerSpace.put(ClientUpdate.MEETING);
-                        playerSpace.put(ClientUpdate.MEETING, name);
-                    } catch (InterruptedException e) {
-                        throw new RuntimeException(e);
-                    }
-                }
-                return;
-            }
         }
 
         updateVelocity();
@@ -219,6 +208,11 @@ public class Player {
 
     private void onInteractClicked(){
         System.out.println("Use not implemented yet");
+        if(interactableInFocus != null){
+            interactableInFocus.setPlayerSpace(playerSpace);
+            interactableInFocus.setPlayerName(name);
+            interactableInFocus.interact();
+        }
     }
 
     private void onMapClicked(){

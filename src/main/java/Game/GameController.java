@@ -50,6 +50,7 @@ public class GameController {
         this.name = name;
         this.serverURI = serverURI;
         try {
+            System.out.println(serverURI.getHost());
             this.serverSpace = new RemoteSpace(
                     serverURI.getScheme() + "://" +
                             serverURI.getHost() + ":" +
@@ -194,7 +195,6 @@ public class GameController {
         while (true){
             try {
                 Object[] update = playerSpace.get(new FormalField(ServerUpdate.class));
-                System.out.println("received " + ((ServerUpdate) update[0]));
                 switch ((ServerUpdate) update[0]) {
                     case POSITION: {
                         Object[] newPosition = playerSpace.get(new ActualField(ServerUpdate.POSITION), new FormalField(String.class), new FormalField(Object.class), new FormalField(Object.class));
