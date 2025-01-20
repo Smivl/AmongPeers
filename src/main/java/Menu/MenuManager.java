@@ -114,7 +114,8 @@ public class MenuManager {
     }
 
     public void startGame() {
-        ServerBroadcast.stopServer();
+        // DONT STOP THIS BECAUSE WE NEED TO LET OTHERS KNOW THAT THIS IS BEING USED
+        //ServerBroadcast.stopServer();
         server.startGame();
     }
 }
