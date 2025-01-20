@@ -12,6 +12,7 @@ import java.util.function.Function;
 
 
 public class Server {
+    private static final int MAX_PLAYERS = 8;
     static boolean imposterSwitch = false;
 
     private Map<String, Integer> playerVotes;
@@ -78,6 +79,18 @@ public class Server {
         }
     }
 
+    // inform players of game start
+    public void startGame() {
+        for (Space playerSpace : playerSpaces.values()){
+            System.out.println(1);
+            try {
+                playerSpace.put(ServerUpdate.GAME_START);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+        };
+    }
+
     private void handleJoinRequest() {
         try {
             // read request
@@ -86,6 +99,10 @@ public class Server {
             if (playerSpaces.containsKey(nameRequest)){
                 // player name exists already
                 serverSpace.put(nameRequest, Response.CONFLICT);
+            }
+            else if (!(playerSpaces.size()<MAX_PLAYERS)){
+                // Too many people
+                serverSpace.put(nameRequest, Response.FULL_ROOM);
             }
             else {
                 // player name does not exist
@@ -260,6 +277,9 @@ public class Server {
         }
     }
 
+
+    // helper functions
+
     private String votedPlayer() {
         String winner = null;
         int maxVotes = -1;
@@ -363,16 +383,5 @@ public class Server {
         } catch (Exception e){
             System.out.println(Arrays.toString(e.getStackTrace()));
         }
-    }
-
-    public void startGame() {
-        for (Space playerSpace : playerSpaces.values()){
-            System.out.println(1);
-            try {
-                playerSpace.put(ServerUpdate.GAME_START);
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
-            }
-        };
     }
 }

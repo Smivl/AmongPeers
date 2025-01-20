@@ -24,6 +24,10 @@ import java.net.URI;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
+import java.util.concurrent.TimeUnit;
 
 
 public class GameController {
@@ -88,6 +92,7 @@ public class GameController {
                                     serverURI.getQuery()
                     );
                     player = new Player(name, playerSpace);
+                    playerSpace.put(ClientUpdate.READY_TO_START);
                     return (Response) response[1];
                 }
                 case CONFLICT:
@@ -97,26 +102,19 @@ public class GameController {
                     return (Response) response[1];
                 }
             }
-
-
         }catch (Exception e){
-            System.out.println("Error in join");
-            System.out.println(e.getMessage());
+            return Response.ERROR;
         }
         return null;
     }
 
-    public void waitForStart(Scene scene){
-        try {
-            playerSpace.get(new ActualField(ServerUpdate.GAME_START));
+    public void waitForStart(Scene scene) throws InterruptedException {
+        playerSpace.get(new ActualField(ServerUpdate.GAME_START));
 
-            System.out.println("Game started");
-            player.setInputLocked(false);
+        System.out.println("Game started");
+        player.setInputLocked(false);
 
-            Platform.runLater(() -> start(scene));
-        } catch (Exception e){
-            System.out.println("Stopped waiting for start!");
-        }
+        Platform.runLater(() -> start(scene));
     }
 
     private void start(Scene scene) {

@@ -5,14 +5,23 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="0da40e2d-179e-4870-afcb-4409baa8c408" name="Changes" comment="Input lock, resets, and server bug fix">
+      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/fonts/joffrey.ttf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/in_your_face_joffrey/Commercial Use Details - Living the Dream Font.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/in_your_face_joffrey/Illustration - In your face, joffrey!.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/Game/GameController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Game/GameController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/Game/GameMap/GameMap.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Game/GameMap/GameMap.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Menu/HostMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Menu/HostMenu.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/Menu/JoinMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Menu/JoinMenu.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Menu/LobbyMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Menu/LobbyMenu.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Menu/MainMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Menu/MainMenu.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/Menu/MenuManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Menu/MenuManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Server/ClientUpdate.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Server/ClientUpdate.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Server/Response.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Server/Response.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/Server/Server.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Server/Server.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Server/ServerBroadcast.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Server/ServerBroadcast.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/stylesheet.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/stylesheet.css" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

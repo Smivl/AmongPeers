@@ -77,6 +77,41 @@ public class GameMap {
 
             // Med bay walls
             this.createCollisionRectangle(3482, 1335, 281, 158, 0);
+            this.createCollisionRectangle(2323, 1335, 908, 158, 0);
+            this.createCollisionRectangle(2858, 1487, 141, 1257, 0);
+            this.createCollisionRectangle(2957, 2281, 133, 260, -38);
+            this.createCollisionRectangle(3132, 2452, 978, 237, 0);
+            this.createCollisionRectangle(3132, 2452, 978, 237, 0);
+
+            // cameras
+            this.createCollisionRectangle(2323, 1487, 535, 349, 0);
+            this.createCollisionRectangle(2085, 1693, 307, 498, 0);
+            this.createCollisionRectangle(2272, 1800, 295, 132, -45);
+            this.createCollisionRectangle(2704, 1919, 271, 105, 45); // probably wrong
+            this.createCollisionRectangle(2368, 2719, 490, 82, 0);
+            this.createCollisionRectangle(2085, 2500, 307, 524, 0);
+
+            // cameras table
+            this.createCollisionRectangle(2680, 2255, 178, 110, 0);
+            this.createCollisionRectangle(2769, 2365, 89, 62, 0);
+
+            // lower engine to electrical / left electrical
+            this.createCollisionRectangle(2327, 3024, 659, 309, 0);
+            this.createCollisionRectangle(2967, 2689, 192, 1152, 0);
+            this.createCollisionRectangle(2327, 3630, 355, 537, 0);
+            this.createCollisionRectangle(2682, 4144, 1402, 126, 0);
+            this.createCollisionRectangle(3417, 3645, 667, 207, 0);
+
+            // electrical
+            this.createCollisionRectangle(3858, 2858, 575, 276, -45);
+            this.createCollisionRectangle(3845, 3102, 239, 543, 0);
+            this.createCollisionRectangle(3638, 3457, 260, 43, -45);
+
+            // deposit
+            this.createCollisionRectangle(3977, 4362, 525, 83, 45);
+            this.createCollisionRectangle(4435, 4560, 758, 59, 0);
+            this.createCollisionRectangle(5169, 3732, 102, 887, 0);
+
 
             //
             this.createCollisionRectangle(5553, 2492, 559, 85, 0);

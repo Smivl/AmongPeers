@@ -1,3 +1,8 @@
+@font-face {
+    font-family: "Joffrey";
+    src: url('/fonts/joffrey.ttf');
+}
+
 .tablet-background {
     -fx-background-color: transparent;
 }
@@ -51,4 +56,105 @@
     -fx-text-fill: white;
     -fx-background-radius: 10;
     -fx-padding: 10;
+}
+
+/* Root menu styling */
+.menu-box {
+    -fx-alignment: center; /* Center children */
+    -fx-padding: 20; /* Space inside the box */
+    -fx-spacing: 15; /* Space between children */
+
+    /* Background: a dark space gradient with subtle glow */
+    -fx-background-color: linear-gradient(to bottom, #000000, #03031a, #1c053f);
+    -fx-background-radius: 15; /* Rounded corners */
+    -fx-border-color: radial-gradient(center 50% 50%, radius 50%, #ffffff, #ffffff);
+    -fx-border-width: 3; /* Border thickness */
+    -fx-border-radius: 15; /* Match background radius */
+
+    /* Add a subtle shadow */
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.8), 20, 0.5, 0, 2);
+}
+
+/* Button styling */
+.menu-box .button {
+    -fx-background-color: linear-gradient(to bottom, #000000, #1e033d);
+    -fx-text-fill: #ffffff; /* White text */
+    -fx-font-size: 18px; /* Slightly larger font */
+    -fx-font-family: "Joffrey"; /* Bold, futuristic font */
+    -fx-padding: 10 30; /* Padding around the text */
+    -fx-background-radius: 10; /* Rounded corners */
+    -fx-border-color: #ffffff; /* Bright magenta border */
+    -fx-border-width: 2; /* Border thickness */
+    -fx-border-radius: 10; /* Match background radius */
+
+    /* Glow effect */
+    -fx-effect: dropshadow(gaussian, rgb(30, 3, 61), 10, 0.5, 0, 0);
+    -fx-cursor: hand; /* Pointer cursor on hover */
+}
+
+/* Hover effect for buttons */
+.menu-box .button:hover {
+    -fx-background-color: linear-gradient(to bottom, #1e033d, #240090);
+    -fx-text-fill: #ff007f; /* Magenta text on hover */
+    -fx-effect: dropshadow(gaussian, rgba(255, 255, 255, 0.8), 20, 0.7, 0, 0);
+}
+
+/* Button pressed effect */
+.menu-box .button:pressed {
+    -fx-background-color: #2e157e; /* Dark purple background */
+    -fx-border-color: #240090; /* Darker border */
+    -fx-text-fill: #7f00ff; /* Purple text */
+}
+
+.menu-box .label {
+    -fx-text-fill: #cccccc; /* Light gray text */
+    -fx-font-size: 16px;    /* Standard size */
+    -fx-font-family: "Joffrey"; /* Matches button font */
+    -fx-effect: dropshadow(gaussian, rgba(255, 255, 255, 0.2), 5, 0.3, 0, 1); /* Subtle glow */
+}
+
+.menu-box .label {
+    -fx-text-fill: #cccccc; /* Light gray text */
+    -fx-font-size: 16px;    /* Standard size */
+    -fx-font-family: "Joffrey"; /* Matches button font */
+    -fx-effect: dropshadow(gaussian, rgba(255, 255, 255, 0.2), 5, 0.3, 0, 1); /* Subtle glow */
+}
+
+.menu-box .text-field {
+    -fx-background-color: #1e033d; /* Dark purple background */
+    -fx-text-fill: #ffffff;        /* White text */
+    -fx-font-size: 16px;          /* Match normal labels */
+    -fx-font-family: "Joffrey"; /* Sleek font */
+    -fx-padding: 8 10;            /* Padding inside the text field */
+    -fx-background-radius: 10;    /* Rounded corners */
+    -fx-border-color: #7f00ff;    /* Purple border */
+    -fx-border-width: 2;          /* Border thickness */
+    -fx-border-radius: 10;        /* Match background radius */
+}
+
+/* Hover effect for text fields */
+.menu-box .text-field:hover {
+    -fx-border-color: #ff007f; /* Magenta border on hover */
+}
+
+/* Focus effect for text fields */
+.menu-box .text-field:focused {
+    -fx-border-color: #ffffff; /* Bright white border when focused */
+    -fx-effect: dropshadow(gaussian, rgba(255, 255, 255, 0.8), 15, 0.7, 0, 0);
+}
+
+/* Text inside the .menu-box.title */
+.title {
+    -fx-text-fill: linear-gradient(to right, #ff007f, #ffffff, #7f00ff); /* Glowing gradient text */
+    -fx-font-family: "Joffrey"; /* Bold, futuristic font */
+    -fx-font-weight: bold; /* Make the text stand out */
+    -fx-effect: dropshadow(gaussian, rgba(255, 255, 255, 0.8), 15, 0.8, 0, 0); /* Strong glow effect */
+    -fx-padding: 5 10; /* Space around the title text */
+}
+
+/* Hover effect for title section (optional for interactivity) */
+.title:hover {
+    -fx-background-color: linear-gradient(to bottom, #1c053f, #3e0f7e, #6f2ea5); /* Slightly brighter on hover */
+    -fx-border-color: radial-gradient(center 50% 50%, radius 50%, #ffffff, #ff007f);
+    -fx-effect: dropshadow(gaussian, rgba(255, 255, 255, 0.5), 30, 0.9, 0, 0); /* Enhance the glow on hover */
 }

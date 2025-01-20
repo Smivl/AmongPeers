@@ -38,6 +38,11 @@ public class MenuManager {
         hostMenu = new HostMenu(this);
         joinMenu = new JoinMenu(this);
         lobbyMenu = new LobbyMenu(this);
+
+        mainMenu.getStyleClass().add("menu-box");
+        hostMenu.getStyleClass().add("menu-box");
+        joinMenu.getStyleClass().add("menu-box");
+        lobbyMenu.getStyleClass().add("menu-box");
     }
 
     public void transitionToMainMenu() {
@@ -87,7 +92,11 @@ public class MenuManager {
                 gameWaitingThread = new Thread(() ->
                 {
                     System.out.println("waiting");
-                    gameController.waitForStart(scene);
+                    try {
+                        gameController.waitForStart(scene);
+                    } catch (InterruptedException e){
+                        scene.setRoot(mainMenu);
+                    }
                 });
                 gameWaitingThread.start();
             } else { // must be in join menu

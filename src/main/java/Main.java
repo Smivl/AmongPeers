@@ -18,8 +18,6 @@ public class Main extends Application {
     public static final int WIDTH = 1280;
     public static final int HEIGHT = 720;
 
-    private long previousFrameTime = 0;
-
     public static void main(String[] args) {
         ColorAdapter.init();
 
@@ -49,12 +47,4 @@ public class Main extends Application {
         //server.shutdown();
         System.exit(0);
     }
-
-//    private static void handleKeyReleased(KeyEvent event) {
-//        gameController.handleKeyReleased(event);
-//    }
-//
-//    private static void handleKeyPressed(KeyEvent event) {
-//        gameController.handleKeyPressed(event);
-//    }
 }

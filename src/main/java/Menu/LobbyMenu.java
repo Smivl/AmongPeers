@@ -12,7 +12,8 @@ public class LobbyMenu extends VBox {
     public LobbyMenu(MenuManager menuManager) {
         setSpacing(10);
 
-        Label title = new Label("Waiting for players...");
+        Label title = new Label("Waiting...");
+        title.getStyleClass().add("title");
         Button startButton = new Button("Start Game");
 
         startButton.setOnAction(e -> menuManager.startGame());

@@ -11,6 +11,8 @@ public class HostMenu extends VBox {
         setSpacing(10);
 
         Label title = new Label("Host Game");
+        title.getStyleClass().removeAll();
+        title.getStyleClass().add("title");
 
         Label ipLabel = new Label();
 
