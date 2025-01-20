@@ -46,6 +46,11 @@ public class MenuManager {
     }
 
     public void transitionToMainMenu() {
+        if(!Objects.isNull(gameController)){
+            gameController.leave();
+            gameController = null;
+        }
+
         if (!Objects.isNull(server)){ // any server created is killed
             ServerBroadcast.stopServer();
             server.shutdown();
@@ -85,7 +90,6 @@ public class MenuManager {
 
             gameController = new GameController(name, serverURI);
             Response serverResponse = gameController.join();
-            System.out.println("RAN HERE");
             if (serverResponse.isSuccesful()){ // always successful for host
                 lobbyMenu.setHosting(isHosting);
                 scene.setRoot(lobbyMenu);

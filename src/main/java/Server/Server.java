@@ -17,6 +17,7 @@ public class Server {
 
     private Map<String, Integer> playerVotes;
     private Map<String, Space> playerSpaces = new HashMap<>();
+    private Map<String, Thread> playerThreads = new HashMap<>();
     private Map<String, PlayerInfo> playerInfos = new HashMap<>();
 
     private SpaceRepository spaceRepository = new SpaceRepository();
@@ -66,7 +67,10 @@ public class Server {
                         handleJoinRequest();
                         break;
                     }
-                    case LEAVE:
+                    case LEAVE: {
+                        handleLeaveRequest();
+                        break;
+                    }
                     case KICK: {
                         System.out.println("Unsupported request!");
                         break;
@@ -112,7 +116,9 @@ public class Server {
                 playerSpaces.put(nameRequest, privateChannel);
                 spaceRepository.add(nameRequest, privateChannel);
 
-                new Thread(() -> handlePlayer(nameRequest)).start();
+                Thread playerThread = new Thread(() -> handlePlayer(nameRequest));
+                playerThreads.put(nameRequest, playerThread);
+                playerThread.start();
 
                 // accept request
                 serverSpace.put(nameRequest, Response.ACCEPTED);
@@ -121,6 +127,22 @@ public class Server {
             }
         } catch (InterruptedException e) {
             System.out.println(e.getMessage());
+        }
+    }
+
+    private void handleLeaveRequest(){
+        try {
+            String name = (String)(serverSpace.get(new ActualField(Request.LEAVE), new FormalField(String.class))[1]);
+            broadcastClientUpdateExcludingSender(ServerUpdate.PLAYER_LEFT, name);
+
+            playerThreads.get(name).interrupt();
+            playerThreads.remove(name);
+
+            playerSpaces.remove(name);
+            playerInfos.remove(name);
+
+        }catch (Exception e){
+            System.out.println("error in handle leave");
         }
     }
 

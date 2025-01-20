@@ -155,6 +155,10 @@ public class GameMap {
 
     }
 
+    public void removePlayer(CharacterView characterView) {
+        view.getChildren().remove(characterView);
+    }
+
     public void onReset() {
         this.view.getChildren().removeAll(bodies);
         bodies.clear();
@@ -267,5 +271,4 @@ public class GameMap {
         this.interactableShapes.put(ellipse, interactable);
 
     }
-
 }

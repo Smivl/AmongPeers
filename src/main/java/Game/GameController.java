@@ -108,6 +108,16 @@ public class GameController {
         return null;
     }
 
+
+    public void leave(){
+        try{
+            serverSpace.put(Request.LEAVE);
+            serverSpace.put(Request.LEAVE, name);
+        }catch (Exception e){
+            System.out.println("Error in leave");
+        }
+    }
+
     public void waitForStart(Scene scene) throws InterruptedException {
         playerSpace.get(new ActualField(ServerUpdate.GAME_START));
 
@@ -269,7 +279,9 @@ public class GameController {
                         break;
                     }
                     case PLAYER_LEFT: {
-                        System.out.println("Player left!");
+                        Object[] playerLeft = playerSpace.get(new ActualField(ServerUpdate.PLAYER_LEFT), new FormalField(String.class));
+
+                        Platform.runLater(() -> handleLeftUpdate((String) playerLeft[1]));
                         break;
                     }
                     case PLAYER_INIT: {
@@ -343,7 +355,7 @@ public class GameController {
         }
     }
 
-    public void handleJoinedUpdate(String newPlayerName, PlayerInfo newPlayerInfo){
+    public void handleJoinedUpdate(String newPlayerName, PlayerInfo newPlayerInfo) {
         PlayerInfo mainPlayerInfo = player.getInfo();
 
         CharacterView newPlayer = new CharacterView(
@@ -356,6 +368,11 @@ public class GameController {
 
         // add player and set visibility
         map.addPlayer(newPlayer, !mainPlayerInfo.isAlive || newPlayer.getIsAlive());
+    }
+
+    public void handleLeftUpdate(String playerName){
+        map.removePlayer(otherPlayerViews.get(playerName));
+        otherPlayerViews.remove(playerName);
     }
 
     public void handleKeyReleased(KeyEvent event) {
