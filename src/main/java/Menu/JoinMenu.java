@@ -40,12 +40,16 @@ public class JoinMenu extends VBox {
     }
 
     public void addServer(Map.Entry<String, DatagramPacket> entry){
-        Button button = new Button(entry.getKey());
+
+        String serverName = entry.getKey().substring("SERVER_AVAILABLE:".length(), entry.getKey().indexOf("SERVER_IP:"));
+        String serverIP = entry.getKey().substring(entry.getKey().indexOf("SERVER_IP:")+"SERVER_IP:".length());
+
+        Button button = new Button(serverName);
         button.setOnAction(e -> {
             menuManager.transitionToLobbyMenu(
                     false,
                     nameField.getText(),
-                    String.valueOf(entry.getValue().getAddress()),
+                    serverIP,
                     entry.getValue().getPort()
             );
         });

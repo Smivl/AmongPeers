@@ -11,7 +11,7 @@ import java.util.Map;
 
 
 public class ServerScan {
-    private static final int DISCOVERY_PORT = 9876;
+    private static final int DISCOVERY_PORT = 9000;
     private static final String DISCOVERY_REQUEST = "DISCOVERY_REQUEST";
 
     public static Map<String, DatagramPacket> scanForServers() {
@@ -50,7 +50,10 @@ public class ServerScan {
 
                     if (response.startsWith("SERVER_AVAILABLE:")) {
                         // Parse server info, store or display it in the UI
-                        String serverInfo = response.substring("SERVER_AVAILABLE:".length());
+                        String serverName = response.substring("SERVER_AVAILABLE:".length(), response.indexOf("SERVER_IP:"));
+                        String serverIP = response.substring(response.indexOf("SERVER_IP:")+"SERVER_IP:".length());
+                        System.out.println(serverName);
+                        System.out.println(serverIP);
                         // e.g., add to a list of discovered servers
                     }
                 } catch (SocketTimeoutException e) {

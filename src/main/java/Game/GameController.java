@@ -36,6 +36,8 @@ public class GameController {
     private MeetingView meetingView;
     private long previousFrameTime = 0;
 
+    private Map<String, double[]> spawnPoints = new HashMap<>();
+
     // server controls
     private Space serverSpace;
     private Space playerSpace;
@@ -50,7 +52,11 @@ public class GameController {
         this.name = name;
         this.serverURI = serverURI;
         try {
-            System.out.println(serverURI.getHost());
+            System.out.println(serverURI.getScheme() + "://" +
+                    serverURI.getHost() + ":" +
+                    serverURI.getPort() + "/" +
+                    "server" + "?" +
+                    serverURI.getQuery());
             this.serverSpace = new RemoteSpace(
                     serverURI.getScheme() + "://" +
                             serverURI.getHost() + ":" +
@@ -103,6 +109,10 @@ public class GameController {
     public void waitForStart(Scene scene){
         try {
             playerSpace.get(new ActualField(ServerUpdate.GAME_START));
+
+            System.out.println("Game started");
+            player.setInputLocked(false);
+
             Platform.runLater(() -> start(scene));
         } catch (Exception e){
             e.printStackTrace(System.out);
@@ -189,7 +199,6 @@ public class GameController {
 
     }
 
-
     // CLIENT SIDE
     private void serverUpdates(){
         while (true){
@@ -209,17 +218,19 @@ public class GameController {
                                 new FormalField(PlayerInfo.class)
                         );
 
-                        meetingView.addPlayersInfo((String) newPlayerObject[1], (PlayerInfo) newPlayerObject[2]);
-                        Platform.runLater(() -> handleJoinedUpdate((String) newPlayerObject[1], (PlayerInfo) newPlayerObject[2]));
+                        String newPlayerName = (String) newPlayerObject[1];
+                        PlayerInfo newPlayerInfo = (PlayerInfo) newPlayerObject[2];
+
+                        spawnPoints.put(newPlayerName, newPlayerInfo.position);
+
+                        meetingView.addPlayersInfo(newPlayerName, newPlayerInfo);
+                        Platform.runLater(() -> handleJoinedUpdate(newPlayerName, newPlayerInfo));
                         break;
                     }
                     case KILLED: {
                         Object[] killedInfo = playerSpace.get(new ActualField(ServerUpdate.KILLED), new FormalField(String.class));
-                        Platform.runLater(() -> handleKilledUpdate((String) killedInfo[1]));
 
                         String playerKilled = (String) killedInfo[1];
-
-                        if(playerKilled.equals(name)) player.onKilled();
 
                         // meetingView.killPlayer(playerKilled); TO FIX WHEN PLAYER GETS KILLED
 
@@ -233,7 +244,10 @@ public class GameController {
                         System.out.println(callerName + " requested chat. Start chatting...");
                         Platform.runLater(() -> {
                             meetingView.show();
+                            resetPlayerPositions();
                         });
+
+                        player.setInputLocked(true);
                         break;
                     }
                     case MESSAGE: {
@@ -244,11 +258,16 @@ public class GameController {
                     case MEETING_DONE: {
                         Platform.runLater(() -> meetingView.hide());
                         Object[] t = playerSpace.get(new ActualField(ServerUpdate.MEETING_DONE), new FormalField(String.class));
+
                         if (Objects.equals((String) t[1], "NO_ELIMINATION")){
                             System.out.println("No one was eliminated");
                         } else {
                             System.out.println(t[1] + " was eliminated");
+                            Platform.runLater(() -> handleVotedOffUpdate((String) t[1]));
                         }
+
+                        // reset players position
+                        player.setInputLocked(false);
                         break;
                     }
                     case PLAYER_LEFT: {
@@ -263,7 +282,10 @@ public class GameController {
                         System.out.println("ERROR: vote not implemented yet");
                         break;
                     }
-                    case GAME_START:
+                    case GAME_START: {
+                        player.setInputLocked(false);
+                        break;
+                    }
                     case SABOTAGE:
                     case TASK_COMPLETE: break;
                 }
@@ -296,6 +318,15 @@ public class GameController {
     public void handlePositionUpdate(String playerName, double[] position, double[] velocity){
         CharacterView characterView = otherPlayerViews.get(playerName);
         characterView.render(position, velocity);
+    }
+
+    public void handleVotedOffUpdate(String playerName){
+        if(playerName.equals(name)) player.onKilled();
+
+        for(CharacterView characterView : otherPlayerViews.values()){
+            if(characterView.getName().equals(playerName)) characterView.onKilled();
+            characterView.setVisible(!player.getInfo().isAlive || characterView.getIsAlive());
+        }
     }
 
     public void handleKilledUpdate(String playerName){
@@ -335,5 +366,13 @@ public class GameController {
 
     public void handleKeyPressed(KeyEvent event) {
         player.handleKeyPressed(event);
+    }
+
+    private void resetPlayerPositions(){
+        System.out.println("reset Pos");
+        player.resetPosition();
+        for(String player : otherPlayerViews.keySet()){
+            otherPlayerViews.get(player).render(spawnPoints.get(player), new double[]{0,0});
+        }
     }
 }

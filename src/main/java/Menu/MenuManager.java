@@ -67,8 +67,8 @@ public class MenuManager {
 
     public void transitionToLobbyMenu(boolean isHosting, String name, String IP, int Port) {
         try {
-
             URI serverURI = new URI("tcp://" + IP.replace("/", "") + ":" + Port + "/?keep");
+            System.out.println(serverURI);
 
             if (isHosting) {
 

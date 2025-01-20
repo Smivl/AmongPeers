@@ -4,41 +4,14 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="0da40e2d-179e-4870-afcb-4409baa8c408" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/Server/ServerBroadcast.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/Server/ServerInfo.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/Server/ServerScan.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/mapButtonIcon.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/settingsButtonIcon.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_11_01_2025_14_45_[Changes]/map.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_11_01_2025_14_45_[Changes]/shelved.patch" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_18_01_2025_15_15_[Changes]/mapCollision.psd" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_18_01_2025_15_15_[Changes]/mapIcon.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_18_01_2025_15_15_[Changes]/settingsIcon.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_18_01_2025_15_15_[Changes]/shelved.patch" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_18_01_2025_15_15_[Changes]1/mapCollision.psd" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_18_01_2025_15_15_[Changes]1/mapIcon.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_18_01_2025_15_15_[Changes]1/settingsIcon.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_18_01_2025_15_15_[Changes]1/shelved.patch" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_18_01_2025_15_15__Changes_.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_18_01_2025_15_15__Changes_1.xml" beforeDir="false" />
+    <list default="true" id="0da40e2d-179e-4870-afcb-4409baa8c408" name="Changes" comment="Game hosting and joining through LAN.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/Game/GameController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Game/GameController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Game/Interactables/Interactable.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Game/Interactables/Interactable.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Game/Interactables/Meeting.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Game/Interactables/Meeting.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Game/Interactables/Task/UploadTask.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Game/Interactables/Task/UploadTask.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Game/Interactables/Task/WiringTask.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Game/Interactables/Task/WiringTask.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Game/Interactables/Vent.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Game/Interactables/Vent.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/Game/Player/Player.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Game/Player/Player.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Game/Player/PlayerView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Game/Player/PlayerView.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Menu/HostMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Menu/HostMenu.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/Menu/JoinMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Menu/JoinMenu.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/Menu/MenuManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Menu/MenuManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/testingServer.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/mapIcon.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/settingsIcon.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Server/ServerBroadcast.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Server/ServerBroadcast.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Server/ServerScan.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Server/ServerScan.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -162,8 +135,18 @@
       <option name="presentableId" value="Default" />
       <updated>1737213167568</updated>
       <workItem from="1737213169402" duration="6670000" />
-      <workItem from="1737308782323" duration="6883000" />
+      <workItem from="1737308782323" duration="11848000" />
+      <workItem from="1737360593474" duration="4902000" />
     </task>
+    <task id="LOCAL-00001" summary="Game hosting and joining through LAN.">
+      <option name="closed" value="true" />
+      <created>1737315774572</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1737315774572</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -171,5 +154,7 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
+    <MESSAGE value="Game hosting and joining through LAN." />
+    <option name="LAST_COMMIT_MESSAGE" value="Game hosting and joining through LAN." />
   </component>
 </project>

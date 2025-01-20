@@ -11,14 +11,14 @@ import java.util.Dictionary;
 public class ServerBroadcast {
 
     private static String IP;
-    private static int DISCOVERY_PORT = 9876;  // pick a port not commonly used
+    private static int DISCOVERY_PORT = 9000;  // pick a port not commonly used
     private static final String DISCOVERY_REQUEST = "DISCOVERY_REQUEST";
     private static boolean running = true;
 
     public static String getIPAddress(){
         try {
             try (DatagramSocket socket = new DatagramSocket()) {
-                socket.connect(InetAddress.getByName("230.0.0.1"), 9001);
+                socket.connect(InetAddress.getByName("230.0.0.1"), 9000);
                 IP = socket.getLocalAddress().getHostAddress();
                 return IP;
             }
@@ -40,6 +40,8 @@ public class ServerBroadcast {
             System.out.println("Server listening for discovery requests on port " + DISCOVERY_PORT);
             running = true;
 
+            String responseMsg = "SERVER_AVAILABLE:" + serverName + "SERVER_IP:" + getIPAddress();
+
             while (running) {
                 // Prepare packet buffer
                 byte[] buffer = new byte[1024];
@@ -54,22 +56,14 @@ public class ServerBroadcast {
                     InetAddress clientAddress = packet.getAddress();
                     int clientPort = packet.getPort();
 
-                    byte[] responseBuf = serverName.getBytes();
+
+                    byte[] responseBuf = responseMsg.getBytes();
                     DatagramPacket responsePacket = new DatagramPacket(responseBuf,
                             responseBuf.length,
                             clientAddress,
                             clientPort);
                     socket.send(responsePacket);
 
-                    try (DatagramSocket tempSocket = new DatagramSocket()) {
-                        // "Connect" to the client's address/port so Java picks a route
-                        tempSocket.connect(clientAddress, clientPort);
-
-                        // Now see which local IP address Java selected
-                        InetAddress localAddressUsed = tempSocket.getLocalAddress();
-                        System.out.println("Server's IP (to this client): " + localAddressUsed.getHostAddress());
-                    }catch (Exception e){
-                    }
                     System.out.println("Responded to client: " + clientAddress + ":" + clientPort);
                 }
             }

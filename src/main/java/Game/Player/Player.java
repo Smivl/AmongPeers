@@ -24,6 +24,7 @@ import java.util.Arrays;
 public class Player {
 
     private final int SPEED = 650;
+    private boolean inputLocked = true;
     private boolean wDown, aDown, sDown, dDown;
 
     private Interactable interactableInFocus = null;
@@ -39,6 +40,7 @@ public class Player {
     private final BooleanProperty canInteract = new SimpleBooleanProperty(false);
     private final BooleanProperty canVent = new SimpleBooleanProperty(false);
 
+    private double[] spawnPoint;
     private PlayerInfo playerInfo;
     private final String name;
 
@@ -47,7 +49,7 @@ public class Player {
     public PlayerInfo getInfo() { return playerInfo; }
     public PlayerView getPlayerView() { return playerView; }
     public CharacterView getCharacterView() { return characterView; }
-
+    public void setInputLocked(boolean lock) { this.inputLocked = lock; }
     public void setController(GameController controller) { this.controller = controller; }
 
     public Player(String name, Space playerSpace){
@@ -62,6 +64,7 @@ public class Player {
             Object[] playerInfo = playerSpace.get(new ActualField(ServerUpdate.PLAYER_INIT), new FormalField(PlayerInfo.class));
             PlayerInfo info = (PlayerInfo) playerInfo[1];
 
+            this.spawnPoint = info.position.clone();
             this.playerInfo = info;
             this.playerView = new PlayerView(
                     info,
@@ -97,61 +100,68 @@ public class Player {
     }
 
     public void onUpdate(double delta, GameMap map){
-        double newX = playerInfo.position[0] + playerInfo.velocity[0] * delta;
-        double newY = playerInfo.position[1] + playerInfo.velocity[1] * delta;
+        if(!inputLocked) {
+            double newX = playerInfo.position[0] + playerInfo.velocity[0] * delta;
+            double newY = playerInfo.position[1] + playerInfo.velocity[1] * delta;
 
-        this.characterView.render(new double[]{newX, newY}, playerInfo.velocity);
+            this.characterView.render(new double[]{newX, newY}, playerInfo.velocity);
 
-        // If no collision then move player position
-        if (!map.checkCollision(this.characterView)) {
+            // If no collision then move player position
+            if (!map.checkCollision(this.characterView)) {
 
-            if(playerInfo.position[0] != newX || playerInfo.position[1] != newY){
-                // push updated movement to server
-                try{
-                    playerSpace.put(ClientUpdate.POSITION);
-                    playerSpace.put(ClientUpdate.POSITION, new double[]{newX, newY}, playerInfo.velocity);
-                }catch (Exception e){
-                    System.out.println(e.getMessage());
+                if (playerInfo.position[0] != newX || playerInfo.position[1] != newY) {
+                    // push updated movement to server
+                    try {
+                        playerSpace.put(ClientUpdate.POSITION);
+                        playerSpace.put(ClientUpdate.POSITION, new double[]{newX, newY}, playerInfo.velocity);
+                    } catch (Exception e) {
+                        System.out.println(e.getMessage());
+                    }
                 }
+
+
+                playerInfo.position[0] = newX;
+                playerInfo.position[1] = newY;
+
+
+            } else {
+                this.characterView.render(playerInfo.position, playerInfo.velocity);
             }
 
-
-            playerInfo.position[0] = newX;
-            playerInfo.position[1] = newY;
-
-
-        }else{
-            this.characterView.render(playerInfo.position, playerInfo.velocity);
-        }
-
-        canKill.set(
-                !(
-                        playerInfo.isAlive &&
-                                playerInfo.isImposter &&
-                                controller.getPlayerToKill(this.characterView) != null
-                )
-        );
-        canReport.set(
-                !(
-                        map.checkCollisionWithBodies(this.characterView) &&
-                                playerInfo.isAlive
-                )
-        );
-        interactableInFocus = map.getInteractable(this.characterView);
-        canInteract.set(
-                !(
-                        interactableInFocus != null &&
-                                interactableInFocus.canInteract(playerInfo)
-                )
-        );
-        if(playerInfo.isImposter){
-            ventInFocus = map.getVent(this.characterView);
-            canVent.set(
+            canKill.set(
                     !(
-                            ventInFocus != null &&
-                                    ventInFocus.canInteract(playerInfo)
+                            playerInfo.isAlive &&
+                                    playerInfo.isImposter &&
+                                    controller.getPlayerToKill(this.characterView) != null
                     )
             );
+            canReport.set(
+                    !(
+                            map.checkCollisionWithBodies(this.characterView) &&
+                                    playerInfo.isAlive
+                    )
+            );
+            interactableInFocus = map.getInteractable(this.characterView);
+            canInteract.set(
+                    !(
+                            interactableInFocus != null &&
+                                    interactableInFocus.canInteract(playerInfo)
+                    )
+            );
+            if (playerInfo.isImposter) {
+                ventInFocus = map.getVent(this.characterView);
+                canVent.set(
+                        !(
+                                ventInFocus != null &&
+                                        ventInFocus.canInteract(playerInfo)
+                        )
+                );
+            }
+        }else{
+            canKill.set(true);
+            canReport.set(true);
+            canInteract.set(true);
+            canVent.set(true);
         }
     }
 
@@ -201,6 +211,13 @@ public class Player {
         updateVelocity();
     }
 
+    public void resetPosition(){
+
+        this.playerInfo.position = this.spawnPoint;
+        this.playerInfo.velocity = new double[]{0.0, 0.0};
+
+        this.characterView.render(playerInfo.position, playerInfo.velocity);
+    }
 
     private void onSettingsClicked(){
         System.out.println("Settings not implemented yet");
