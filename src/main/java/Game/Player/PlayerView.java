@@ -1,10 +1,13 @@
 package Game.Player;
 
 import Game.GameController;
+import Game.Interactables.Task.Task;
+import Game.Interactables.Task.TaskType;
 import javafx.beans.property.BooleanProperty;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -15,7 +18,7 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 
-import java.util.Arrays;
+import java.util.*;
 import java.util.function.Function;
 
 
@@ -29,9 +32,11 @@ public class PlayerView extends BorderPane {
     private Button ventButton;
     private Button settingsButton;
 
+    private Map<TaskType, Label> taskLabelList = new HashMap<>();
+
     private ProgressBar taskProgressBar;
 
-    public PlayerView(PlayerInfo info, BooleanProperty[] booleanProperties, Runnable[] callbackFunctions){
+    public PlayerView(PlayerInfo info, TaskType[] taskList, BooleanProperty[] booleanProperties, Runnable[] callbackFunctions){
 
         this.setPadding(new Insets(15));
 
@@ -89,6 +94,10 @@ public class PlayerView extends BorderPane {
         Region spacer = new Region();
         VBox.setVgrow(spacer, Priority.ALWAYS);
 
+        VBox leftPanel = new VBox();
+        leftPanel.setSpacing(5);
+        leftPanel.setStyle("-fx-padding: 10;" + "-fx-background-color: rgb(1,1,1,0.15);" + "-fx-font-size: 18;" + "-fx-font-weight: bold;");
+
         if(info.isImposter){
 
             // add imposter buttons
@@ -112,18 +121,45 @@ public class PlayerView extends BorderPane {
             rightBottomBox.getChildren().addAll(useButton, reportButton);
             rightBox.getChildren().addAll(spacer, rightBottomBox);
 
-
+            Label imposterLabel = new Label("Fake tasks:");
+            imposterLabel.setTextFill(Color.WHITE);
+            leftPanel.getChildren().add(imposterLabel);
         } else{
             bottomBox.getChildren().add(useButton);
             rightBox.getChildren().addAll(spacer, reportButton);
+
+            Label crewmateLabel = new Label("Tasks to complete:");
+            crewmateLabel.setTextFill(Color.WHITE);
+            leftPanel.getChildren().add(crewmateLabel);
         }
 
+
+        for (TaskType task : taskList) {
+            Label taskLabel = new Label(task.getDisplayName());
+            taskLabel.setTextFill(Color.WHITE);
+            leftPanel.getChildren().add(taskLabel);
+            taskLabelList.put(task, taskLabel);
+        }
+
+        leftPanel.setMaxHeight(Region.USE_PREF_SIZE);
+        leftPanel.setMaxWidth(Region.USE_PREF_SIZE);
+
+
+        this.setLeft(leftPanel);
         this.setBottom(bottomBox);
         this.setRight(rightBox);
     }
 
     public void setTaskProgressBar(double progress){
         taskProgressBar.setProgress(progress);
+    }
+
+    public void completeTask(TaskType taskType){
+
+    }
+
+    public void updateTaskProgress(TaskType taskType, int progress){
+
     }
 
     private Button createButtonWithIcon(String iconPath){

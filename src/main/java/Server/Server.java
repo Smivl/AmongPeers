@@ -1,6 +1,8 @@
 package Server;
 
 import Game.GameCharacter.CharacterType;
+import Game.Interactables.Task.Task;
+import Game.Interactables.Task.TaskType;
 import Game.Player.PlayerInfo;
 import org.jspace.*;
 
@@ -22,7 +24,12 @@ public class Server {
         add(new double[]{4529, 1249});
     }};
 
-    static boolean imposterSwitch = false;
+    private static final List<TaskType> TASK_LIST = new ArrayList<>(List.of(TaskType.values()));
+    private static final int TASKS_PER_PERSON = 3;
+
+    private int tasksCompleted = 0;
+    private int totalTasks = 0;
+
 
     private Map<String, Integer> playerVotes;
     private Map<String, Space> playerSpaces = new HashMap<>();
@@ -104,7 +111,21 @@ public class Server {
 
         for (Map.Entry<String, Space> playerSpaceEntry : playerSpaces.entrySet()){
             try {
-                initializePlayer(playerSpaceEntry.getKey(), CharacterType.RED, SPAWN_POINTS.get(playerNumber), playerNumber == imposterIndex);
+                // generate set of tasks
+                Collections.shuffle(TASK_LIST);
+                List<TaskType> playerTasks = TASK_LIST.subList(0, TASKS_PER_PERSON);
+
+                if(playerNumber != imposterIndex){
+                    totalTasks += TASKS_PER_PERSON;
+                }
+
+                initializePlayer(
+                        playerSpaceEntry.getKey(),
+                        CharacterType.RED, SPAWN_POINTS.get(playerNumber),
+                        playerNumber == imposterIndex,
+                        playerTasks.toArray(new TaskType[0])
+                );
+
                 playerSpaceEntry.getValue().put(ServerUpdate.GAME_START);
                 playerNumber++;
             } catch (InterruptedException e) {
@@ -163,14 +184,14 @@ public class Server {
         }
     }
 
-    private void initializePlayer(String nameRequest, CharacterType color,double[] spawnPoint, boolean isImposter){
+    private void initializePlayer(String nameRequest, CharacterType color,double[] spawnPoint, boolean isImposter, TaskType[] playerTasks){
         try{
 
             PlayerInfo newPlayerInfo = new PlayerInfo(color, spawnPoint, new double[]{0,0}, true, isImposter);
 
             broadcastClientUpdateExcludingSender(ServerUpdate.PLAYER_JOINED, nameRequest, newPlayerInfo);
 
-            playerSpaces.get(nameRequest).put(ServerUpdate.PLAYER_INIT, newPlayerInfo);
+            playerSpaces.get(nameRequest).put(ServerUpdate.PLAYER_INIT, newPlayerInfo, playerTasks);
             playerInfos.put(nameRequest, newPlayerInfo);
 
         }catch (Exception e){

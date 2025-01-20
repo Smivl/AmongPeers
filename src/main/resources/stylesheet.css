@@ -3,6 +3,10 @@
     src: url('/fonts/joffrey.ttf');
 }
 
+.root{
+    -fx-background-color: black;
+}
+
 .tablet-background {
     -fx-background-color: transparent;
 }

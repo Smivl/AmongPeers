@@ -4,6 +4,8 @@ import Game.GameCharacter.CharacterView;
 import Game.GameController;
 import Game.GameMap.GameMap;
 import Game.Interactables.Interactable;
+import Game.Interactables.Task.Task;
+import Game.Interactables.Task.TaskType;
 import Server.ClientUpdate;
 import Server.Request;
 import Server.Response;
@@ -19,7 +21,9 @@ import org.jspace.RemoteSpace;
 import org.jspace.Space;
 
 import java.net.URI;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 public class Player {
 
@@ -40,12 +44,14 @@ public class Player {
     private final BooleanProperty canInteract = new SimpleBooleanProperty(false);
     private final BooleanProperty canVent = new SimpleBooleanProperty(false);
 
+    private TaskType[] taskList;
     private double[] spawnPoint;
     private PlayerInfo playerInfo;
     private final String name;
 
     private Space playerSpace;
 
+    public TaskType[] getTasks() { return taskList; }
     public PlayerInfo getInfo() { return playerInfo; }
     public PlayerView getPlayerView() { return playerView; }
     public CharacterView getCharacterView() { return characterView; }
@@ -61,13 +67,16 @@ public class Player {
     // Aka start game (after joining)
     public void init(){
         try{
-            Object[] playerInfo = playerSpace.get(new ActualField(ServerUpdate.PLAYER_INIT), new FormalField(PlayerInfo.class));
+            Object[] playerInfo = playerSpace.get(new ActualField(ServerUpdate.PLAYER_INIT), new FormalField(PlayerInfo.class), new FormalField(Object.class));
             PlayerInfo info = (PlayerInfo) playerInfo[1];
+
+            taskList = (TaskType[]) playerInfo[2];
 
             this.spawnPoint = info.position.clone();
             this.playerInfo = info;
             this.playerView = new PlayerView(
                     info,
+                    taskList,
                     new BooleanProperty[]{ // order is: interact, report, kill, sabotage, vent
                             canInteract,
                             canReport,

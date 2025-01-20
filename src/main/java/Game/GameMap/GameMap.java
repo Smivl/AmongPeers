@@ -9,8 +9,9 @@ import java.util.Map;
 
 import Game.Interactables.Interactable;
 import Game.Interactables.Meeting;
-import Game.Interactables.Task.UploadTask;
+import Game.Interactables.Task.*;
 import Game.Interactables.Vent;
+import Game.Player.PlayerInfo;
 import javafx.geometry.Bounds;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
@@ -34,22 +35,14 @@ public class GameMap {
 
     public GameMapView getView() { return this.view; }
 
-    public GameMap(Scene scene) {
+    public GameMap(Scene scene, PlayerInfo info, TaskType[] playerTasks) {
         this.view = new GameMapView(scene);
 
-        // Map interactables and vents
-        {
-            createInteractableCircle(4847, 1263, 264, 206, new Meeting());
+        // GLOBAL INTERACTABLES
+        createInteractableCircle(4847, 1263, 264, 206, new Meeting());
 
-            // Upload
-            //    - Lights, Admin, Shields, Weaponry, Caf, Nav
-            createInteractableRectangle(3215,2691, 68, 56, 0, new UploadTask());
-            createInteractableRectangle(5420,2505, 68, 56, 0, new UploadTask());
-            createInteractableRectangle(5669,3891, 68, 56, 0, new UploadTask());
-            createInteractableRectangle(6529,670, 68, 56, 0, new UploadTask());
-            createInteractableRectangle(5595,498, 68, 56, 45, new UploadTask());
-            createInteractableRectangle(8032,1822, 68, 56, 0, new UploadTask());
-
+        // IMPOSTER INTERACTABLES
+        if (info.isImposter){
             // Vents
             createInteractableRectangle(5720, 1429, 99, 74, 0, new Vent());
             createInteractableRectangle(6542, 781, 99, 74, 0, new Vent());
@@ -65,10 +58,53 @@ public class GameMap {
             createInteractableRectangle(1211, 2630, 99, 74, 0, new Vent());
             createInteractableRectangle(2209, 3837, 99, 74, 0, new Vent());
             createInteractableRectangle(3193, 2824, 99, 74, 0, new Vent());
+
+            this.view.getChildren().addAll(ventShapes.keySet());
+        }
+        // CREWMATE INTERACTABLES
+        else {
+            for(TaskType task : playerTasks){
+                switch (task){
+                    case WIRING:{
+                        //    - Admin, Storage, Security, Cafeteria, Nav
+                        WiringTask wiringTask = new WiringTask();
+                        createInteractableRectangle(5218,2536,69,49,0, wiringTask);
+                        createInteractableRectangle(4621,2951,69,49,0, wiringTask);
+                        createInteractableRectangle(2167,2210,69,49,0, wiringTask);
+                        createInteractableRectangle(4018,438,69,49,-45, wiringTask);
+                        createInteractableRectangle(7583,2065,69,49,0, wiringTask);
+                        break;
+                    }case EMPTY_CHUTE:{
+                        ChuteTask chuteTask = new ChuteTask();
+                        createInteractableRectangle(5848, 1989, 82, 55, -45, chuteTask);
+                        createInteractableRectangle(5110, 4418, 59, 84,0, chuteTask);
+                        break;
+                    }case SUBMIT_SCAN:{
+                        ScanTask scanTask = new ScanTask();
+                        createInteractableCircle(3696, 2312, 42, 16, scanTask);
+                        break;
+                    }case UPLOAD_DATA:{
+                        //    - Lights, Admin, Shields, Weaponry, Cafeteria, Nav
+                        UploadTask uploadTask = new UploadTask();
+                        createInteractableRectangle(3215,2691, 68, 56, 0, uploadTask);
+                        createInteractableRectangle(5420,2505, 68, 56, 0, uploadTask);
+                        createInteractableRectangle(5669,3891, 68, 56, 0, uploadTask);
+                        createInteractableRectangle(6529,670, 68, 56, 0, uploadTask);
+                        createInteractableRectangle(5595,498, 68, 56, 45, uploadTask);
+                        createInteractableRectangle(8032,1822, 68, 56, 0, uploadTask);
+                        break;
+                    }case EMPTY_GARBAGE:{
+                        break;
+                    }case CLEAN_O2_FILTER:{
+                        O2Task o2Task = new O2Task();
+                        createInteractableRectangle(6012, 1890, 68, 107, 0, o2Task);
+                        break;
+                    }
+                }
+            }
         }
 
         this.view.getChildren().addAll(interactableShapes.keySet());
-        this.view.getChildren().addAll(ventShapes.keySet());
 
         // Map collision
         {
@@ -200,23 +236,6 @@ public class GameMap {
         return checkInteractableCollision(characterView, ventShapes);
     }
 
-    private Interactable checkInteractableCollision(CharacterView characterView, Map<Shape, Interactable> ventShapes) {
-        Bounds playerBounds = characterView.getBoundsInParent();
-        Rectangle playerShape = new Rectangle(playerBounds.getMinX(), playerBounds.getMinY(), playerBounds.getWidth(), playerBounds.getHeight());
-        this.view.getChildren().add(playerShape);
-
-        for (Map.Entry<Shape, Interactable> entry : ventShapes.entrySet()){
-            Shape intersection = Shape.intersect(playerShape, entry.getKey());
-            if(!intersection.getBoundsInLocal().isEmpty()){
-                this.view.getChildren().remove(playerShape);
-                return entry.getValue();
-            }
-        }
-
-        this.view.getChildren().remove(playerShape);
-        return null;
-    }
-
     public boolean checkCollision(CharacterView characterView) {
         Bounds playerBounds = characterView.getBoundsInParent();
         Rectangle playerShape = new Rectangle(playerBounds.getMinX(), playerBounds.getMinY(), playerBounds.getWidth(), playerBounds.getHeight());
@@ -232,6 +251,23 @@ public class GameMap {
 
         this.view.getChildren().remove(playerShape);
         return false;
+    }
+
+    private Interactable checkInteractableCollision(CharacterView characterView, Map<Shape, Interactable> interactables) {
+        Bounds playerBounds = characterView.getBoundsInParent();
+        Rectangle playerShape = new Rectangle(playerBounds.getMinX(), playerBounds.getMinY(), playerBounds.getWidth(), playerBounds.getHeight());
+        this.view.getChildren().add(playerShape);
+
+        for (Map.Entry<Shape, Interactable> entry : interactables.entrySet()){
+            Shape intersection = Shape.intersect(playerShape, entry.getKey());
+            if(!intersection.getBoundsInLocal().isEmpty()){
+                this.view.getChildren().remove(playerShape);
+                return entry.getValue();
+            }
+        }
+
+        this.view.getChildren().remove(playerShape);
+        return null;
     }
 
     private void createCollisionRectangle(int x, int y, int width, int height, int angle) {

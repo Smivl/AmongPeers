@@ -4,9 +4,18 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="0da40e2d-179e-4870-afcb-4409baa8c408" name="Changes" comment="small fix">
+    <list default="true" id="0da40e2d-179e-4870-afcb-4409baa8c408" name="Changes" comment="Player random spawn points and randomly chosen imposter">
+      <change afterPath="$PROJECT_DIR$/src/main/java/Game/Interactables/Task/ChuteTask.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/Game/Interactables/Task/O2Task.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/Game/Interactables/Task/ScanTask.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Game/GameController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Game/GameController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Game/GameMap/GameMap.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Game/GameMap/GameMap.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Game/Player/Player.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Game/Player/Player.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Game/Player/PlayerView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Game/Player/PlayerView.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/Server/Server.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Server/Server.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/mapCollision.psd" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/mapCollision.psd" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/stylesheet.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/stylesheet.css" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -131,7 +140,7 @@
       <updated>1737213167568</updated>
       <workItem from="1737213169402" duration="6670000" />
       <workItem from="1737308782323" duration="11848000" />
-      <workItem from="1737360593474" duration="16552000" />
+      <workItem from="1737360593474" duration="21594000" />
     </task>
     <task id="LOCAL-00001" summary="Game hosting and joining through LAN.">
       <option name="closed" value="true" />
@@ -173,7 +182,15 @@
       <option name="project" value="LOCAL" />
       <updated>1737374006573</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="Player random spawn points and randomly chosen imposter">
+      <option name="closed" value="true" />
+      <created>1737378339472</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1737378339472</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -186,6 +203,7 @@
     <MESSAGE value="updated server join" />
     <MESSAGE value="some fixes (added leaving kinda)" />
     <MESSAGE value="small fix" />
-    <option name="LAST_COMMIT_MESSAGE" value="small fix" />
+    <MESSAGE value="Player random spawn points and randomly chosen imposter" />
+    <option name="LAST_COMMIT_MESSAGE" value="Player random spawn points and randomly chosen imposter" />
   </component>
 </project>

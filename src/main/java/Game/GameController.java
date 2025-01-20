@@ -2,6 +2,7 @@ package Game;
 
 import Game.GameCharacter.CharacterView;
 import Game.GameMap.GameMap;
+import Game.Interactables.Task.TaskType;
 import Game.Player.Player;
 import Game.Player.PlayerInfo;
 import Game.Meeting.MeetingView;
@@ -129,8 +130,7 @@ public class GameController {
 
     private void start(Scene scene) {
         player.init();
-
-        map = new GameMap(scene);
+        map = new GameMap(scene, player.getInfo(), player.getTasks());
 
         meetingView = new MeetingView(scene);
 
