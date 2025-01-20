@@ -155,11 +155,12 @@ public class PlayerView extends BorderPane {
     }
 
     public void completeTask(TaskType taskType){
-
+        taskLabelList.get(taskType).setTextFill(Color.GREEN);
     }
 
-    public void updateTaskProgress(TaskType taskType, int progress){
-
+    public void updateTaskProgress(TaskType taskType, double progress){
+        taskLabelList.get(taskType).setTextFill(Color.YELLOW);
+        System.out.println("UPDATED TO : " +progress);
     }
 
     private Button createButtonWithIcon(String iconPath){

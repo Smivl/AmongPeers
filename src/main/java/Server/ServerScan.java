@@ -16,7 +16,7 @@ public class ServerScan {
 
     public static Map<String, DatagramPacket> scanForServers() {
         try (DatagramSocket socket = new DatagramSocket()) {
-            socket.setSoTimeout(3000);
+            socket.setSoTimeout(500);
 
             Map<String, DatagramPacket> serverIPs = new HashMap<>() {
             };
@@ -36,7 +36,7 @@ public class ServerScan {
 
             // Listen for responses
             long startTime = System.currentTimeMillis();
-            while (System.currentTimeMillis() - startTime < 3000) { // 3-second window
+            while (System.currentTimeMillis() - startTime < 500) { // 3-second window
                 try {
                     byte[] buffer = new byte[1024];
                     DatagramPacket receivePacket = new DatagramPacket(buffer, buffer.length);

@@ -296,8 +296,14 @@ public class GameController {
                         player.setInputLocked(false);
                         break;
                     }
-                    case SABOTAGE:
-                    case TASK_COMPLETE: break;
+                    case TASK_COMPLETE: {
+                        Object[] task_complete = playerSpace.get(new ActualField(ServerUpdate.TASK_COMPLETE), new FormalField(String.class), new FormalField(Double.class));
+                        Platform.runLater(() -> player.getPlayerView().setTaskProgressBar((double) task_complete[2]));
+                        break;
+                    }
+                    case SABOTAGE:{
+                        break;
+                    }
                 }
             }catch (Exception e){
                 e.printStackTrace(System.out);

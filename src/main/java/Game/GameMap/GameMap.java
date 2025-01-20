@@ -64,40 +64,37 @@ public class GameMap {
         // CREWMATE INTERACTABLES
         else {
             for(TaskType task : playerTasks){
+
+                Task createdTask = TaskFactory.createTask(task);
                 switch (task){
                     case WIRING:{
                         //    - Admin, Storage, Security, Cafeteria, Nav
-                        WiringTask wiringTask = new WiringTask();
-                        createInteractableRectangle(5218,2536,69,49,0, wiringTask);
-                        createInteractableRectangle(4621,2951,69,49,0, wiringTask);
-                        createInteractableRectangle(2167,2210,69,49,0, wiringTask);
-                        createInteractableRectangle(4018,438,69,49,-45, wiringTask);
-                        createInteractableRectangle(7583,2065,69,49,0, wiringTask);
+                        createInteractableRectangle(5218,2536,69,49,0, createdTask);
+                        createInteractableRectangle(4621,2951,69,49,0, createdTask);
+                        createInteractableRectangle(2167,2210,69,49,0, createdTask);
+                        createInteractableRectangle(4018,438,69,49,-45, createdTask);
+                        createInteractableRectangle(7583,2065,69,49,0, createdTask);
                         break;
                     }case EMPTY_CHUTE:{
-                        ChuteTask chuteTask = new ChuteTask();
-                        createInteractableRectangle(5848, 1989, 82, 55, -45, chuteTask);
-                        createInteractableRectangle(5110, 4418, 59, 84,0, chuteTask);
+                        createInteractableRectangle(5848, 1989, 82, 55, -45, createdTask);
+                        createInteractableRectangle(5110, 4418, 59, 84,0, createdTask);
                         break;
                     }case SUBMIT_SCAN:{
-                        ScanTask scanTask = new ScanTask();
-                        createInteractableCircle(3696, 2312, 42, 16, scanTask);
+                        createInteractableCircle(3696, 2312, 42, 16, createdTask);
                         break;
                     }case UPLOAD_DATA:{
                         //    - Lights, Admin, Shields, Weaponry, Cafeteria, Nav
-                        UploadTask uploadTask = new UploadTask();
-                        createInteractableRectangle(3215,2691, 68, 56, 0, uploadTask);
-                        createInteractableRectangle(5420,2505, 68, 56, 0, uploadTask);
-                        createInteractableRectangle(5669,3891, 68, 56, 0, uploadTask);
-                        createInteractableRectangle(6529,670, 68, 56, 0, uploadTask);
-                        createInteractableRectangle(5595,498, 68, 56, 45, uploadTask);
-                        createInteractableRectangle(8032,1822, 68, 56, 0, uploadTask);
+                        createInteractableRectangle(3215,2691, 68, 56, 0, createdTask);
+                        createInteractableRectangle(5420,2505, 68, 56, 0, createdTask);
+                        createInteractableRectangle(5669,3891, 68, 56, 0, createdTask);
+                        createInteractableRectangle(6529,670, 68, 56, 0, createdTask);
+                        createInteractableRectangle(5595,498, 68, 56, 45, createdTask);
+                        createInteractableRectangle(8032,1822, 68, 56, 0, createdTask);
                         break;
                     }case EMPTY_GARBAGE:{
                         break;
                     }case CLEAN_O2_FILTER:{
-                        O2Task o2Task = new O2Task();
-                        createInteractableRectangle(6012, 1890, 68, 107, 0, o2Task);
+                        createInteractableRectangle(6012, 1890, 68, 107, 0, createdTask);
                         break;
                     }
                 }

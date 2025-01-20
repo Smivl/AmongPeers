@@ -154,7 +154,7 @@ public class Player {
             canInteract.set(
                     !(
                             interactableInFocus != null &&
-                                    interactableInFocus.canInteract(playerInfo)
+                            interactableInFocus.canInteract(playerInfo)
                     )
             );
             if (playerInfo.isImposter) {
@@ -233,11 +233,11 @@ public class Player {
     }
 
     private void onInteractClicked(){
-        System.out.println("Use not implemented yet");
+
         if(interactableInFocus != null){
             interactableInFocus.setPlayerSpace(playerSpace);
             interactableInFocus.setPlayerName(name);
-            interactableInFocus.interact();
+            interactableInFocus.interact(this);
         }
     }
 
@@ -278,7 +278,7 @@ public class Player {
         System.out.println("Vent not implemented yet");
 
         if(ventInFocus != null){
-            ventInFocus.interact();
+            ventInFocus.interact(this);
         }
     }
 
@@ -310,5 +310,15 @@ public class Player {
 
         playerInfo.velocity[0] = dx;
         playerInfo.velocity[1] = dy;
+    }
+
+    public void completeTask(TaskType taskType) {
+        playerView.completeTask(taskType);
+        try{
+            playerSpace.put(ClientUpdate.TASK_COMPLETE);
+            playerSpace.put(ClientUpdate.TASK_COMPLETE, name);
+        }catch (Exception e){
+
+        }
     }
 }

@@ -1,43 +1,18 @@
 package Game.Interactables.Task;
 
+import Game.Player.Player;
 import Game.Player.PlayerInfo;
+import Game.Player.PlayerView;
 import org.jspace.Space;
 
-public class WiringTask implements Task{
+public class WiringTask extends Task{
 
-    private final TaskType taskType;
-    private boolean completed;
-    private double progress;
+    private double completedSubTasks;
+    private final double totalSubTasks = 1;
 
     public WiringTask() {
-        this.taskType = TaskType.WIRING;
-        this.completed = false;
-        this.progress = 0.0;
-    }
-
-    @Override
-    public String getName() {
-        return taskType.getDisplayName();
-    }
-
-    @Override
-    public boolean isCompleted() {
-        return completed;
-    }
-
-    @Override
-    public void startTask() {
-
-    }
-
-    @Override
-    public void updateTask(double progress) {
-
-    }
-
-    @Override
-    public void completeTask() {
-        this.completed = true;
+        super(TaskType.WIRING);
+        this.completedSubTasks = 0.0;
     }
 
     @Override
@@ -51,7 +26,23 @@ public class WiringTask implements Task{
     }
 
     @Override
-    public void interact() {
+    public void interact(Player player) {
+        TaskView taskView = new TaskView("Fixing wiring", 5, () -> { stopInteraction(player); });
+        player.getPlayerView().setCenter(taskView);
+        player.setInputLocked(true);
+    }
+
+    @Override
+    public void stopInteraction(Player player) {
+        player.setInputLocked(false);
+        player.getPlayerView().setCenter(null);
+        if(++completedSubTasks == totalSubTasks) {
+            setCompleted(true);
+            player.completeTask(getTaskType());
+        }else{
+
+            player.getPlayerView().updateTaskProgress(getTaskType(), completedSubTasks/totalSubTasks);
+        }
     }
 
     @Override

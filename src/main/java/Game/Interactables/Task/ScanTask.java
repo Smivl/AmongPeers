@@ -1,43 +1,17 @@
 package Game.Interactables.Task;
 
+import Game.Player.Player;
 import Game.Player.PlayerInfo;
+import Game.Player.PlayerView;
 import org.jspace.Space;
 
-public class ScanTask implements Task{
+public class ScanTask extends Task {
 
-    private final TaskType taskType;
-    private boolean completed;
     private double progress;
 
     public ScanTask() {
-        this.taskType = TaskType.WIRING;
-        this.completed = false;
+        super(TaskType.SUBMIT_SCAN);
         this.progress = 0.0;
-    }
-
-    @Override
-    public String getName() {
-        return taskType.getDisplayName();
-    }
-
-    @Override
-    public boolean isCompleted() {
-        return completed;
-    }
-
-    @Override
-    public void startTask() {
-
-    }
-
-    @Override
-    public void updateTask(double progress) {
-
-    }
-
-    @Override
-    public void completeTask() {
-        this.completed = true;
     }
 
     @Override
@@ -51,7 +25,12 @@ public class ScanTask implements Task{
     }
 
     @Override
-    public void interact() {
+    public void interact(Player view) {
+    }
+
+    @Override
+    public void stopInteraction(Player view) {
+
     }
 
     @Override

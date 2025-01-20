@@ -1,6 +1,8 @@
 package Game.Interactables;
 
+import Game.Player.Player;
 import Game.Player.PlayerInfo;
+import Game.Player.PlayerView;
 import org.jspace.Space;
 
 import java.util.ArrayList;
@@ -12,16 +14,19 @@ public class Vent implements Interactable{
 
     @Override
     public void setPlayerName(String name) {
-
     }
 
     @Override
     public void setPlayerSpace(Space playerSpace) {
-
     }
 
     @Override
-    public void interact() {
+    public void interact(Player view) {
+    }
+
+    @Override
+    public void stopInteraction(Player view) {
+
     }
 
     @Override

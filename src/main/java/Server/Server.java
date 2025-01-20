@@ -322,6 +322,17 @@ public class Server {
                         }
                         break;
                     }
+                    case TASK_COMPLETE:{
+                        tasksCompleted++;
+                        if(tasksCompleted == totalTasks){
+                            // end game
+                        }else{
+                            Object[] infoTuple = playerSpaces.get(playerName).get(new ActualField(ClientUpdate.TASK_COMPLETE), new FormalField(String.class));
+                            String name = (String) infoTuple[1];
+                            System.out.println(tasksCompleted/totalTasks);
+                            broadCastClientUpdateIncludingSender(ServerUpdate.TASK_COMPLETE, name, (double) tasksCompleted/totalTasks);
+                        }
+                    }
                 }
             }catch (Exception e){
                 System.out.println(e.getMessage());
@@ -409,6 +420,7 @@ public class Server {
                     }
                     break;
                 }
+                case TASK_COMPLETE:
                 case VOTE:
                 case MESSAGE:
                 case PLAYER_JOINED: { // one field cases

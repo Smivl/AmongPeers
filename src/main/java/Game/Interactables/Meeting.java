@@ -1,6 +1,8 @@
 package Game.Interactables;
 
+import Game.Player.Player;
 import Game.Player.PlayerInfo;
+import Game.Player.PlayerView;
 import Server.ClientUpdate;
 import org.jspace.Space;
 
@@ -19,7 +21,7 @@ public class Meeting implements Interactable {
     }
 
     @Override
-    public void interact() {
+    public void interact(Player view) {
         System.out.println("Meeting Called!");
 
         try {
@@ -28,6 +30,11 @@ public class Meeting implements Interactable {
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    @Override
+    public void stopInteraction(Player view) {
+
     }
 
     @Override
