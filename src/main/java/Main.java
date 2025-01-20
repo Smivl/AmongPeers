@@ -43,37 +43,6 @@ public class Main extends Application {
         stage.show();
     }
 
-    public static Void initGame(GameController gameController){
-
-        // gameController.start(scene);
-
-//        scene.addEventFilter(KeyEvent.KEY_PRESSED, gameController::handleKeyPressed);
-//        scene.addEventFilter(KeyEvent.KEY_RELEASED, gameController::handleKeyReleased);
-//
-//        stage.setScene(scene);
-//        stage.show();
-//
-//        AnimationTimer gameLoop = new AnimationTimer() {
-//
-//            public void handle(long currentFrameTime) {
-//                if (previousFrameTime == 0) {
-//                    previousFrameTime = currentFrameTime;
-//                } else {
-//                    long delta_nano = currentFrameTime - previousFrameTime;
-//                    previousFrameTime = currentFrameTime;
-//
-//                    double delta = (double)delta_nano / 1.0E9;
-//
-//                    gameController.onUpdate(delta);
-//                }
-//            }
-//        };
-//        gameLoop.start();
-//        return null;
-        return null;
-    }
-
-
 
     @Override
     public void stop(){

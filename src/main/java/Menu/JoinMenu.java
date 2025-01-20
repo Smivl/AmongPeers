@@ -1,9 +1,11 @@
 package Menu;
 
 import Server.ServerScan;
+import javafx.application.Platform;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
 import java.net.DatagramPacket;
@@ -36,10 +38,34 @@ public class JoinMenu extends VBox {
         Button backButton = new Button("Back");
         backButton.setOnAction(e -> menuManager.transitionToMainMenu());
 
-        getChildren().addAll(title, backButton, nameField, errorMessage);
+        Button refreshButton = new Button("Refresh servers");
+        refreshButton.setOnAction(e -> new Thread(this::refreshServers).start());
+
+        HBox hBox = new HBox(10);
+        hBox.getChildren().addAll(backButton, refreshButton);
+        getChildren().addAll(title, hBox, nameField, errorMessage);
     }
 
-    public void addServer(Map.Entry<String, DatagramPacket> entry){
+    public void refreshServers(){
+        //clearServers();
+
+        Map<String, DatagramPacket> servers = ServerScan.scanForServers();
+        clearServers();
+        if(servers != null) {
+            for(Map.Entry<String, DatagramPacket> server : servers.entrySet()) addServer(server);
+        }
+    }
+
+    public void hideErrorMessage(){
+        errorMessage.setVisible(false);
+    }
+
+    public void displayErrorMessage(String message){
+        errorMessage.setText(message);
+        errorMessage.setVisible(true);
+    }
+
+    private void addServer(Map.Entry<String, DatagramPacket> entry){
 
         String serverName = entry.getKey().substring("SERVER_AVAILABLE:".length(), entry.getKey().indexOf("SERVER_IP:"));
         String serverIP = entry.getKey().substring(entry.getKey().indexOf("SERVER_IP:")+"SERVER_IP:".length());
@@ -54,20 +80,14 @@ public class JoinMenu extends VBox {
             );
         });
         servers.add(button);
-        getChildren().add(button);
+        Platform.runLater(() -> getChildren().add(button));
     }
 
-    public void clearServers(){
-        getChildren().removeAll(servers);
+    private void clearServers(){
+        List<Button> currentServers = List.copyOf(servers);
+        Platform.runLater(() ->{
+            getChildren().removeAll(currentServers);
+        });
         servers.clear();
-    }
-
-    public void hideErrorMessage(){
-        errorMessage.setVisible(false);
-    }
-
-    public void displayErrorMessage(String message){
-        errorMessage.setText(message);
-        errorMessage.setVisible(true);
     }
 }

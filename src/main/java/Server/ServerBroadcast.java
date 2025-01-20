@@ -13,7 +13,9 @@ public class ServerBroadcast {
     private static String IP;
     private static int DISCOVERY_PORT = 9000;  // pick a port not commonly used
     private static final String DISCOVERY_REQUEST = "DISCOVERY_REQUEST";
-    private static boolean running = true;
+
+    private static DatagramSocket socket;
+    private static volatile boolean running;
 
     public static String getIPAddress(){
         try {
@@ -36,7 +38,8 @@ public class ServerBroadcast {
 
     public static void startServer(String serverName) {
 
-        try (DatagramSocket socket = new DatagramSocket(DISCOVERY_PORT)) {
+        try {
+            socket = new DatagramSocket(DISCOVERY_PORT);
             System.out.println("Server listening for discovery requests on port " + DISCOVERY_PORT);
             running = true;
 
@@ -67,17 +70,16 @@ public class ServerBroadcast {
                     System.out.println("Responded to client: " + clientAddress + ":" + clientPort);
                 }
             }
+
         } catch (IOException e) {
-            System.out.println("ERROR HERE");
-            System.out.println(Arrays.toString(e.getStackTrace()));
+            System.out.println("SERVER BROADCASTING STOPPED");
         }
     }
     public static void stopServer() {
         running = false;
-    }
-
-    public static void main(String[] args){
-        ServerBroadcast.startServer("nick's lobby");
+        if (socket != null && !socket.isClosed()) {
+            socket.close();  // This will interrupt the blocking receive
+        }
     }
 
 }

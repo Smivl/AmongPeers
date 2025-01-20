@@ -120,6 +120,11 @@ public class GameMap {
 
     }
 
+    public void onReset() {
+        this.view.getChildren().removeAll(bodies);
+        bodies.clear();
+    }
+
     public void onPlayerKilled(double[] position) {
         Image i = new Image("dead1.png");
         ImageView newBody = new ImageView(i);

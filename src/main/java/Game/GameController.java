@@ -115,7 +115,7 @@ public class GameController {
 
             Platform.runLater(() -> start(scene));
         } catch (Exception e){
-            e.printStackTrace(System.out);
+            System.out.println("Stopped waiting for start!");
         }
     }
 
@@ -374,5 +374,8 @@ public class GameController {
         for(String player : otherPlayerViews.keySet()){
             otherPlayerViews.get(player).render(spawnPoints.get(player), new double[]{0,0});
         }
+
+        // Clear bodies
+        map.onReset();
     }
 }

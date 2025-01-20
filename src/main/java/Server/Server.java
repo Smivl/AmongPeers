@@ -41,7 +41,9 @@ public class Server {
     }
 
     public void shutdown(){
-        serverThread.interrupt();
+        spaceRepository.closeGate(serverURI);
+
+        if(serverThread.isAlive() && !serverThread.isInterrupted()) serverThread.interrupt();
         try{
             serverThread.join();
         }catch (Exception e){
