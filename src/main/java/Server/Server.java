@@ -5,14 +5,23 @@ import Game.Player.PlayerInfo;
 import org.jspace.*;
 
 import java.net.URI;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 import java.util.function.Function;
 
 
 public class Server {
     private static final int MAX_PLAYERS = 8;
+    private static final List<double[]> SPAWN_POINTS = new ArrayList<>() {{
+        add(new double[]{4621, 1061});
+        add(new double[]{4855, 1001});
+        add(new double[]{5070, 1071});
+        add(new double[]{5166, 1231});
+        add(new double[]{5089, 1418});
+        add(new double[]{4858, 1503});
+        add(new double[]{4613, 1440});
+        add(new double[]{4529, 1249});
+    }};
+
     static boolean imposterSwitch = false;
 
     private Map<String, Integer> playerVotes;
@@ -85,10 +94,19 @@ public class Server {
 
     // inform players of game start
     public void startGame() {
-        for (Space playerSpace : playerSpaces.values()){
-            System.out.println(1);
+
+        // DETERMINE IMPOSTER AND PLAYER SPAWN POINTS
+        Collections.shuffle(SPAWN_POINTS);
+        Random random = new Random();
+
+        int imposterIndex = random.nextInt(playerSpaces.size());
+        int playerNumber = 0;
+
+        for (Map.Entry<String, Space> playerSpaceEntry : playerSpaces.entrySet()){
             try {
-                playerSpace.put(ServerUpdate.GAME_START);
+                initializePlayer(playerSpaceEntry.getKey(), CharacterType.RED, SPAWN_POINTS.get(playerNumber), playerNumber == imposterIndex);
+                playerSpaceEntry.getValue().put(ServerUpdate.GAME_START);
+                playerNumber++;
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }
@@ -123,7 +141,6 @@ public class Server {
                 // accept request
                 serverSpace.put(nameRequest, Response.ACCEPTED);
 
-                initializePlayer(nameRequest);
             }
         } catch (InterruptedException e) {
             System.out.println(e.getMessage());
@@ -146,21 +163,14 @@ public class Server {
         }
     }
 
-    private void initializePlayer(String nameRequest){
+    private void initializePlayer(String nameRequest, CharacterType color,double[] spawnPoint, boolean isImposter){
         try{
 
-            PlayerInfo newPlayerInfo = new PlayerInfo(CharacterType.RED, new double[]{4900, 1500}, new double[]{0,0}, true, imposterSwitch);
-            imposterSwitch = !imposterSwitch;
+            PlayerInfo newPlayerInfo = new PlayerInfo(color, spawnPoint, new double[]{0,0}, true, isImposter);
 
             broadcastClientUpdateExcludingSender(ServerUpdate.PLAYER_JOINED, nameRequest, newPlayerInfo);
 
             playerSpaces.get(nameRequest).put(ServerUpdate.PLAYER_INIT, newPlayerInfo);
-
-            for (String playerName : playerInfos.keySet()){
-                playerSpaces.get(nameRequest).put(ServerUpdate.PLAYER_JOINED);
-                playerSpaces.get(nameRequest).put(ServerUpdate.PLAYER_JOINED, playerName, playerInfos.get(playerName));
-            }
-
             playerInfos.put(nameRequest, newPlayerInfo);
 
         }catch (Exception e){

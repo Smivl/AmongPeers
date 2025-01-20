@@ -4,8 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="0da40e2d-179e-4870-afcb-4409baa8c408" name="Changes" comment="some fixes (added leaving kinda)">
-      <change beforePath="$PROJECT_DIR$/src/main/java/Menu/MenuManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Menu/MenuManager.java" afterDir="false" />
+    <list default="true" id="0da40e2d-179e-4870-afcb-4409baa8c408" name="Changes" comment="small fix">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Server/Server.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Server/Server.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -130,7 +131,7 @@
       <updated>1737213167568</updated>
       <workItem from="1737213169402" duration="6670000" />
       <workItem from="1737308782323" duration="11848000" />
-      <workItem from="1737360593474" duration="12768000" />
+      <workItem from="1737360593474" duration="16552000" />
     </task>
     <task id="LOCAL-00001" summary="Game hosting and joining through LAN.">
       <option name="closed" value="true" />
@@ -164,7 +165,15 @@
       <option name="project" value="LOCAL" />
       <updated>1737373796376</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="small fix">
+      <option name="closed" value="true" />
+      <created>1737374006573</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1737374006573</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -176,6 +185,7 @@
     <MESSAGE value="Input lock, resets, and server bug fix" />
     <MESSAGE value="updated server join" />
     <MESSAGE value="some fixes (added leaving kinda)" />
-    <option name="LAST_COMMIT_MESSAGE" value="some fixes (added leaving kinda)" />
+    <MESSAGE value="small fix" />
+    <option name="LAST_COMMIT_MESSAGE" value="small fix" />
   </component>
 </project>
