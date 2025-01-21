@@ -4,27 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="0da40e2d-179e-4870-afcb-4409baa8c408" name="Changes" comment="Tasks almost there">
-      <change afterPath="$PROJECT_DIR$/src/main/java/Game/Interactables/Task/TaskView.java" afterDir="false" />
+    <list default="true" id="0da40e2d-179e-4870-afcb-4409baa8c408" name="Changes" comment="Tasks kinda working (only wiring implemented)">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Game/GameController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Game/GameController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Game/GameMap/GameMap.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Game/GameMap/GameMap.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Game/Interactables/Interactable.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Game/Interactables/Interactable.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Game/Interactables/Meeting.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Game/Interactables/Meeting.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Game/Interactables/Task/ChuteTask.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Game/Interactables/Task/ChuteTask.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Game/Interactables/Task/O2Task.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Game/Interactables/Task/O2Task.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Game/Interactables/Task/ScanTask.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Game/Interactables/Task/ScanTask.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Game/Interactables/Task/Task.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Game/Interactables/Task/Task.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Game/Interactables/Task/TaskFactory.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Game/Interactables/Task/TaskFactory.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Game/Interactables/Task/TaskManager.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Game/Interactables/Task/UploadTask.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Game/Interactables/Task/UploadTask.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Game/Interactables/Task/WiringTask.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Game/Interactables/Task/WiringTask.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Game/Interactables/Vent.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Game/Interactables/Vent.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Game/Player/Player.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Game/Player/Player.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Game/Player/PlayerView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Game/Player/PlayerView.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Server/Server.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Server/Server.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Server/ServerScan.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Server/ServerScan.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/mapCollision.psd" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/mapCollision.psd" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Game/Interactables/Task/TaskView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Game/Interactables/Task/TaskView.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -149,7 +131,9 @@
       <updated>1737213167568</updated>
       <workItem from="1737213169402" duration="6670000" />
       <workItem from="1737308782323" duration="11848000" />
-      <workItem from="1737360593474" duration="26200000" />
+      <workItem from="1737360593474" duration="26428000" />
+      <workItem from="1737390272794" duration="3497000" />
+      <workItem from="1737414656982" duration="181000" />
     </task>
     <task id="LOCAL-00001" summary="Game hosting and joining through LAN.">
       <option name="closed" value="true" />
@@ -207,7 +191,15 @@
       <option name="project" value="LOCAL" />
       <updated>1737383983919</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="Tasks kinda working (only wiring implemented)">
+      <option name="closed" value="true" />
+      <created>1737388668514</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1737388668514</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -222,6 +214,7 @@
     <MESSAGE value="small fix" />
     <MESSAGE value="Player random spawn points and randomly chosen imposter" />
     <MESSAGE value="Tasks almost there" />
-    <option name="LAST_COMMIT_MESSAGE" value="Tasks almost there" />
+    <MESSAGE value="Tasks kinda working (only wiring implemented)" />
+    <option name="LAST_COMMIT_MESSAGE" value="Tasks kinda working (only wiring implemented)" />
   </component>
 </project>
