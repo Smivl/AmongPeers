@@ -33,6 +33,10 @@ import java.util.concurrent.TimeUnit;
 
 public class GameController {
 
+    // Frame limiter
+    private static final int TARGET_FPS = 45; // Desired frames per second
+    private static final long FRAME_INTERVAL = 1_000_000_000 / TARGET_FPS; // Frame interval in nanoseconds
+
     // game controls
     private final Map<String, CharacterView> otherPlayerViews = new HashMap<>();
     private final String name;
@@ -186,12 +190,12 @@ public class GameController {
                 if (previousFrameTime == 0) {
                     previousFrameTime = currentFrameTime;
                 } else {
-                    long delta_nano = currentFrameTime - previousFrameTime;
-                    previousFrameTime = currentFrameTime;
-
-                    double delta = (double)delta_nano / 1.0E9;
-
-                    onUpdate(delta);
+                    if (currentFrameTime - previousFrameTime >= FRAME_INTERVAL) {
+                        long delta_nano = currentFrameTime - previousFrameTime;
+                        previousFrameTime = currentFrameTime; // Update the last update time
+                        double delta = (double)delta_nano / 1.0E9;
+                        onUpdate(delta);
+                    }
                 }
             }
         };

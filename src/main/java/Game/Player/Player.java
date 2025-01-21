@@ -109,6 +109,7 @@ public class Player {
     }
 
     public void onUpdate(double delta, GameMap map){
+
         if(!inputLocked) {
             double newX = playerInfo.position[0] + playerInfo.velocity[0] * delta;
             double newY = playerInfo.position[1] + playerInfo.velocity[1] * delta;

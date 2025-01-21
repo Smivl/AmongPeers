@@ -4,14 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="0da40e2d-179e-4870-afcb-4409baa8c408" name="Changes" comment="Tasks kinda working (only wiring implemented)">
+    <list default="true" id="0da40e2d-179e-4870-afcb-4409baa8c408" name="Changes" comment="added manual joining to IP address">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Game/GameMap/GameMap.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Game/GameMap/GameMap.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Game/Player/PlayerView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Game/Player/PlayerView.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Menu/JoinMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Menu/JoinMenu.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Menu/LobbyMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Menu/LobbyMenu.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Menu/MenuManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Menu/MenuManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Server/ServerScan.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Server/ServerScan.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Game/GameController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Game/GameController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Game/Player/Player.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Game/Player/Player.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -204,7 +200,15 @@
       <option name="project" value="LOCAL" />
       <updated>1737388668514</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="added manual joining to IP address">
+      <option name="closed" value="true" />
+      <created>1737461029211</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1737461029211</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -220,6 +224,7 @@
     <MESSAGE value="Player random spawn points and randomly chosen imposter" />
     <MESSAGE value="Tasks almost there" />
     <MESSAGE value="Tasks kinda working (only wiring implemented)" />
-    <option name="LAST_COMMIT_MESSAGE" value="Tasks kinda working (only wiring implemented)" />
+    <MESSAGE value="added manual joining to IP address" />
+    <option name="LAST_COMMIT_MESSAGE" value="added manual joining to IP address" />
   </component>
 </project>
