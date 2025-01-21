@@ -36,6 +36,37 @@ public class JoinMenu extends VBox {
         errorMessage = new Label();
         errorMessage.setVisible(false);
 
+        TextField ipField = new TextField();
+        ipField.setPromptText("Enter IP");
+
+        TextField portField = new TextField();
+        portField.setPromptText("Enter port");
+
+        Button joinManual = new Button("Join");
+        joinManual.setOnAction(e -> {
+            menuManager.transitionToLobbyMenu(
+                    false,
+                    nameField.getText(),
+                    ipField.getText(),
+                    Integer.parseInt(portField.getText())
+            );
+        });
+
+        portField.textProperty().addListener((e, old, newV) ->{
+            if (newV.matches("[0-9]+")){
+                joinManual.setDisable(false);
+                joinManual.setText("Join");
+            }else{
+                joinManual.setDisable(true);
+                joinManual.setText("Port should be a number!");
+            }
+        });
+
+        HBox manualHbox = new HBox();
+        manualHbox.setSpacing(10);
+        manualHbox.getChildren().addAll(ipField, portField, joinManual);
+
+
 
         Button backButton = new Button("Back");
         backButton.setOnAction(e -> menuManager.transitionToMainMenu());
@@ -45,7 +76,7 @@ public class JoinMenu extends VBox {
 
         HBox hBox = new HBox(10);
         hBox.getChildren().addAll(backButton, refreshButton);
-        getChildren().addAll(title, hBox, nameField, errorMessage);
+        getChildren().addAll(title, hBox, nameField, manualHbox, errorMessage);
     }
 
     public void refreshServers(){

@@ -6,7 +6,12 @@
   <component name="ChangeListManager">
     <list default="true" id="0da40e2d-179e-4870-afcb-4409baa8c408" name="Changes" comment="Tasks kinda working (only wiring implemented)">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Game/Interactables/Task/TaskView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Game/Interactables/Task/TaskView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Game/GameMap/GameMap.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Game/GameMap/GameMap.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Game/Player/PlayerView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Game/Player/PlayerView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Menu/JoinMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Menu/JoinMenu.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Menu/LobbyMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Menu/LobbyMenu.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Menu/MenuManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Menu/MenuManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Server/ServerScan.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Server/ServerScan.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -31,7 +36,7 @@
   &quot;associatedIndex&quot;: 2
 }</component>
   <component name="ProjectId" id="2ro6dIlMDizVZrF96WVBsIb3QWS" />
-  <component name="ProjectLevelVcsManager">
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
     <ConfirmationsSetting value="2" id="Add" />
   </component>
   <component name="ProjectViewState">

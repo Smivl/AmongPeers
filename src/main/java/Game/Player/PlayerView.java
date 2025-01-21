@@ -57,8 +57,10 @@ public class PlayerView extends BorderPane {
         Text tasksLabel = new Text("TOTAL TASKS COMPLETED");
         tasksLabel.setFont(Font.font("System", javafx.scene.text.FontWeight.BOLD, 14));
         tasksLabel.setFill(Color.WHITE);
-        tasksLabel.setStroke(Color.BLACK);
-        tasksLabel.setStrokeWidth(.5);
+
+        // set text border
+        //tasksLabel.setStroke(Color.BLACK);
+        //tasksLabel.setStrokeWidth(.5);
 
         Region hspacer = new Region();
         HBox.setHgrow(hspacer, Priority.ALWAYS);

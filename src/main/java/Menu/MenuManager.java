@@ -92,6 +92,7 @@ public class MenuManager {
             Response serverResponse = gameController.join();
             if (serverResponse.isSuccesful()){ // always successful for host
                 lobbyMenu.setHosting(isHosting);
+                lobbyMenu.setURI(serverURI.getHost(), serverURI.getPort());
                 scene.setRoot(lobbyMenu);
                 gameWaitingThread = new Thread(() ->
                 {

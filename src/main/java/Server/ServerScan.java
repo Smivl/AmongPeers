@@ -16,13 +16,16 @@ public class ServerScan {
 
     public static Map<String, DatagramPacket> scanForServers() {
         try (DatagramSocket socket = new DatagramSocket()) {
-            socket.setSoTimeout(500);
+            socket.setSoTimeout(300);
 
             Map<String, DatagramPacket> serverIPs = new HashMap<>() {
             };
 
+            // REMEMBER TO TRY FIX BROADCASTING HERE
+            // dtu edu roam broadcast: 172.21.255.255
+            // dtu normal broadcast: 10.209.255.255
             // Broadcast address: 255.255.255.255 (universal) or your subnet broadcast (e.g., 192.168.1.255)
-            InetAddress broadcastAddress = InetAddress.getByName("192.168.0.255");
+            InetAddress broadcastAddress = InetAddress.getByName("192.168.1.255");
 
             byte[] sendData = DISCOVERY_REQUEST.getBytes();
             for (int i = 0; i < 50; i++) {
@@ -34,9 +37,10 @@ public class ServerScan {
             System.out.println(InetAddress.getAllByName(InetAddress.getLocalHost().getHostName())[0].getHostAddress());
             System.out.println("Discovery request sent to broadcast...");
 
+
             // Listen for responses
             long startTime = System.currentTimeMillis();
-            while (System.currentTimeMillis() - startTime < 500) { // 3-second window
+            while (System.currentTimeMillis() - startTime < 300) { // 3-second window
                 try {
                     byte[] buffer = new byte[1024];
                     DatagramPacket receivePacket = new DatagramPacket(buffer, buffer.length);

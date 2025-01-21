@@ -272,7 +272,7 @@ public class GameMap {
         Rectangle wall = new Rectangle(x, y, width, height);
         wall.setRotate(angle);
         wall.setFill(Color.TRANSPARENT);
-        wall.setStroke(Color.RED);
+        //wall.setStroke(Color.RED);
         this.collisionShapes.add(wall);
     }
 
@@ -280,7 +280,7 @@ public class GameMap {
 
         Ellipse ellipse = new Ellipse(x, y, radiusX, radiusY);
         ellipse.setFill(Color.TRANSPARENT);
-        ellipse.setStroke(Color.RED);
+        //ellipse.setStroke(Color.RED);
         this.collisionShapes.add(ellipse);
 
     }
@@ -289,7 +289,7 @@ public class GameMap {
         Rectangle rect = new Rectangle(x, y, width, height);
         rect.setRotate(angle);
         rect.setFill(Color.TRANSPARENT);
-        rect.setStroke(Color.BLUE); // debugging
+        //rect.setStroke(Color.BLUE); // debugging
 
         if(interactable instanceof Vent) this.ventShapes.put(rect, interactable);
         else this.interactableShapes.put(rect, interactable);
@@ -299,7 +299,7 @@ public class GameMap {
 
         Ellipse ellipse = new Ellipse(x, y, radiusX, radiusY);
         ellipse.setFill(Color.TRANSPARENT);
-        ellipse.setStroke(Color.BLUE);
+        //ellipse.setStroke(Color.BLUE);
 
         this.interactableShapes.put(ellipse, interactable);
 
