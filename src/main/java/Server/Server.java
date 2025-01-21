@@ -38,8 +38,9 @@ public class Server {
 
     private SpaceRepository spaceRepository = new SpaceRepository();
     private final Space serverSpace;
+    private final Space join_start_lock = new SequentialSpace();
     private final URI serverURI;
-    private ServerState state = ServerState.RUNNING_STATE;
+    private ServerState state = ServerState.LOBBY_STATE;
 
     private Thread serverThread;
     private Thread meetingThread;
@@ -52,6 +53,12 @@ public class Server {
     }
 
     public void start(){
+        try {
+            join_start_lock.put("TOKEN");
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+
         serverThread = new Thread(this::server);
         serverThread.start();
 
@@ -102,42 +109,54 @@ public class Server {
     // inform players of game start
     public void startGame() {
 
-        // DETERMINE IMPOSTER AND PLAYER SPAWN POINTS
-        Collections.shuffle(SPAWN_POINTS);
-        Random random = new Random();
+        try {
+            join_start_lock.get(new ActualField("TOKEN"));
+            state = ServerState.RUNNING_STATE;
 
-        int imposterIndex = random.nextInt(playerSpaces.size());
-        int playerNumber = 0;
+            // DETERMINE IMPOSTER AND PLAYER SPAWN POINTS
+            Collections.shuffle(SPAWN_POINTS);
+            Random random = new Random();
 
-        for (Map.Entry<String, Space> playerSpaceEntry : playerSpaces.entrySet()){
-            try {
-                // generate set of tasks
-                Collections.shuffle(TASK_LIST);
-                List<TaskType> playerTasks = TASK_LIST.subList(0, TASKS_PER_PERSON);
+            int imposterIndex = random.nextInt(playerSpaces.size());
+            int playerNumber = 0;
 
-                if(playerNumber != imposterIndex){
-                    totalTasks += TASKS_PER_PERSON;
+            for (Map.Entry<String, Space> playerSpaceEntry : playerSpaces.entrySet()){
+                try {
+                    // generate set of tasks
+                    Collections.shuffle(TASK_LIST);
+                    List<TaskType> playerTasks = TASK_LIST.subList(0, TASKS_PER_PERSON);
+
+                    if(playerNumber != imposterIndex){
+                        totalTasks += TASKS_PER_PERSON;
+                    }
+
+                    initializePlayer(
+                            playerSpaceEntry.getKey(),
+                            CharacterType.RED, SPAWN_POINTS.get(playerNumber),
+                            playerNumber == imposterIndex,
+                            playerTasks.toArray(new TaskType[0])
+                    );
+
+                    playerSpaceEntry.getValue().put(ServerUpdate.GAME_START);
+                    playerNumber++;
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
                 }
-
-                initializePlayer(
-                        playerSpaceEntry.getKey(),
-                        CharacterType.RED, SPAWN_POINTS.get(playerNumber),
-                        playerNumber == imposterIndex,
-                        playerTasks.toArray(new TaskType[0])
-                );
-
-                playerSpaceEntry.getValue().put(ServerUpdate.GAME_START);
-                playerNumber++;
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
             }
-        };
+
+            join_start_lock.put("TOKEN");
+
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+
     }
 
     private void handleJoinRequest() {
         try {
             // read request
             String nameRequest = (String)(serverSpace.get(new ActualField(Request.JOIN), new FormalField(String.class))[1]);
+            join_start_lock.get(new ActualField("TOKEN"));
 
             if (playerSpaces.containsKey(nameRequest)){
                 // player name exists already
@@ -146,8 +165,10 @@ public class Server {
             else if (!(playerSpaces.size()<MAX_PLAYERS)){
                 // Too many people
                 serverSpace.put(nameRequest, Response.FULL_ROOM);
-            }
-            else {
+            } else if (state != ServerState.LOBBY_STATE) {
+                // game has started already
+                serverSpace.put(nameRequest, Response.PERMISSION_DENIED);
+            } else {
                 // player name does not exist
 
                 // create new channel
@@ -163,6 +184,7 @@ public class Server {
                 serverSpace.put(nameRequest, Response.ACCEPTED);
 
             }
+            join_start_lock.put("TOKEN");
         } catch (InterruptedException e) {
             System.out.println(e.getMessage());
         }

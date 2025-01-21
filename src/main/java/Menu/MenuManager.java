@@ -89,6 +89,7 @@ public class MenuManager {
             }
 
             gameController = new GameController(name, serverURI);
+            System.out.println(serverURI);
             Response serverResponse = gameController.join();
             if (serverResponse.isSuccesful()){ // always successful for host
                 lobbyMenu.setHosting(isHosting);
@@ -105,7 +106,7 @@ public class MenuManager {
                 });
                 gameWaitingThread.start();
             } else { // must be in join menu
-                System.out.println(serverResponse);
+                System.out.println(serverResponse.getErrorMessage());
                 joinMenu.displayErrorMessage(serverResponse.getErrorMessage());
             }
         } catch (URISyntaxException e){

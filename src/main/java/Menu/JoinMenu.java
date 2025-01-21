@@ -17,6 +17,7 @@ import java.util.Map;
 public class JoinMenu extends VBox {
     Label errorMessage;
     TextField nameField;
+    TextField IPField;
 
     List<Button> servers = new ArrayList<>();
 
@@ -66,8 +67,6 @@ public class JoinMenu extends VBox {
         manualHbox.setSpacing(10);
         manualHbox.getChildren().addAll(ipField, portField, joinManual);
 
-
-
         Button backButton = new Button("Back");
         backButton.setOnAction(e -> menuManager.transitionToMainMenu());
 
@@ -75,7 +74,7 @@ public class JoinMenu extends VBox {
         refreshButton.setOnAction(e -> new Thread(this::refreshServers).start());
 
         HBox hBox = new HBox(10);
-        hBox.getChildren().addAll(backButton, refreshButton);
+        hBox.getChildren().addAll( backButton, refreshButton);
         getChildren().addAll(title, hBox, nameField, manualHbox, errorMessage);
     }
 
