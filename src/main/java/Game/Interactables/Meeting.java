@@ -1,5 +1,6 @@
 package Game.Interactables;
 
+import Game.GameMap.GameMap;
 import Game.Player.Player;
 import Game.Player.PlayerInfo;
 import Game.Player.PlayerView;
@@ -7,8 +8,14 @@ import Server.ClientUpdate;
 import org.jspace.Space;
 
 public class Meeting implements Interactable {
-    Space playerSpace;
-    String playerName;
+    public Space playerSpace;
+    public String playerName;
+
+    private final GameMap map;
+
+    public Meeting(GameMap map){
+        this.map = map;
+    }
 
     @Override
     public void setPlayerName(String name) {
@@ -37,7 +44,7 @@ public class Meeting implements Interactable {
 
     @Override
     public boolean canInteract(PlayerInfo info) {
-        return info.isAlive;
+        return info.isAlive && !map.getSabotageActive();
     }
 
 }

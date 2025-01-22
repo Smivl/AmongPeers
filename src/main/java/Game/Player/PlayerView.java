@@ -1,8 +1,11 @@
 package Game.Player;
 
 import Game.GameController;
+import Game.Interactables.Sabotage.SabotageType;
 import Game.Interactables.Task.Task;
 import Game.Interactables.Task.TaskType;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.DoubleProperty;
@@ -21,7 +24,9 @@ import javafx.scene.paint.Paint;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
+import javafx.util.Duration;
 
+import java.sql.Time;
 import java.util.*;
 import java.util.function.Function;
 
@@ -37,6 +42,11 @@ public class PlayerView extends BorderPane {
     private Button settingsButton;
 
     private Map<TaskType, Label> taskLabelList = new HashMap<>();
+
+    private Timeline sabotageTimeline;
+    private VBox leftPanel;
+    private Label sabotageLabel = new Label();
+    private SabotageType type;
 
     private ProgressBar taskProgressBar;
 
@@ -102,7 +112,7 @@ public class PlayerView extends BorderPane {
         Region spacer = new Region();
         VBox.setVgrow(spacer, Priority.ALWAYS);
 
-        VBox leftPanel = new VBox();
+        leftPanel = new VBox();
         leftPanel.setSpacing(5);
         leftPanel.setStyle("-fx-padding: 10;" + "-fx-background-color: rgb(1,1,1,0.15);" + "-fx-font-size: 18;" + "-fx-font-weight: bold;");
 
@@ -171,6 +181,7 @@ public class PlayerView extends BorderPane {
     }
 
     public void completeTask(TaskType taskType){
+        taskLabelList.get(taskType).setText(taskType.getDisplayName());
         taskLabelList.get(taskType).setTextFill(Color.GREEN);
     }
 
@@ -211,5 +222,58 @@ public class PlayerView extends BorderPane {
                 }, property)
         );
         return t;
+    }
+
+    public void sabotageStarted(SabotageType type) {
+        this.type = type;
+        sabotageLabel.setTextFill(Color.RED);
+        sabotageLabel.setText(type.getDisplayName());
+        leftPanel.getChildren().add(sabotageLabel);
+        switch (type){
+            case OXYGEN_DEPLETED:
+            case NUCLEAR_MELTDOWN: {
+
+                flashBackground();
+                break;
+            }
+            case LIGHTS:{
+                break;
+            }
+        }
+    }
+
+    public void sabotageEnded(){
+        leftPanel.getChildren().remove(sabotageLabel);
+        sabotageTimeline.stop();
+        setBackground(new Background(new BackgroundFill(Color.TRANSPARENT, null, null)));
+    }
+
+    private void flashBackground() {
+        // Save the current background
+        Background originalBackground = new Background(
+                new BackgroundFill(Color.TRANSPARENT, null, null)
+        );
+
+        Background redBack = new Background(
+                new BackgroundFill(Color.rgb(255, 0, 0, 0.3), null, null)
+        );
+
+        // Create a Timeline that sets the background to red, then back
+        sabotageTimeline = new Timeline(
+                new KeyFrame(Duration.seconds(0.7), e -> {
+                    // Change background to red
+                    setBackground(redBack);
+                }),
+                new KeyFrame(Duration.seconds(1.0), e -> {
+                    // Revert to the original background
+                    setBackground(originalBackground);
+                })
+        );
+        sabotageTimeline.setCycleCount(Timeline.INDEFINITE);
+        sabotageTimeline.play();
+    }
+
+    public void sabotageUpdate(int timer) {
+        sabotageLabel.setText(type.getDisplayName() + " in " + timer);
     }
 }

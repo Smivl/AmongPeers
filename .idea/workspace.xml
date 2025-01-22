@@ -4,35 +4,19 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="0da40e2d-179e-4870-afcb-4409baa8c408" name="Changes" comment="added manual joining to IP address">
-      <change afterPath="$PROJECT_DIR$/src/main/java/Game/GameOverMenu.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/Game/Interactables/Sabotage/LightSabotage.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/Game/Interactables/Sabotage/OxygenSabotage.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/Game/Interactables/Sabotage/ReactorSabotage.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/Game/Interactables/Sabotage/Sabotage.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/Game/Interactables/Sabotage/SabotageType.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/Game/Interactables/Sabotage/SabotageView.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/Game/Interactables/Task/GarbageTask.java" afterDir="false" />
+    <list default="true" id="0da40e2d-179e-4870-afcb-4409baa8c408" name="Changes" comment="sabotaging works + end game">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/Game/GameController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Game/GameController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/Game/GameMap/GameMap.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Game/GameMap/GameMap.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Game/Interactables/Interactable.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Game/Interactables/Interactable.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/Game/Interactables/Meeting.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Game/Interactables/Meeting.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Game/Interactables/Task/ChuteTask.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Game/Interactables/Task/ChuteTask.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Game/Interactables/Task/O2Task.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Game/Interactables/Task/O2Task.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Game/Interactables/Task/ScanTask.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Game/Interactables/Task/ScanTask.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Game/Interactables/Task/TaskFactory.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Game/Interactables/Task/TaskFactory.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Game/Interactables/Sabotage/OxygenSabotage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Game/Interactables/Sabotage/OxygenSabotage.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/Game/Interactables/Task/UploadTask.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Game/Interactables/Task/UploadTask.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/Game/Interactables/Task/WiringTask.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Game/Interactables/Task/WiringTask.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Game/Interactables/Vent.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Game/Interactables/Vent.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/Game/Player/Player.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Game/Player/Player.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/Game/Player/PlayerView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Game/Player/PlayerView.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Menu/MenuManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Menu/MenuManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Server/ClientUpdate.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Server/ClientUpdate.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/Server/Server.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Server/Server.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Server/ServerScan.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Server/ServerScan.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/Server/ServerUpdate.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Server/ServerUpdate.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/mapCollision.psd" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/mapCollision.psd" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -161,6 +145,7 @@
       <workItem from="1737360593474" duration="26428000" />
       <workItem from="1737390272794" duration="3497000" />
       <workItem from="1737414656982" duration="181000" />
+      <workItem from="1737529356457" duration="6776000" />
     </task>
     <task id="LOCAL-00001" summary="Game hosting and joining through LAN.">
       <option name="closed" value="true" />
@@ -234,7 +219,15 @@
       <option name="project" value="LOCAL" />
       <updated>1737461029211</updated>
     </task>
-    <option name="localTasksCounter" value="10" />
+    <task id="LOCAL-00010" summary="sabotaging works + end game">
+      <option name="closed" value="true" />
+      <created>1737513368011</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1737513368011</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -251,6 +244,7 @@
     <MESSAGE value="Tasks almost there" />
     <MESSAGE value="Tasks kinda working (only wiring implemented)" />
     <MESSAGE value="added manual joining to IP address" />
-    <option name="LAST_COMMIT_MESSAGE" value="added manual joining to IP address" />
+    <MESSAGE value="sabotaging works + end game" />
+    <option name="LAST_COMMIT_MESSAGE" value="sabotaging works + end game" />
   </component>
 </project>

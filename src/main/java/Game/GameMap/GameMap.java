@@ -53,7 +53,7 @@ public class GameMap {
         this.view = new GameMapView(scene);
 
         // GLOBAL INTERACTABLES
-        createInteractableCircle(4847, 1263, 264, 206, new Meeting());
+        createInteractableCircle(4847, 1263, 264, 206, new Meeting(this));
 
         // IMPOSTER INTERACTABLES
         if (info.isImposter){
@@ -241,8 +241,8 @@ public class GameMap {
                 break;
             }
             case OXYGEN_DEPLETED:{
-                OxygenSabotage p1 = new OxygenSabotage();
-                OxygenSabotage p2 = new OxygenSabotage();
+                OxygenSabotage p1 = new OxygenSabotage("p1");
+                OxygenSabotage p2 = new OxygenSabotage("p2");
                 createInteractableRectangle(6138,2534,53,54,0,p1);
                 createInteractableRectangle(6185,1894,53,54,0,p2);
                 this.view.getChildren().addAll(this.oxygenShapes.keySet());

@@ -36,10 +36,12 @@ public class UploadTask extends Task {
     public void stopInteraction(Player player) {
         player.setInputLocked(false);
         player.getPlayerView().setCenter(null);
-        if(++completedSubTasks == totalSubTasks) {
+        ++completedSubTasks;
+        if(completedSubTasks == totalSubTasks) {
             setCompleted(true);
             player.completeTask(getTaskType());
         }else{
+            player.completeSubTask(getTaskType());
             player.getPlayerView().updateTaskProgress(getTaskType(), completedSubTasks/totalSubTasks);
         }
     }

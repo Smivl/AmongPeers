@@ -2,6 +2,7 @@ package Game;
 
 import Game.GameCharacter.CharacterView;
 import Game.GameMap.GameMap;
+import Game.Interactables.Interactable;
 import Game.Interactables.Sabotage.SabotageType;
 import Game.Interactables.Task.TaskType;
 import Game.Player.Player;
@@ -15,8 +16,15 @@ import javafx.animation.AnimationTimer;
 import javafx.application.Platform;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.CycleMethod;
+import javafx.scene.paint.RadialGradient;
+import javafx.scene.paint.Stop;
+import javafx.scene.shape.Circle;
+import javafx.scene.shape.Rectangle;
+import javafx.scene.shape.Shape;
 import org.jspace.ActualField;
 import org.jspace.FormalField;
 import org.jspace.RemoteSpace;
@@ -35,6 +43,9 @@ import java.util.concurrent.TimeUnit;
 public class GameController {
 
     // Frame limiter
+    private static double LIGHTS_VISION = 250;
+    private static double IMPOSTER_VISION = 950;
+    private static double DEFAULT_VISION = 650;
     private static final int TARGET_FPS = 120; // Desired frames per second
     private static final long FRAME_INTERVAL = 1_000_000_000 / TARGET_FPS; // Frame interval in nanoseconds
 
@@ -47,6 +58,10 @@ public class GameController {
     private long previousFrameTime = 0;
 
     private Map<String, double[]> spawnPoints = new HashMap<>();
+
+
+    private double visionRadius = DEFAULT_VISION;
+    private Rectangle fovCover;
 
     // server controls
     private Space serverSpace;
@@ -184,8 +199,20 @@ public class GameController {
 
         StackPane root = new StackPane();
         scene.setRoot(root);
+
+        if(player.getInfo().isImposter) visionRadius = IMPOSTER_VISION;
+
+        fovCover = new Rectangle(scene.getWidth(), scene.getHeight());
+        fovCover.widthProperty().bind(scene.widthProperty());
+        fovCover.heightProperty().bind(scene.heightProperty());
+
+        scene.widthProperty().addListener((e, o, n) ->{ updatePlayerVision(); });
+        scene.heightProperty().addListener((e, o, n) ->{ updatePlayerVision(); });
+
+        updatePlayerVision();
+
         root.getChildren().clear();
-        root.getChildren().addAll(map.getView(), player.getPlayerView(), meetingView);
+        root.getChildren().addAll(map.getView(), fovCover, player.getPlayerView(), meetingView);
 
         player.getPlayerView().prefWidthProperty().bind(root.widthProperty());
         player.getPlayerView().prefHeightProperty().bind(root.heightProperty());
@@ -221,6 +248,23 @@ public class GameController {
 
         map.getView().render(player.getCharacterView());
 
+    }
+
+    private void updatePlayerVision(){
+
+        RadialGradient gradient = new RadialGradient(
+                /* focusAngle  = */ 0,
+                /* focusDistance = */ 0,
+                /* centerX = */ scene.getWidth()/2,
+                /* centerY = */ scene.getHeight()/2,
+                /* radius  = */ visionRadius,
+                /* proportional = */ false,
+                /* cycleMethod  = */ CycleMethod.NO_CYCLE,
+                new Stop(0.0, Color.TRANSPARENT),
+                new Stop(0.6, Color.color(0, 0, 0, 0.375)),   // fully transparent in center
+                new Stop(1.0, Color.color(0, 0, 0, 1.0))   // and fully dark near the edge
+        );
+        fovCover.setFill(gradient);
     }
 
     // CLIENT SIDE
@@ -332,16 +376,35 @@ public class GameController {
                                         serverURI.getQuery()
                         );
 
+                        if(!player.getInfo().isImposter && sabotageType == SabotageType.LIGHTS){
+                            visionRadius = LIGHTS_VISION;
+                        }
 
-                        Platform.runLater(() -> map.onSabotageStarted(sabotageType));
-                        player.onSabotageStarted(sabotageSpace);
+                        Platform.runLater(() -> {
+                            map.onSabotageStarted(sabotageType);
+                            player.onSabotageStarted(sabotageSpace, sabotageType);
+                            updatePlayerVision();
+                        });
+                        break;
+                    }
+                    case SABOTAGE_UPDATE:{
+                        Object[] sabotageUpdateInfo = playerSpace.get(new ActualField(ServerUpdate.SABOTAGE_UPDATE), new FormalField(String.class), new FormalField(Integer.class));
+
+                        Platform.runLater(() -> player.getPlayerView().sabotageUpdate((int)sabotageUpdateInfo[2]));
                         break;
                     }
                     case SABOTAGE_ENDED:{
                         playerSpace.get(new ActualField(ServerUpdate.SABOTAGE_ENDED), new FormalField(String.class));
 
-                        Platform.runLater(() -> map.onSabotageEnded());
-                        Platform.runLater(() ->player.onSabotageEnded());
+                        if(!player.getInfo().isImposter){
+                            visionRadius = DEFAULT_VISION;
+                        }
+
+                        Platform.runLater(() -> {
+                            map.onSabotageEnded();
+                            player.onSabotageEnded();
+                            updatePlayerVision();
+                        });
 
                         break;
                     }

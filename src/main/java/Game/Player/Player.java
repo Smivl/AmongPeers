@@ -18,14 +18,15 @@ import org.jspace.ActualField;
 import org.jspace.FormalField;
 import org.jspace.Space;
 
-import java.util.Arrays;
-import java.util.Map;
+import java.util.*;
 
 public class Player {
 
+    private final List<SabotageType> sabotageTypes = new ArrayList<>(List.of(SabotageType.values()));
+
     private final int SPEED = 650;
-    private final int KILL_COOLDOWN_DURATION = 25;
-    private final int SABOTAGE_COOLDOWN_DURATION = 40;
+    private final int KILL_COOLDOWN_DURATION = 25; // 25
+    private final int SABOTAGE_COOLDOWN_DURATION = 1; // 40
 
     private boolean inputLocked = true;
     private boolean wDown, aDown, sDown, dDown;
@@ -324,8 +325,9 @@ public class Player {
     private void onSabotageClicked(){
         System.out.println("Sabotage not implemented yet");
         try {
+            Collections.shuffle(sabotageTypes);
             playerSpace.put(ClientUpdate.SABOTAGE);
-            playerSpace.put(ClientUpdate.SABOTAGE, name, SabotageType.NUCLEAR_MELTDOWN);
+            playerSpace.put(ClientUpdate.SABOTAGE, name, sabotageTypes.get(0));
 
             sabotageCooldown.set(SABOTAGE_COOLDOWN_DURATION);
         }catch (Exception e){
@@ -399,13 +401,15 @@ public class Player {
         interactableInFocus = null;
     }
 
-    public void onSabotageStarted(Space sabotageSpace) {
+    public void onSabotageStarted(Space sabotageSpace, SabotageType type) {
         this.sabotageSpace = sabotageSpace;
+        this.playerView.sabotageStarted(type);
     }
 
     public void onSabotageEnded() {
         this.sabotageSpace = null;
         playerView.setCenter(null);
+        playerView.sabotageEnded();
         inputLocked = false;
     }
 }

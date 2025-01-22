@@ -40,7 +40,7 @@ public class WiringTask extends Task{
             setCompleted(true);
             player.completeTask(getTaskType());
         }else{
-
+            player.completeSubTask(getTaskType());
             player.getPlayerView().updateTaskProgress(getTaskType(), completedSubTasks/totalSubTasks);
         }
     }

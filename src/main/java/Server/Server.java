@@ -31,8 +31,6 @@ public class Server {
     private int tasksCompleted = 0;
     private int totalTasks = 0;
 
-    private int playersAlive;
-
     private boolean sabotageActive = false;
     private SabotageType sabotageType = null;
 
@@ -425,6 +423,7 @@ public class Server {
             System.out.println(e.getStackTrace());
         }
 
+
         sabotageThread = (new Thread(() -> {
             while (sabotageActive) {
                 try {
@@ -456,12 +455,47 @@ public class Server {
 
                 } catch (InterruptedException e) {
                     System.out.println("Sabotage thread stopped");
-                    spaceRepository.remove("sabotage");
+                    //spaceRepository.remove("sabotage");
                 }
             }
         }));
 
+        switch (type){
+            case NUCLEAR_MELTDOWN:{
+                spawnSabotageTimer(45, playerName);
+                break;
+            }
+            case OXYGEN_DEPLETED:{
+                spawnSabotageTimer(30, playerName);
+                break;
+            }case LIGHTS:{
+                break;
+            }
+        }
         sabotageThread.start();
+    }
+
+    private void spawnSabotageTimer(int duration, String playerName){
+        Thread timerThread = (new Thread(() ->{
+
+            int timer = duration;
+            while (sabotageActive){
+                try {
+                    if (timer <= 0) {endSabotage(playerName);
+                        broadCastClientUpdateIncludingSender(ServerUpdate.IMPOSTERS_WIN, playerName);
+                    }else{
+                        broadCastClientUpdateIncludingSender(ServerUpdate.SABOTAGE_UPDATE, playerName, timer);
+                    }
+
+                    Thread.sleep(1000);
+                    --timer;
+                }catch (Exception e){
+                    System.out.println("Sabotage timer thread caught exception!");
+                }
+            }
+        }));
+
+        timerThread.start();
     }
 
     private void endSabotage(String playerName){
@@ -579,6 +613,7 @@ public class Server {
                     }
                     break;
                 }
+                case SABOTAGE_UPDATE:
                 case SABOTAGE_STARTED:
                 case TASK_COMPLETE:
                 case VOTE:
