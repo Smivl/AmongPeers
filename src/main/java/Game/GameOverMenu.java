@@ -11,7 +11,7 @@ public class GameOverMenu extends VBox {
         setSpacing(20);
 
         Label title = new Label(text);
-        title.getStyleClass().removeAll();
+        title.getStyleClass().clear();
         title.getStyleClass().add("title");
 
         // Join Game Button

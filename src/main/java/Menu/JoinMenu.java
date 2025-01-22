@@ -26,7 +26,7 @@ public class JoinMenu extends VBox {
     public JoinMenu(MenuManager menuManager) {
         setSpacing(10);
         Label title = new Label("Join Game");
-        title.getStyleClass().removeAll();
+        title.getStyleClass().clear();
         title.getStyleClass().add("title");
 
         this.menuManager = menuManager;

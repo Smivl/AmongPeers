@@ -338,9 +338,7 @@ public class Server {
                                 // add 1 to the votes received from voter
                                 playerVotes.put(voted, playerVotes.getOrDefault(voted, 0) + 1);;
 
-
-                                // NO NEED for it
-                                //broadCastClientUpdateIncludingSender(ServerUpdate.VOTE, playerName, voted);
+                                broadCastClientUpdateIncludingSender(ServerUpdate.VOTE, playerName, voted);
                                 break;
                             }
                             case RUNNING_STATE: {
@@ -376,7 +374,13 @@ public class Server {
 
                                 break;
                             }
+                            case MEETING_STATE:{
+                                ignoreUpdate(ClientUpdate.SABOTAGE, playerName);
+                            }
                         }
+                    }
+                    case LEAVE:{
+
                     }
                 }
             }catch (Exception e){
@@ -385,6 +389,7 @@ public class Server {
             }
         }
     }
+
 
 
     // helper functions
@@ -518,7 +523,7 @@ public class Server {
         meetingThread = (new Thread(() -> {
             try {
                 // timer 1 minute
-                Thread.sleep(30*1000);
+                Thread.sleep(60*1000);
                 /*
                  * Tell the player who was eliminated: if there is a tie, it is "NO_ELIMINATION"
                  * */
@@ -593,6 +598,9 @@ public class Server {
                 }
                 case KILL:{
                     break;
+                }
+                case SABOTAGE:{
+                    playerSpaces.get(playerName).get(new ActualField(ClientUpdate.SABOTAGE), new FormalField(String.class), new FormalField(SabotageType.class));
                 }
 
             }

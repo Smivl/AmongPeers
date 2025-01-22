@@ -1,5 +1,5 @@
 @font-face {
-    font-family: "Joffrey";
+    font-family: 'Joffrey';
     src: url('/fonts/joffrey.ttf');
 }
 
@@ -56,8 +56,17 @@
 
 /* Chat bubbles */
 .message-bubble {
-    -fx-background-color: #7289DA;
-    -fx-text-fill: white;
+    -fx-background-color: #FFFFFF;
+    -fx-border-color: #000000;
+    -fx-text-fill: #111121;
+    -fx-background-radius: 10;
+    -fx-padding: 10;
+}
+
+.server-bubble {
+    -fx-background-color: #95c5c5;
+    -fx-border-color: #000000;
+    -fx-text-fill: #111121;
     -fx-background-radius: 10;
     -fx-padding: 10;
 }
@@ -84,7 +93,7 @@
     -fx-background-color: linear-gradient(to bottom, #000000, #1e033d);
     -fx-text-fill: #ffffff; /* White text */
     -fx-font-size: 18px; /* Slightly larger font */
-    -fx-font-family: "Joffrey"; /* Bold, futuristic font */
+    -fx-font-family: 'Joffrey'; /* Bold, futuristic font */
     -fx-padding: 10 30; /* Padding around the text */
     -fx-background-radius: 10; /* Rounded corners */
     -fx-border-color: #ffffff; /* Bright magenta border */
@@ -149,16 +158,9 @@
 
 /* Text inside the .menu-box.title */
 .title {
-    -fx-text-fill: linear-gradient(to right, #ff007f, #ffffff, #7f00ff); /* Glowing gradient text */
     -fx-font-family: "Joffrey"; /* Bold, futuristic font */
     -fx-font-weight: bold; /* Make the text stand out */
     -fx-effect: dropshadow(gaussian, rgba(255, 255, 255, 0.8), 15, 0.8, 0, 0); /* Strong glow effect */
     -fx-padding: 5 10; /* Space around the title text */
-}
-
-/* Hover effect for title section (optional for interactivity) */
-.title:hover {
-    -fx-background-color: linear-gradient(to bottom, #1c053f, #3e0f7e, #6f2ea5); /* Slightly brighter on hover */
-    -fx-border-color: radial-gradient(center 50% 50%, radius 50%, #ffffff, #ff007f);
-    -fx-effect: dropshadow(gaussian, rgba(255, 255, 255, 0.5), 30, 0.9, 0, 0); /* Enhance the glow on hover */
+    -fx-font-size: 100;
 }

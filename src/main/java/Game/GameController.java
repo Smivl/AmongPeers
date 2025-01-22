@@ -18,6 +18,7 @@ import javafx.scene.Scene;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
+import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.CycleMethod;
 import javafx.scene.paint.RadialGradient;
@@ -29,6 +30,8 @@ import org.jspace.ActualField;
 import org.jspace.FormalField;
 import org.jspace.RemoteSpace;
 import org.jspace.Space;
+import utils.Audios;
+import utils.Endgame;
 
 import java.net.URI;
 import java.util.HashMap;
@@ -46,7 +49,7 @@ public class GameController {
     private static double LIGHTS_VISION = 250;
     private static double IMPOSTER_VISION = 950;
     private static double DEFAULT_VISION = 650;
-    private static final int TARGET_FPS = 120; // Desired frames per second
+    private static final int TARGET_FPS = 45; // Desired frames per second
     private static final long FRAME_INTERVAL = 1_000_000_000 / TARGET_FPS; // Frame interval in nanoseconds
 
     // game controls
@@ -56,7 +59,7 @@ public class GameController {
     private GameMap map;
     private MeetingView meetingView;
     private long previousFrameTime = 0;
-
+    private MediaPlayer backgroundNoise = Audios.BACKGROUND.getMediaPlayer(); {backgroundNoise.setCycleCount(MediaPlayer.INDEFINITE);}
     private Map<String, double[]> spawnPoints = new HashMap<>();
 
 
@@ -162,9 +165,8 @@ public class GameController {
         player.init();
         map = new GameMap(scene, player.getInfo(), player.getTasks());
 
-        meetingView = new MeetingView(scene);
-
-        meetingView.addSendMessageFunction(
+        meetingView = new MeetingView(scene, name, player.getInfo());
+        meetingView.initialize(
                 message -> {
                     try {
                         playerSpace.put(ClientUpdate.MESSAGE);
@@ -173,10 +175,7 @@ public class GameController {
                         e.printStackTrace(System.out);
                     }
                     return null;
-                }
-        );
-
-        meetingView.addVoteForFunction(
+                },
                 playerName -> {
                     try {
                         playerSpace.put(ClientUpdate.VOTE);
@@ -187,8 +186,6 @@ public class GameController {
                     return null;
                 }
         );
-
-        meetingView.initialize();
 
         player.setController(this);
         player.setMap(map);
@@ -239,6 +236,8 @@ public class GameController {
             }
         };
         gameLoop.start();
+
+        backgroundNoise.play();
     }
 
     public void onUpdate(double delta){
@@ -300,18 +299,18 @@ public class GameController {
 
                         String playerKilled = (String) killedInfo[1];
 
-                        // meetingView.killPlayer(playerKilled); TO FIX WHEN PLAYER GETS KILLED
+                        meetingView.killPlayer(playerKilled);
 
                         Platform.runLater(() -> handleKilledUpdate(playerKilled));
                         break;
                     }
                     case MEETING_START: {
-
+                        Audios.MEETING.getMediaPlayer().play();
                         Object[] caller = playerSpace.get(new ActualField(ServerUpdate.MEETING_START), new FormalField(String.class));
                         String callerName = (String) caller[1];
-                        System.out.println(callerName + " requested chat. Start chatting...");
                         Platform.runLater(() -> {
                             meetingView.show();
+                            meetingView.addServerMessage(callerName + " requested requested a meeting.");
                             resetPlayerPositions();
                         });
 
@@ -320,20 +319,22 @@ public class GameController {
                     }
                     case MESSAGE: {
                         Object[] message = playerSpace.get(new ActualField(ServerUpdate.MESSAGE), new FormalField(String.class), new FormalField(String.class));
-                        Platform.runLater(() -> meetingView.addMessage((String) message[1],(String) message[2], Color.BLUE));
+                        Platform.runLater(() -> meetingView.addMessage((String) message[1],(String) message[2]));
                         break;
                     }
                     case MEETING_DONE: {
-                        Platform.runLater(() -> meetingView.hide());
+
                         Object[] t = playerSpace.get(new ActualField(ServerUpdate.MEETING_DONE), new FormalField(String.class));
 
                         if (Objects.equals((String) t[1], "NO_ELIMINATION")){
-                            System.out.println("No one was eliminated");
+                            Platform.runLater(() -> meetingView.addServerMessage("No one was eliminated"));
                         } else {
                             System.out.println(t[1] + " was eliminated");
-                            Platform.runLater(() -> handleVotedOffUpdate((String) t[1]));
+                            Platform.runLater(() -> meetingView.addServerMessage(t[1] + " was eliminated."));
                         }
-
+                        handleVotedOffUpdate((String)t[1]);
+                        Thread.sleep(3000);
+                        Platform.runLater(() -> meetingView.hide());
                         // reset players position
                         player.setInputLocked(false);
                         player.resetCooldowns();
@@ -351,7 +352,8 @@ public class GameController {
                         break;
                     }
                     case VOTE: {
-                        System.out.println("ERROR: vote not implemented yet");
+                        String playerVoter = (String) (playerSpace.get(new ActualField(ServerUpdate.VOTE), new FormalField(String.class), new FormalField(String.class))[1]);
+                        Platform.runLater(() -> meetingView.addServerMessage(playerVoter + " cast their vote..."));
                         break;
                     }
                     case GAME_START: {
@@ -409,11 +411,11 @@ public class GameController {
                         break;
                     }
                     case IMPOSTERS_WIN:{
-                        GameOver("Imposters Win!");
+                        GameOver(Endgame.IMPOSTER);
                         break;
                     }
                     case CREWMATES_WIN:{
-                        GameOver("Crewmates Win!");
+                        GameOver(Endgame.CREWMATE);
                         break;
                     }
                 }
@@ -445,6 +447,7 @@ public class GameController {
 
     public void handlePositionUpdate(String playerName, double[] position, double[] velocity){
         CharacterView characterView = otherPlayerViews.get(playerName);
+        characterView.setWalkingVolume(position, new double[]{player.getCharacterView().getCenterX(), player.getCharacterView().getCenterY()});
         characterView.render(position, velocity);
     }
 
@@ -461,8 +464,11 @@ public class GameController {
         if(playerName.equals(name)) {
             player.onKilled();
             map.onPlayerKilled(new double[]{player.getInfo().position[0], player.getInfo().position[1]});
+            meetingView.onKilled();
+            return;
         }
 
+        meetingView.killPlayer(playerName);
         for(CharacterView characterView : otherPlayerViews.values()){
             if(characterView.getName().equals(playerName)){
                 characterView.onKilled();
@@ -501,6 +507,14 @@ public class GameController {
         player.handleKeyPressed(event);
     }
 
+    public void leaveGame(){
+        try {
+            playerSpace.put(ClientUpdate.LEAVE);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     private void resetPlayerPositions(){
         System.out.println("reset Pos");
         player.resetPosition();
@@ -512,12 +526,14 @@ public class GameController {
         map.onReset();
     }
 
-    private void GameOver(String message){
+    private void GameOver(Endgame endgame){
         this.running = false;
         gameLoop.stop();
 
-        GameOverMenu endMenu = new GameOverMenu(message, backToMainMenu);
+        GameOverMenu endMenu = new GameOverMenu(endgame.getMessage(), backToMainMenu);
         endMenu.getStyleClass().add("menu-box");
         scene.setRoot(endMenu);
+        backgroundNoise.stop();
+        endgame.getAudio().getMediaPlayer().play();
     }
 }

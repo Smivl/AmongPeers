@@ -9,7 +9,7 @@ public class MainMenu extends VBox {
         setSpacing(20);
 
         Label title = new Label("AmongPeers");
-        title.getStyleClass().removeAll();
+        title.getStyleClass().clear();
         title.getStyleClass().add("title");
 
         // Join Game Button

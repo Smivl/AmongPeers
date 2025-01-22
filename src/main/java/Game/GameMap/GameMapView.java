@@ -80,6 +80,5 @@ public class GameMapView extends Pane {
         double offsetY = this.scene.getHeight() / 2.0 - player.getCenterY();
         this.setTranslateX(offsetX);
         this.setTranslateY(offsetY);
-
     }
 }

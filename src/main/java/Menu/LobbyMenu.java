@@ -17,6 +17,7 @@ public class LobbyMenu extends VBox {
 
         Label title = new Label("Waiting...");
         title.getStyleClass().add("title");
+        title.getStyleClass().clear();
         Button startButton = new Button("Start Game");
 
         startButton.setOnAction(e -> menuManager.startGame());

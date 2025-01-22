@@ -12,6 +12,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
 
 import java.util.HashMap;
 import java.util.List;
@@ -30,7 +31,8 @@ public class Chat extends StackPane {
     private Function<String,Void> sendMessageFunction;
     private Function<String,Void> voteForFunction;
     private Map<String, PlayerInfo> playerInfoMap = new HashMap<>();
-    private boolean hasVoted;
+    private boolean hasVoted = false;
+    private boolean isAlive = true;
 
 
     // logic functions
@@ -43,7 +45,6 @@ public class Chat extends StackPane {
     }
 
     public void addPlayer(String playerName, PlayerInfo playerInfo){
-        System.out.println("Added player " + playerName);
         playerInfoMap.put(playerName, playerInfo);
     }
 
@@ -62,24 +63,26 @@ public class Chat extends StackPane {
         // case 1: voting command
         if (input!= null && input.trim().startsWith("/vote")){
             if (hasVoted){
-                addPrivateMessage("You have already voted already!");
-            }
-            String[] parts = input.trim().split("\\s+");
-
-            if (parts.length == 2){
-                if (!playerInfoMap.containsKey(parts[1])){
-                    addPrivateMessage("The player " + parts[1] + " does not exist.");
-                } else if (!playerInfoMap.get(parts[1]).isAlive) {
-                    addPrivateMessage("The player " + parts[1] + " is dead and cannot be voted.");
-                } else {
-                    voteForFunction.apply(parts[1]);
-                }
+                addServerMessage("You have already voted already!");
+            } else if (!isAlive) {
+                addServerMessage("You cannot vote... You're dead!");
             } else {
-                addPrivateMessage("Wrong syntax. Usage: /vote [playerName]");
+                String[] parts = input.trim().split("\\s+");
+
+                if (parts.length == 2) {
+                    if (!playerInfoMap.containsKey(parts[1])) {
+                        addServerMessage("The player " + parts[1] + " does not exist.");
+                    } else if (!playerInfoMap.get(parts[1]).isAlive) {
+                        addServerMessage("The player " + parts[1] + " is already dead...");
+                    } else {
+                        voteForFunction.apply(parts[1]);
+                    }
+                } else {
+                    addServerMessage("Wrong syntax. Usage: /vote [playerName]");
+                }
             }
         }else if (input != null && !input.trim().isEmpty()) {
             sendMessageFunction.apply(input);
-
             inputField.clear();
         }
         inputField.clear();
@@ -87,9 +90,6 @@ public class Chat extends StackPane {
 
     // view functions
     public void initialize(){
-
-        hide();
-
         // styling
         getStyleClass().add("chat-background");
         Image backgroundImage = new Image("Chat/chatBackground.png");
@@ -152,33 +152,24 @@ public class Chat extends StackPane {
         inputField.setOnAction(e -> processInput());
     }
 
-    public void show() {
-        inputField.requestFocus();
-        this.setVisible(true);
-        this.setDisable(false);
+    public void addMessage(String playerName, String message){
+        if (playerInfoMap.get(playerName).isAlive) {
+            Platform.runLater(() -> {
+                HBox messageBox = MessageBox.createPlayerBox(
+                        playerName,
+                        message,
+                        Color.GRAY/*playerInfoMap.get(playerName).color.getColor()*/
+                ); //TODO change to player color
+                messagesContainer.getChildren().add(messageBox);
+                scrollPaneToBottom();
+            });
+        }
     }
 
-    public void hide() {
-        this.setVisible(false);
-        this.setDisable(true);
-    }
-
-
-    public void addMessage(String playerName, String message, Color nameLabelColor){
+    public void addServerMessage(String message){
         Platform.runLater(() -> {
-            MessageBox messageBox = new MessageBox(playerName, message, nameLabelColor);
+            HBox messageBox = MessageBox.createServerBox(message);
             messagesContainer.getChildren().add(messageBox);
-            messageBox.setFillWidth(true);
-            scrollPaneToBottom();
-        });
-
-    }
-
-    public void addPrivateMessage(String message){
-        Platform.runLater(() -> {
-            MessageBox messageBox = new MessageBox("Private message", message, Color.RED);
-            messagesContainer.getChildren().add(messageBox);
-            messageBox.setFillWidth(true);
             scrollPaneToBottom();
         });
     }
@@ -186,29 +177,55 @@ public class Chat extends StackPane {
     private void scrollPaneToBottom() {
         scrollPane.setVvalue(Double.MAX_VALUE);
     }
+
+    public void onKilled() {
+        isAlive = false;
+    }
 }
 
-class MessageBox extends VBox {
+class MessageBox {
 
-    MessageBox(String name, String message, Color nameLabelColor){
-            getStyleClass().add("message-box");
+    static HBox createServerBox(String message){
+        HBox out = new HBox();
+        out.getStyleClass().add("server-box");
 
-            Label nameLabel = new Label(name);
-            nameLabel.setTextFill(nameLabelColor);
-            nameLabel.getStyleClass().add("name-label");
+        Label messageLabel = new Label(message);
+        messageLabel.getStyleClass().add("server-bubble");
+        messageLabel.setMaxWidth(400); // Limit message bubble width
+        messageLabel.setPadding(new Insets(5, 10, 5, 10)); // Padding for bubble
 
-            Label msgLabel = new Label(message);
-            msgLabel.setWrapText(true);
-            msgLabel.getStyleClass().add("message-bubble");
-            msgLabel.setMaxWidth(250); // Limit message bubble width
-            msgLabel.setPadding(new Insets(5, 10, 5, 10)); // Padding for bubble
-            msgLabel.setStyle("-fx-background-color: #7289DA; -fx-text-fill: white; -fx-background-radius: 10;");
+        out.getChildren().add(messageLabel);
+        out.setAlignment(Pos.TOP_CENTER);
+        out.setPadding(new Insets(5));
 
-            getChildren().addAll(nameLabel, msgLabel);
-            setAlignment(Pos.TOP_LEFT); // Align to the left by default
-            setPadding(new Insets(5));
+        return out;
     }
 
+    static HBox createPlayerBox(String name, String message, Color color){
+        HBox out = new HBox();
+        out.getStyleClass().add("player-box");
 
+        Circle pic = new Circle(20, color);
+
+        Label nameLabel = new Label(name);
+        nameLabel.getStyleClass().add("name-label");
+
+        Label msgLabel = new Label(message);
+        msgLabel.setWrapText(true);
+        msgLabel.getStyleClass().add("message-bubble");
+        msgLabel.setMaxWidth(400); // Limit message bubble width
+        msgLabel.setPadding(new Insets(5, 10, 5, 10)); // Padding for bubble
+
+        VBox inBox = new VBox();
+        inBox.getChildren().addAll(nameLabel, msgLabel);
+        inBox.setAlignment(Pos.TOP_LEFT); // Align to the left by default
+        inBox.setPadding(new Insets(5));
+
+        out.getChildren().addAll(pic, inBox);
+        out.setAlignment(Pos.TOP_LEFT);
+        out.setPadding(new Insets(5));
+
+        return out;
+    }
 
 }

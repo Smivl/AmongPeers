@@ -7,5 +7,5 @@ public enum ClientUpdate {
     KILL,
     SABOTAGE,
     VOTE, MESSAGE,
-    READY_TO_START, MEETING
+    READY_TO_START, LEAVE, MEETING
 }

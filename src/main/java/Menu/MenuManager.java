@@ -1,6 +1,7 @@
 package Menu;
 
 import Game.GameController;
+import Game.GameOverMenu;
 import Server.Server;
 import Server.ServerScan;
 import Server.Response;
@@ -119,5 +120,13 @@ public class MenuManager {
         // DONT STOP THIS BECAUSE WE NEED TO LET OTHERS KNOW THAT THIS IS BEING USED
         //ServerBroadcast.stopServer();
         server.startGame();
+    }
+
+    public Server getServer() {
+        return server;
+    }
+
+    public GameController getGameController() {
+        return gameController;
     }
 }

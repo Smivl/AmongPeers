@@ -6,9 +6,7 @@ import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
-import javafx.scene.paint.Color;
 
-import java.util.Map;
 import java.util.function.Function;
 
 public class MeetingView extends StackPane {
@@ -16,20 +14,15 @@ public class MeetingView extends StackPane {
     // private VoteView voteView = new VoteView();
     private Scene scene;
 
-    public MeetingView(Scene scene){
+    public MeetingView(Scene scene, String name, PlayerInfo info){
         this.scene = scene;
+        chat.addPlayer(name, info);
     }
 
-    public void addSendMessageFunction(Function<String,Void> sendMessageFunction){
+    public void initialize(Function<String,Void> sendMessageFunction, Function<String,Void> voteForFunction){
         chat.addSendMessageFunction(sendMessageFunction);
-    }
-
-    public void addVoteForFunction(Function<String,Void> voteForFunction){
-        // voteView.addVoteForFunction(voteForFunction);
         chat.addVoteForFunction(voteForFunction);
-    }
 
-    public void initialize(){
         hide();
         getStyleClass().add("tablet-background");
 
@@ -50,14 +43,18 @@ public class MeetingView extends StackPane {
         chat.initialize();
     }
 
-    public void addMessage(String playerName, String message, Color color) {
-        chat.addMessage(playerName, message, color);
+    public void addMessage(String playerName, String message) {
+        chat.addMessage(playerName, message);
+    }
+
+    public void addServerMessage(String message) {
+        chat.addServerMessage(message);
     }
 
     public void show() {
         this.setVisible(true);
         this.setDisable(false);
-        chat.show();
+        chat.setDisable(false);
     }
 
     public void hide() {
@@ -71,5 +68,9 @@ public class MeetingView extends StackPane {
 
     public void killPlayer(String s){
         chat.killPlayer(s);
+    }
+
+    public void onKilled() {
+        chat.onKilled();
     }
 }

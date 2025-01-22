@@ -46,7 +46,10 @@ public class Main extends Application {
 
     @Override
     public void stop(){
-        //server.shutdown();
+        menuManager.getGameController().leave();
+        if (menuManager.getServer()!=null){
+            menuManager.getServer().shutdown();
+        }
         System.exit(0);
     }
 }

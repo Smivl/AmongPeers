@@ -5,18 +5,34 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="0da40e2d-179e-4870-afcb-4409baa8c408" name="Changes" comment="sabotaging works + end game">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/utils/Audios.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/utils/Endgame.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/audio/1_AFN80QS.mp3" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/audio/Background.mp3" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/audio/Skeld_Ambience_-_Among_Us.mp3" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/audio/among-us-chat-sound-effect.mp3" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/audio/among-us-reactor-meldown-sound-effect-128-kbps-abdwap2.mp3" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/audio/emergency-meeting-sound-among-us.mp3" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/audio/emergency-meeting_NTlaXkd.mp3" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/audio/the-among-us-walking-sound-effect.mp3" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/audio/uh-oh_8lISF1g.mp3" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/audio/yay_cRiHGGR.mp3" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Game/GameCharacter/CharacterView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Game/GameCharacter/CharacterView.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/Game/GameController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Game/GameController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Game/GameMap/GameMap.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Game/GameMap/GameMap.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Game/Interactables/Meeting.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Game/Interactables/Meeting.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Game/Interactables/Sabotage/OxygenSabotage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Game/Interactables/Sabotage/OxygenSabotage.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Game/Interactables/Task/UploadTask.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Game/Interactables/Task/UploadTask.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Game/Interactables/Task/WiringTask.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Game/Interactables/Task/WiringTask.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Game/Player/Player.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Game/Player/Player.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Game/Player/PlayerView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Game/Player/PlayerView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Game/GameMap/GameMapView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Game/GameMap/GameMapView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Game/GameOverMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Game/GameOverMenu.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Game/Meeting/Chat.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Game/Meeting/Chat.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Game/Meeting/MeetingView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Game/Meeting/MeetingView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Menu/HostMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Menu/HostMenu.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Menu/JoinMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Menu/JoinMenu.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Menu/LobbyMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Menu/LobbyMenu.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Menu/MainMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Menu/MainMenu.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Menu/MenuManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Menu/MenuManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Server/ClientUpdate.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Server/ClientUpdate.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/Server/Server.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Server/Server.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Server/ServerUpdate.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Server/ServerUpdate.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/mapCollision.psd" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/mapCollision.psd" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/stylesheet.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/stylesheet.css" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

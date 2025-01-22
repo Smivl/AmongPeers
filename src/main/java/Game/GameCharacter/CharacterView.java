@@ -9,13 +9,18 @@ import javafx.event.EventHandler;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
+import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
+import utils.Audios;
 
 
 public class CharacterView extends StackPane {
+    private final int innerRadius = 200;
+    private final int outerRadius = 350;
+
 
     private final ImageView characterImage;
     private String name;
@@ -25,6 +30,7 @@ public class CharacterView extends StackPane {
     private double centerX;
     private double centerY;
     private double[] velocity;
+    private MediaPlayer walkingsound = Audios.FOOTSTEP.getMediaPlayer();{walkingsound.setCycleCount(MediaPlayer.INDEFINITE);}
 
     private static final Image[] walkFrames = new Image[] {
             new Image("walk1.png"),
@@ -169,6 +175,7 @@ public class CharacterView extends StackPane {
     public void onKilled(){
         this.currentFrameIndex = 0;
         this.isAlive = false;
+        walkingsound.stop();
         movementAnimation.playFromStart();
     }
 
@@ -190,11 +197,13 @@ public class CharacterView extends StackPane {
                 // Character is moving, start walking animation if not already running
                 if (!movementAnimation.getStatus().equals(Timeline.Status.RUNNING)) {
                     movementAnimation.playFromStart();
+                    walkingsound.play();
                 }
             } else {
                 // Character is idle, stop walking animation and show idle image
                 if (movementAnimation.getStatus().equals(Timeline.Status.RUNNING)) {
                     movementAnimation.stop();
+                    walkingsound.stop();
                 }
                 characterImage.setImage(idleImage);
                 currentFrameIndex = 0;
@@ -209,4 +218,16 @@ public class CharacterView extends StackPane {
 
     }
 
+    public void setWalkingVolume(double[] position1, double[] position2) {
+        double[] distanceVector = new double[]{position1[0]-position2[0], position1[1]-position2[1]};
+        double distance = Math.sqrt(distanceVector[0]*distanceVector[0]+distanceVector[1]*distanceVector[1]);
+        if (distance <= innerRadius) {
+            walkingsound.setVolume(1); // Maximum volume within the inner radius
+        } else if (distance <= outerRadius) {
+            double fadeRange = outerRadius - innerRadius;
+            walkingsound.setVolume(1 - (distance - innerRadius) / fadeRange); // Linear fade
+        } else {
+            walkingsound.setVolume(0); // No volume beyond the outer radius
+        }
+    }
 }
