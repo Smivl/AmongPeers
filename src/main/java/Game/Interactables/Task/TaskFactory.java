@@ -14,7 +14,7 @@ public class TaskFactory {
         TASK_CREATORS.put(TaskType.CLEAN_O2_FILTER, O2Task::new);
         TASK_CREATORS.put(TaskType.EMPTY_CHUTE, ChuteTask::new);
         TASK_CREATORS.put(TaskType.SUBMIT_SCAN, ScanTask::new);
-        TASK_CREATORS.put(TaskType.EMPTY_GARBAGE, ChuteTask::new);
+        TASK_CREATORS.put(TaskType.EMPTY_GARBAGE, GarbageTask::new);
         // etc.
     }
 

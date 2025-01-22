@@ -25,7 +25,7 @@ public class ServerScan {
             // dtu edu roam broadcast: 172.21.255.255
             // dtu normal broadcast: 10.209.255.255
             // Broadcast address: 255.255.255.255 (universal) or your subnet broadcast (e.g., 192.168.1.255)
-            InetAddress broadcastAddress = InetAddress.getByName("192.168.1.255");
+            InetAddress broadcastAddress = InetAddress.getByName("192.168.0.255");
 
             byte[] sendData = DISCOVERY_REQUEST.getBytes();
             for (int i = 0; i < 50; i++) {

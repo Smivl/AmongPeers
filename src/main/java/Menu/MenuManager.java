@@ -88,7 +88,7 @@ public class MenuManager {
                 server.start();
             }
 
-            gameController = new GameController(name, serverURI);
+            gameController = new GameController(name, serverURI, this::transitionToMainMenu);
             System.out.println(serverURI);
             Response serverResponse = gameController.join();
             if (serverResponse.isSuccesful()){ // always successful for host

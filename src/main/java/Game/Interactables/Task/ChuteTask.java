@@ -7,11 +7,12 @@ import org.jspace.Space;
 
 public class ChuteTask extends Task {
 
-    private double progress;
+    private double completedSubTasks;
+    private final double totalSubTasks = 2;
 
     public ChuteTask() {
         super(TaskType.EMPTY_CHUTE);
-        this.progress = 0.0;
+        this.completedSubTasks = 0.0;
     }
 
     @Override
@@ -25,17 +26,28 @@ public class ChuteTask extends Task {
     }
 
     @Override
-    public void interact(Player view) {
-
+    public void interact(Player player) {
+        TaskView taskView = new TaskView("Emptying chute...", 2, () -> { stopInteraction(player); });
+        player.getPlayerView().setCenter(taskView);
+        player.setInputLocked(true);
     }
 
     @Override
-    public void stopInteraction(Player view) {
-
+    public void stopInteraction(Player player) {
+        player.setInputLocked(false);
+        player.getPlayerView().setCenter(null);
+        if(++completedSubTasks == totalSubTasks) {
+            setCompleted(true);
+            player.completeTask(getTaskType());
+        }else{
+            player.getPlayerView().updateTaskProgress(getTaskType(), completedSubTasks/totalSubTasks);
+            player.completeSubTask(getTaskType());
+        }
     }
 
     @Override
     public boolean canInteract(PlayerInfo info) {
         return !info.isImposter;
     }
+
 }

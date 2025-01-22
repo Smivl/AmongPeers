@@ -2,13 +2,12 @@ package Game.Interactables.Task;
 
 import Game.Player.Player;
 import Game.Player.PlayerInfo;
-import Game.Player.PlayerView;
 import org.jspace.Space;
 
-public class ScanTask extends Task {
+public class GarbageTask extends Task{
 
-    public ScanTask() {
-        super(TaskType.SUBMIT_SCAN);
+    public GarbageTask() {
+        super(TaskType.EMPTY_GARBAGE);
     }
 
     @Override
@@ -23,7 +22,7 @@ public class ScanTask extends Task {
 
     @Override
     public void interact(Player player) {
-        TaskView taskView = new TaskView("Submitting medical scan...", 10, () -> { stopInteraction(player); });
+        TaskView taskView = new TaskView("Emptying garbage...", 5, () -> { stopInteraction(player); });
         player.getPlayerView().setCenter(taskView);
         player.setInputLocked(true);
     }

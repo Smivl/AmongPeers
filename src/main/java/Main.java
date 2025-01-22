@@ -18,6 +18,8 @@ public class Main extends Application {
     public static final int WIDTH = 1280;
     public static final int HEIGHT = 720;
 
+    public static MenuManager menuManager;
+
     public static void main(String[] args) {
         ColorAdapter.init();
 
@@ -34,7 +36,7 @@ public class Main extends Application {
         scene.getStylesheets().add(Main.class.getResource("/stylesheet.css").toExternalForm());
         scene.setFill(Color.BLACK);
 
-        MenuManager menuManager = new MenuManager(scene);
+        menuManager = new MenuManager(scene);
         menuManager.transitionToMainMenu();
 
         stage.setScene(scene);

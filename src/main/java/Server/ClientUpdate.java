@@ -2,9 +2,10 @@ package Server;
 
 // In-game client updates
 public enum ClientUpdate {
-    POSITION,
+    POSITION, REPORT,
     TASK_COMPLETE,
-    KILL, SABOTAGE,
+    KILL,
+    SABOTAGE,
     VOTE, MESSAGE,
     READY_TO_START, MEETING
 }

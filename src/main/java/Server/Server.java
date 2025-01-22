@@ -1,6 +1,7 @@
 package Server;
 
 import Game.GameCharacter.CharacterType;
+import Game.Interactables.Sabotage.SabotageType;
 import Game.Interactables.Task.Task;
 import Game.Interactables.Task.TaskType;
 import Game.Player.PlayerInfo;
@@ -30,11 +31,17 @@ public class Server {
     private int tasksCompleted = 0;
     private int totalTasks = 0;
 
+    private int playersAlive;
+
+    private boolean sabotageActive = false;
+    private SabotageType sabotageType = null;
 
     private Map<String, Integer> playerVotes;
     private Map<String, Space> playerSpaces = new HashMap<>();
     private Map<String, Thread> playerThreads = new HashMap<>();
     private Map<String, PlayerInfo> playerInfos = new HashMap<>();
+
+    private Space sabotageSpace;
 
     private SpaceRepository spaceRepository = new SpaceRepository();
     private final Space serverSpace;
@@ -44,6 +51,7 @@ public class Server {
 
     private Thread serverThread;
     private Thread meetingThread;
+    private Thread sabotageThread;
 
     public Server(URI uri, Space serverSpace){
         this.serverURI = uri;
@@ -262,6 +270,10 @@ public class Server {
 
                                     playerInfos.get(killedPlayerName).isAlive = false;
                                     broadCastClientUpdateIncludingSender(ServerUpdate.KILLED, killedPlayerName);
+
+                                    if(checkIfImposterWins()){
+                                        broadCastClientUpdateIncludingSender(ServerUpdate.IMPOSTERS_WIN, killerPlayerName);
+                                    }
                                 }
 
                                 break;
@@ -273,35 +285,29 @@ public class Server {
                         }
                         break;
                     }
+                    case REPORT:{
+                        switch (state){
+                            case RUNNING_STATE:{
+                                if(sabotageActive){
+                                    this.sabotageActive = false;
+                                    this.sabotageType = null;
+                                    broadCastClientUpdateIncludingSender(ServerUpdate.SABOTAGE_ENDED, playerName);
+                                }
+                                callMeeting(playerName);
+                                break;
+                            }
+                            case MEETING_STATE:
+                            case LOBBY_STATE:{
+                                ignoreUpdate(update, playerName);
+                                break;
+                            }
+                        }
+                    }
                     case MEETING:{
                         switch (state){
                             case RUNNING_STATE:
                             {
-                                // change state
-                                state = ServerState.MEETING_STATE;
-
-                                // initialize empty votes
-                                playerVotes = new HashMap<>();
-
-                                // meeting logic
-                                meetingThread = (new Thread(() -> {
-                                    try {
-                                        // timer 1 minute
-                                        Thread.sleep(30*1000);
-                                        /*
-                                        * Tell the player who was eliminated: if there is a tie, it is "NO_ELIMINATION"
-                                        * */
-                                        state = ServerState.RUNNING_STATE;
-
-                                        String eliminatedPlayer = this.votedPlayer();
-                                        broadCastClientUpdateIncludingSender(ServerUpdate.MEETING_DONE, eliminatedPlayer);
-                                    } catch (InterruptedException e) {
-                                        throw new RuntimeException(e);
-                                    }
-                                }));
-                                meetingThread.start();
-
-                                broadCastClientUpdateIncludingSender(ServerUpdate.MEETING_START, playerName);
+                                callMeeting(playerName);
                                 break;
                             }
                             case MEETING_STATE: {
@@ -334,7 +340,9 @@ public class Server {
                                 // add 1 to the votes received from voter
                                 playerVotes.put(voted, playerVotes.getOrDefault(voted, 0) + 1);;
 
-                                broadCastClientUpdateIncludingSender(ServerUpdate.VOTE, playerName, voted);
+
+                                // NO NEED for it
+                                //broadCastClientUpdateIncludingSender(ServerUpdate.VOTE, playerName, voted);
                                 break;
                             }
                             case RUNNING_STATE: {
@@ -346,13 +354,30 @@ public class Server {
                     }
                     case TASK_COMPLETE:{
                         tasksCompleted++;
+
+                        Object[] infoTuple = playerSpaces.get(playerName).get(new ActualField(ClientUpdate.TASK_COMPLETE), new FormalField(String.class));
+                        String name = (String) infoTuple[1];
+                        System.out.println(tasksCompleted/totalTasks);
+                        broadCastClientUpdateIncludingSender(ServerUpdate.TASK_COMPLETE, name, (double) tasksCompleted/totalTasks);
+
                         if(tasksCompleted == totalTasks){
-                            // end game
-                        }else{
-                            Object[] infoTuple = playerSpaces.get(playerName).get(new ActualField(ClientUpdate.TASK_COMPLETE), new FormalField(String.class));
-                            String name = (String) infoTuple[1];
-                            System.out.println(tasksCompleted/totalTasks);
-                            broadCastClientUpdateIncludingSender(ServerUpdate.TASK_COMPLETE, name, (double) tasksCompleted/totalTasks);
+                            broadCastClientUpdateIncludingSender(ServerUpdate.CREWMATES_WIN, name);
+                        }
+                        break;
+                    }
+                    case SABOTAGE:{
+                        switch (state){
+                            case RUNNING_STATE:{
+                                Object[] infoTuple = playerSpaces.get(playerName).get(new ActualField(ClientUpdate.SABOTAGE), new FormalField(String.class), new FormalField(SabotageType.class));
+
+                                this.sabotageActive = true;
+                                this.sabotageType = (SabotageType) infoTuple[2];
+
+                                callSabotage(playerName, sabotageType);
+                                broadCastClientUpdateIncludingSender(ServerUpdate.SABOTAGE_STARTED, (String) infoTuple[1], infoTuple[2]);
+
+                                break;
+                            }
                         }
                     }
                 }
@@ -389,6 +414,118 @@ public class Server {
         return tie ? "NO_ELIMINATION" : winner;
     }
 
+    private void callSabotage(String playerName, SabotageType type){
+
+        sabotageSpace = new SequentialSpace();
+        spaceRepository.add("sabotage", sabotageSpace);
+
+        try {
+            sabotageSpace.put("lock");
+        }catch (Exception e){
+            System.out.println(e.getStackTrace());
+        }
+
+        sabotageThread = (new Thread(() -> {
+            while (sabotageActive) {
+                try {
+                    switch (type) {
+                        case NUCLEAR_MELTDOWN: {
+
+                            if(sabotageSpace.queryp(new ActualField("reactor1")) != null && sabotageSpace.queryp(new ActualField("reactor2")) != null){
+                                endSabotage(playerName);
+                            }
+
+                            break;
+                        }
+                        case LIGHTS: {
+
+                            sabotageSpace.get(new ActualField("lights"));
+                            endSabotage(playerName);
+
+                            break;
+                        }
+                        case OXYGEN_DEPLETED: {
+
+                            sabotageSpace.get(new ActualField("p1"));
+                            sabotageSpace.get(new ActualField("p2"));
+                            endSabotage(playerName);
+
+                            break;
+                        }
+                    }
+
+                } catch (InterruptedException e) {
+                    System.out.println("Sabotage thread stopped");
+                    spaceRepository.remove("sabotage");
+                }
+            }
+        }));
+
+        sabotageThread.start();
+    }
+
+    private void endSabotage(String playerName){
+        sabotageActive = false;
+        sabotageType = null;
+
+        broadCastClientUpdateIncludingSender(ServerUpdate.SABOTAGE_ENDED, playerName);
+        if(sabotageThread != null) sabotageThread.interrupt();
+        spaceRepository.remove("sabotage");
+    }
+
+    private void callMeeting(String playerName){
+        // change state
+        state = ServerState.MEETING_STATE;
+
+        // initialize empty votes
+        playerVotes = new HashMap<>();
+
+        // meeting logic
+        meetingThread = (new Thread(() -> {
+            try {
+                // timer 1 minute
+                Thread.sleep(30*1000);
+                /*
+                 * Tell the player who was eliminated: if there is a tie, it is "NO_ELIMINATION"
+                 * */
+                state = ServerState.RUNNING_STATE;
+
+                String eliminatedPlayer = this.votedPlayer();
+                broadCastClientUpdateIncludingSender(ServerUpdate.MEETING_DONE, eliminatedPlayer);
+
+                // check for game end
+                playerInfos.get(eliminatedPlayer).isAlive = false;
+                if(checkIfCrewmateWins()){
+                    broadCastClientUpdateIncludingSender(ServerUpdate.CREWMATES_WIN, eliminatedPlayer);
+                }
+                if(checkIfImposterWins()){
+                    broadCastClientUpdateIncludingSender(ServerUpdate.IMPOSTERS_WIN, eliminatedPlayer);
+                }
+
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+        }));
+        meetingThread.start();
+
+        broadCastClientUpdateIncludingSender(ServerUpdate.MEETING_START, playerName);
+    }
+
+    private boolean checkIfCrewmateWins(){
+        int impostersAlive = 0;
+        for(PlayerInfo player: playerInfos.values()){
+            if (player.isImposter && player.isAlive) impostersAlive++;
+        }
+        return impostersAlive == 0;
+    }
+
+    private boolean checkIfImposterWins(){
+        int crewmatesAlive = 0;
+        for(PlayerInfo player: playerInfos.values()){
+            if (!player.isImposter && player.isAlive) crewmatesAlive++;
+        }
+        return crewmatesAlive < 2;
+    }
     /*
     * broadcasts an update from the server to every player.
     * */
@@ -442,6 +579,7 @@ public class Server {
                     }
                     break;
                 }
+                case SABOTAGE_STARTED:
                 case TASK_COMPLETE:
                 case VOTE:
                 case MESSAGE:
@@ -454,8 +592,11 @@ public class Server {
                     }
                     break;
                 }
+                case SABOTAGE_ENDED:
                 case KILLED: // playerName is the name to kill
                 case PLAYER_LEFT: // zero field cases
+                case CREWMATES_WIN:
+                case IMPOSTERS_WIN:
                 case MEETING_START: // meeting is called by one player (playerName field)
                 case MEETING_DONE: { // meeting is ended by server. playerName is the player to kick out
                     for(String name : playerSpaces.keySet()){

@@ -20,13 +20,18 @@ public class O2Task extends Task {
     }
 
     @Override
-    public void interact(Player view) {
-
+    public void interact(Player player) {
+        TaskView taskView = new TaskView("Cleaning O2 Filter...", 6, () -> { stopInteraction(player); });
+        player.getPlayerView().setCenter(taskView);
+        player.setInputLocked(true);
     }
 
     @Override
-    public void stopInteraction(Player view) {
-
+    public void stopInteraction(Player player) {
+        player.setInputLocked(false);
+        player.getPlayerView().setCenter(null);
+        setCompleted(true);
+        player.completeTask(getTaskType());
     }
 
     @Override

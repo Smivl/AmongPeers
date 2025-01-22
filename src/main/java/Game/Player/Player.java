@@ -4,45 +4,53 @@ import Game.GameCharacter.CharacterView;
 import Game.GameController;
 import Game.GameMap.GameMap;
 import Game.Interactables.Interactable;
-import Game.Interactables.Task.Task;
+import Game.Interactables.Sabotage.Sabotage;
+import Game.Interactables.Sabotage.SabotageType;
 import Game.Interactables.Task.TaskType;
 import Server.ClientUpdate;
-import Server.Request;
-import Server.Response;
 import Server.ServerUpdate;
 import javafx.application.Platform;
-import javafx.beans.property.BooleanProperty;
-import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.property.*;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Shape;
 import org.jspace.ActualField;
 import org.jspace.FormalField;
-import org.jspace.RemoteSpace;
 import org.jspace.Space;
 
-import java.net.URI;
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
+import java.util.Map;
 
 public class Player {
 
     private final int SPEED = 650;
+    private final int KILL_COOLDOWN_DURATION = 25;
+    private final int SABOTAGE_COOLDOWN_DURATION = 40;
+
     private boolean inputLocked = true;
     private boolean wDown, aDown, sDown, dDown;
 
-    private Interactable interactableInFocus = null;
-    private Interactable ventInFocus = null;
+
+    // Current cooldown counters
+    private DoubleProperty killCooldown = new SimpleDoubleProperty(0.0);
+    private DoubleProperty sabotageCooldown = new SimpleDoubleProperty(0.0);
+
+    private Map.Entry<Shape, Interactable> interactableInFocus = null;
+    private Map.Entry<Shape, Interactable> ventInFocus = null;
 
     private GameController controller;
+    private GameMap map;
 
     private PlayerView playerView;
     private CharacterView characterView;
 
+    // property decides whether button should be disabled
     private final BooleanProperty canKill = new SimpleBooleanProperty(false);
     private final BooleanProperty canReport = new SimpleBooleanProperty(false);
     private final BooleanProperty canInteract = new SimpleBooleanProperty(false);
+    private final BooleanProperty canSabotage = new SimpleBooleanProperty(false);
     private final BooleanProperty canVent = new SimpleBooleanProperty(false);
+
 
     private TaskType[] taskList;
     private double[] spawnPoint;
@@ -50,13 +58,16 @@ public class Player {
     private final String name;
 
     private Space playerSpace;
+    private Space sabotageSpace;
 
     public TaskType[] getTasks() { return taskList; }
     public PlayerInfo getInfo() { return playerInfo; }
     public PlayerView getPlayerView() { return playerView; }
     public CharacterView getCharacterView() { return characterView; }
+    public GameMap getMap() { return map; }
     public void setInputLocked(boolean lock) { this.inputLocked = lock; }
     public void setController(GameController controller) { this.controller = controller; }
+    public void setMap(GameMap map) {this.map = map;}
 
     public Player(String name, Space playerSpace){
 
@@ -81,7 +92,7 @@ public class Player {
                             canInteract,
                             canReport,
                             canKill,
-                            new SimpleBooleanProperty(true),
+                            canSabotage,
                             canVent
                     },
                     new Runnable[]{ // order is: interact, map, report, kill, sabotage, vent, settings
@@ -91,12 +102,21 @@ public class Player {
                             this::onKillClicked,
                             this::onSabotageClicked,
                             this::onVentClicked,
-                            this::onSettingsClicked
+                            this::onSettingsClicked,
+                            this::onInteractPressed,
+                            this::onInteractReleased
+                    },
+                    new DoubleProperty[]{
+                            killCooldown,
+                            sabotageCooldown
                     }
             );
 
-
             this.characterView = new CharacterView(name, info, info.isImposter ? Color.RED : Color.WHITE);
+
+            if(info.isImposter){
+                resetCooldowns();
+            }
 
         }catch (Exception e){
             System.out.println(e.getMessage());
@@ -108,7 +128,7 @@ public class Player {
         this.characterView.onKilled();
     }
 
-    public void onUpdate(double delta, GameMap map){
+    public void onUpdate(double delta){
 
         if(!inputLocked) {
             double newX = playerInfo.position[0] + playerInfo.velocity[0] * delta;
@@ -138,40 +158,44 @@ public class Player {
                 this.characterView.render(playerInfo.position, playerInfo.velocity);
             }
 
-            canKill.set(
-                    !(
-                            playerInfo.isAlive &&
-                                    playerInfo.isImposter &&
-                                    controller.getPlayerToKill(this.characterView) != null
-                    )
-            );
             canReport.set(
-                    !(
-                            map.checkCollisionWithBodies(this.characterView) &&
-                                    playerInfo.isAlive
-                    )
+                map.checkCollisionWithBodies(this.characterView) &&
+                playerInfo.isAlive
             );
             interactableInFocus = map.getInteractable(this.characterView);
             canInteract.set(
-                    !(
-                            interactableInFocus != null &&
-                            interactableInFocus.canInteract(playerInfo)
-                    )
+                interactableInFocus != null &&
+                interactableInFocus.getValue().canInteract(playerInfo)
             );
+
             if (playerInfo.isImposter) {
+                canKill.set(
+                    playerInfo.isAlive &&
+                    controller.getPlayerToKill(this.characterView) != null &&
+                    killCooldown.get() <= 0
+                );
+
                 ventInFocus = map.getVent(this.characterView);
                 canVent.set(
-                        !(
-                                ventInFocus != null &&
-                                        ventInFocus.canInteract(playerInfo)
-                        )
+                    ventInFocus != null &&
+                    ventInFocus.getValue().canInteract(playerInfo)
                 );
+
+                canSabotage.set(
+                    playerInfo.isAlive &&
+                    !map.getSabotageActive() &&
+                    sabotageCooldown.get() <= 0
+                );
+
+                killCooldown.set(killCooldown.get()-delta);
+                sabotageCooldown.set(sabotageCooldown.get()-delta);
             }
         }else{
-            canKill.set(true);
-            canReport.set(true);
-            canInteract.set(true);
-            canVent.set(true);
+            canKill.set(false);
+            canReport.set(false);
+            canInteract.set(false);
+            canVent.set(false);
+            canSabotage.set(false);
         }
     }
 
@@ -229,16 +253,35 @@ public class Player {
         this.characterView.render(playerInfo.position, playerInfo.velocity);
     }
 
+    public void resetCooldowns(){
+        this.killCooldown.set(KILL_COOLDOWN_DURATION);
+        this.sabotageCooldown.set(SABOTAGE_COOLDOWN_DURATION);
+    }
+
     private void onSettingsClicked(){
         System.out.println("Settings not implemented yet");
     }
 
+
+    private void onInteractPressed(){
+        if(getMap().getSabotageActive() && interactableInFocus != null && interactableInFocus.getValue() instanceof Sabotage){
+            ((Sabotage) interactableInFocus.getValue()).setSabotageSpace(sabotageSpace);
+            interactableInFocus.getValue().interact(this);
+        }
+    }
+
+    private void onInteractReleased(){
+        if(getMap().getSabotageActive() && interactableInFocus != null && interactableInFocus.getValue() instanceof Sabotage){
+            interactableInFocus.getValue().stopInteraction(this);
+        }
+    }
+
     private void onInteractClicked(){
 
-        if(interactableInFocus != null){
-            interactableInFocus.setPlayerSpace(playerSpace);
-            interactableInFocus.setPlayerName(name);
-            interactableInFocus.interact(this);
+        if(interactableInFocus != null && !(interactableInFocus.getValue() instanceof Sabotage)){
+            interactableInFocus.getValue().setPlayerSpace(playerSpace);
+            interactableInFocus.getValue().setPlayerName(name);
+            interactableInFocus.getValue().interact(this);
         }
     }
 
@@ -247,11 +290,16 @@ public class Player {
     }
 
     private void onReportClicked(){
-        System.out.println("Report clicked");
+        try {
+            playerSpace.put(ClientUpdate.REPORT);
+            playerSpace.put(ClientUpdate.REPORT, name);
+        } catch (Exception e) {
+            System.out.println(Arrays.toString(e.getStackTrace()));
+        }
+
     }
 
     private void onKillClicked(){
-        System.out.println("Kill clicked");
 
         CharacterView playerKilled = controller.getPlayerToKill(this.characterView);
 
@@ -265,6 +313,8 @@ public class Player {
 
                 playerSpace.put(ClientUpdate.KILL);
                 playerSpace.put(ClientUpdate.KILL, name, playerKilled.getName());
+
+                killCooldown.set(KILL_COOLDOWN_DURATION);
             } catch (Exception e) {
                 System.out.println(Arrays.toString(e.getStackTrace()));
             }
@@ -273,13 +323,21 @@ public class Player {
 
     private void onSabotageClicked(){
         System.out.println("Sabotage not implemented yet");
+        try {
+            playerSpace.put(ClientUpdate.SABOTAGE);
+            playerSpace.put(ClientUpdate.SABOTAGE, name, SabotageType.NUCLEAR_MELTDOWN);
+
+            sabotageCooldown.set(SABOTAGE_COOLDOWN_DURATION);
+        }catch (Exception e){
+            System.out.println(e.getStackTrace());
+        }
     }
 
     private void onVentClicked(){
         System.out.println("Vent not implemented yet");
 
         if(ventInFocus != null){
-            ventInFocus.interact(this);
+            ventInFocus.getValue().interact(this);
         }
     }
 
@@ -315,11 +373,39 @@ public class Player {
 
     public void completeTask(TaskType taskType) {
         playerView.completeTask(taskType);
+        map.onTaskComplete(interactableInFocus);
+        interactableInFocus = null;
         try{
             playerSpace.put(ClientUpdate.TASK_COMPLETE);
             playerSpace.put(ClientUpdate.TASK_COMPLETE, name);
+
         }catch (Exception e){
 
         }
+    }
+
+    public void fixLights(){
+        try{
+            sabotageSpace.put("lights");
+            playerView.setCenter(null);
+            setInputLocked(false);
+        }catch (Exception e){
+            System.out.println(e.getStackTrace());
+        }
+    }
+
+    public void completeSubTask(TaskType taskType){
+        map.onTaskComplete(interactableInFocus);
+        interactableInFocus = null;
+    }
+
+    public void onSabotageStarted(Space sabotageSpace) {
+        this.sabotageSpace = sabotageSpace;
+    }
+
+    public void onSabotageEnded() {
+        this.sabotageSpace = null;
+        playerView.setCenter(null);
+        inputLocked = false;
     }
 }

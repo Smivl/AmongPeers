@@ -9,7 +9,7 @@ public interface Interactable {
 
     void setPlayerName(String name);
     void setPlayerSpace(Space playerSpace);
-    void interact(Player view);
-    void stopInteraction(Player view);
+    void interact(Player player);
+    void stopInteraction(Player player);
     boolean canInteract(PlayerInfo info);
 }

@@ -8,7 +8,7 @@ import org.jspace.Space;
 public class WiringTask extends Task{
 
     private double completedSubTasks;
-    private final double totalSubTasks = 1;
+    private final double totalSubTasks = 4;
 
     public WiringTask() {
         super(TaskType.WIRING);
@@ -27,7 +27,7 @@ public class WiringTask extends Task{
 
     @Override
     public void interact(Player player) {
-        TaskView taskView = new TaskView("Fixing wiring", 5, () -> { stopInteraction(player); });
+        TaskView taskView = new TaskView("Fixing wiring...", 5, () -> { stopInteraction(player); });
         player.getPlayerView().setCenter(taskView);
         player.setInputLocked(true);
     }
@@ -49,4 +49,5 @@ public class WiringTask extends Task{
     public boolean canInteract(PlayerInfo info) {
         return !info.isImposter;
     }
+
 }

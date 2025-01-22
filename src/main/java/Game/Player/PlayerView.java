@@ -3,12 +3,16 @@ package Game.Player;
 import Game.GameController;
 import Game.Interactables.Task.Task;
 import Game.Interactables.Task.TaskType;
+import javafx.beans.binding.Bindings;
 import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.DoubleProperty;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
+import javafx.scene.control.ContentDisplay;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
+import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
@@ -36,7 +40,7 @@ public class PlayerView extends BorderPane {
 
     private ProgressBar taskProgressBar;
 
-    public PlayerView(PlayerInfo info, TaskType[] taskList, BooleanProperty[] booleanProperties, Runnable[] callbackFunctions){
+    public PlayerView(PlayerInfo info, TaskType[] taskList, BooleanProperty[] booleanProperties, Runnable[] callbackFunctions, DoubleProperty[] doubleProperties){
 
         this.setPadding(new Insets(15));
 
@@ -86,11 +90,13 @@ public class PlayerView extends BorderPane {
         rightBox.setAlignment(Pos.TOP_CENTER);
 
         useButton = createButtonWithIcon("useIcon.png");
-        useButton.disableProperty().bind(booleanProperties[0]);
+        useButton.disableProperty().bind(booleanProperties[0].not());
         useButton.setOnAction(e -> {callbackFunctions[0].run();});
+        useButton.setOnMousePressed(e -> {callbackFunctions[7].run();});
+        useButton.setOnMouseReleased(e -> {callbackFunctions[8].run();});
 
         reportButton = createButtonWithIcon("reportIcon.png");
-        reportButton.disableProperty().bind(booleanProperties[1]);
+        reportButton.disableProperty().bind(booleanProperties[1].not());
         reportButton.setOnAction(e -> {callbackFunctions[2].run();});
 
         Region spacer = new Region();
@@ -103,19 +109,27 @@ public class PlayerView extends BorderPane {
         if(info.isImposter){
 
             // add imposter buttons
+            Text killText = createTextForCooldowns(doubleProperties[0]);
+            killText.setMouseTransparent(true);
             killButton = createButtonWithIcon("killIcon.png");
-            killButton.disableProperty().bind(booleanProperties[2]);
+            killButton.disableProperty().bind(booleanProperties[2].not());
             killButton.setOnAction(e -> {callbackFunctions[3].run();});
 
+            StackPane layeredKill = new StackPane(killButton, killText);
+
+            Text sabotageText = createTextForCooldowns(doubleProperties[1]);
+            sabotageText.setMouseTransparent(true);
             sabotageButton = createButtonWithIcon("sabotageIcon.png");
-            sabotageButton.disableProperty().bind(booleanProperties[3]);
+            sabotageButton.disableProperty().bind(booleanProperties[3].not());
             sabotageButton.setOnAction(e -> {callbackFunctions[4].run();});
 
+            StackPane layeredSabotage = new StackPane(sabotageButton, sabotageText);
+
             ventButton = createButtonWithIcon("ventIcon.png");
-            ventButton.disableProperty().bind(booleanProperties[4]);
+            ventButton.disableProperty().bind(booleanProperties[4].not());
             ventButton.setOnAction(e -> {callbackFunctions[5].run();});
 
-            bottomBox.getChildren().addAll(killButton, sabotageButton, ventButton);
+            bottomBox.getChildren().addAll(layeredKill, layeredSabotage, ventButton);
 
             HBox rightBottomBox = new HBox();
             rightBottomBox.setSpacing(10);
@@ -161,8 +175,9 @@ public class PlayerView extends BorderPane {
     }
 
     public void updateTaskProgress(TaskType taskType, double progress){
-        taskLabelList.get(taskType).setTextFill(Color.YELLOW);
-        System.out.println("UPDATED TO : " +progress);
+        Label label = taskLabelList.get(taskType);
+        label.setTextFill(Color.YELLOW);
+        label.setText(taskType.getDisplayName() + " " + (int) (progress * 100) + "%");
     }
 
     private Button createButtonWithIcon(String iconPath){
@@ -172,5 +187,29 @@ public class PlayerView extends BorderPane {
                 + "-fx-border-color: transparent; "
                 + "-fx-background-radius: 0;");
         return res;
+    }
+
+    private Text createTextForCooldowns(DoubleProperty property){
+        Text t = new Text();
+        t.setFont(Font.font("Arial", 65));
+        t.setFill(Color.WHITE);
+        DropShadow dropShadow = new DropShadow();
+        dropShadow.setRadius(10);
+        dropShadow.setOffsetX(0);
+        dropShadow.setOffsetY(0);
+        dropShadow.setSpread(0.5);
+        dropShadow.setColor(Color.color(0, 0, 0, 0.8));
+        t.setEffect(dropShadow);
+        t.textProperty().bind(
+                Bindings.createStringBinding(() -> {
+                    double currentCooldown = property.get();
+                    if (currentCooldown <= 0) {
+                        return "";
+                    } else {
+                        return String.valueOf((int)Math.ceil(currentCooldown));
+                    }
+                }, property)
+        );
+        return t;
     }
 }

@@ -1,37 +1,34 @@
-package Game.Interactables;
+package Game.Interactables.Sabotage;
 
+import Game.Interactables.Interactable;
 import Game.Player.Player;
 import Game.Player.PlayerInfo;
-import Game.Player.PlayerView;
 import org.jspace.Space;
 
-import java.util.ArrayList;
-import java.util.List;
-
-public class Vent implements Interactable{
-
-    List<Vent> neighbors = new ArrayList<>();
-
+public class OxygenSabotage extends Sabotage {
     @Override
     public void setPlayerName(String name) {
+
     }
 
     @Override
     public void setPlayerSpace(Space playerSpace) {
+
     }
 
     @Override
-    public void interact(Player view) {
+    public void interact(Player player) {
+
     }
 
     @Override
-    public void stopInteraction(Player view) {
+    public void stopInteraction(Player player) {
 
     }
 
     @Override
     public boolean canInteract(PlayerInfo info) {
-        return info.isImposter && info.isAlive;
+        return info.isAlive;
     }
 
 }

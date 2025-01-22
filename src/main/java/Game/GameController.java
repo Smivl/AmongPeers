@@ -2,6 +2,7 @@ package Game;
 
 import Game.GameCharacter.CharacterView;
 import Game.GameMap.GameMap;
+import Game.Interactables.Sabotage.SabotageType;
 import Game.Interactables.Task.TaskType;
 import Game.Player.Player;
 import Game.Player.PlayerInfo;
@@ -34,7 +35,7 @@ import java.util.concurrent.TimeUnit;
 public class GameController {
 
     // Frame limiter
-    private static final int TARGET_FPS = 45; // Desired frames per second
+    private static final int TARGET_FPS = 120; // Desired frames per second
     private static final long FRAME_INTERVAL = 1_000_000_000 / TARGET_FPS; // Frame interval in nanoseconds
 
     // game controls
@@ -53,13 +54,20 @@ public class GameController {
     private URI serverURI;
     private Thread serverUpdateThread;
 
+    // flow control
+    private boolean running;
+    private AnimationTimer gameLoop;
+    private Runnable backToMainMenu;
+    private Scene scene;
+
     public Player getPlayer() {
         return player;
     }
 
-    public GameController(String name, URI serverURI){
+    public GameController(String name, URI serverURI, Runnable backToMainMenu){
         this.name = name;
         this.serverURI = serverURI;
+        this.backToMainMenu = backToMainMenu;
         try {
             System.out.println(serverURI.getScheme() + "://" +
                     serverURI.getHost() + ":" +
@@ -133,6 +141,9 @@ public class GameController {
     }
 
     private void start(Scene scene) {
+        this.scene = scene;
+        running = true;
+
         player.init();
         map = new GameMap(scene, player.getInfo(), player.getTasks());
 
@@ -165,6 +176,7 @@ public class GameController {
         meetingView.initialize();
 
         player.setController(this);
+        player.setMap(map);
 
         // Add player to map and add map to root
         map.getView().getChildren().add(player.getCharacterView());
@@ -184,7 +196,7 @@ public class GameController {
         serverUpdateThread = new Thread(this::serverUpdates);
         serverUpdateThread.start();
 
-        AnimationTimer gameLoop = new AnimationTimer() {
+        gameLoop = new AnimationTimer() {
 
             public void handle(long currentFrameTime) {
                 if (previousFrameTime == 0) {
@@ -204,7 +216,7 @@ public class GameController {
 
     public void onUpdate(double delta){
 
-        player.onUpdate(delta, map);
+        player.onUpdate(delta);
         map.onUpdate(delta);
 
         map.getView().render(player.getCharacterView());
@@ -213,7 +225,7 @@ public class GameController {
 
     // CLIENT SIDE
     private void serverUpdates(){
-        while (true){
+        while (running){
             try {
                 Object[] update = playerSpace.get(new FormalField(ServerUpdate.class));
                 switch ((ServerUpdate) update[0]) {
@@ -280,6 +292,8 @@ public class GameController {
 
                         // reset players position
                         player.setInputLocked(false);
+                        player.resetCooldowns();
+
                         break;
                     }
                     case PLAYER_LEFT: {
@@ -298,6 +312,7 @@ public class GameController {
                     }
                     case GAME_START: {
                         player.setInputLocked(false);
+                        player.resetCooldowns();
                         break;
                     }
                     case TASK_COMPLETE: {
@@ -305,7 +320,37 @@ public class GameController {
                         Platform.runLater(() -> player.getPlayerView().setTaskProgressBar((double) task_complete[2]));
                         break;
                     }
-                    case SABOTAGE:{
+                    case SABOTAGE_STARTED:{
+                        Object[] sabotage = playerSpace.get(new ActualField(ServerUpdate.SABOTAGE_STARTED), new FormalField(String.class), new FormalField(SabotageType.class));
+
+                        SabotageType sabotageType = (SabotageType) sabotage[2];
+
+                        Space sabotageSpace  = new RemoteSpace(
+                                serverURI.getScheme() + "://" +
+                                        serverURI.getHost() + ":" +
+                                        serverURI.getPort() + "/sabotage?" +
+                                        serverURI.getQuery()
+                        );
+
+
+                        Platform.runLater(() -> map.onSabotageStarted(sabotageType));
+                        player.onSabotageStarted(sabotageSpace);
+                        break;
+                    }
+                    case SABOTAGE_ENDED:{
+                        playerSpace.get(new ActualField(ServerUpdate.SABOTAGE_ENDED), new FormalField(String.class));
+
+                        Platform.runLater(() -> map.onSabotageEnded());
+                        Platform.runLater(() ->player.onSabotageEnded());
+
+                        break;
+                    }
+                    case IMPOSTERS_WIN:{
+                        GameOver("Imposters Win!");
+                        break;
+                    }
+                    case CREWMATES_WIN:{
+                        GameOver("Crewmates Win!");
                         break;
                     }
                 }
@@ -402,5 +447,14 @@ public class GameController {
 
         // Clear bodies
         map.onReset();
+    }
+
+    private void GameOver(String message){
+        this.running = false;
+        gameLoop.stop();
+
+        GameOverMenu endMenu = new GameOverMenu(message, backToMainMenu);
+        endMenu.getStyleClass().add("menu-box");
+        scene.setRoot(endMenu);
     }
 }

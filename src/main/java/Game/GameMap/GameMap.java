@@ -9,6 +9,10 @@ import java.util.Map;
 
 import Game.Interactables.Interactable;
 import Game.Interactables.Meeting;
+import Game.Interactables.Sabotage.LightSabotage;
+import Game.Interactables.Sabotage.OxygenSabotage;
+import Game.Interactables.Sabotage.ReactorSabotage;
+import Game.Interactables.Sabotage.SabotageType;
 import Game.Interactables.Task.*;
 import Game.Interactables.Vent;
 import Game.Player.PlayerInfo;
@@ -31,8 +35,18 @@ public class GameMap {
     private final Map<Shape, Interactable> ventShapes = new HashMap<>(){};
     private final Map<Shape, Interactable> interactableShapes = new HashMap<>(){};
 
+    // Sabotage interactables
+    private final Map<Shape, Interactable> lightsShapes = new HashMap<>(){};
+    private final Map<Shape, Interactable> reactorShapes = new HashMap<>(){};
+    private final Map<Shape, Interactable> oxygenShapes = new HashMap<>(){};
+
+
     private final List<ImageView> bodies = new ArrayList<>();
 
+    private boolean sabotageActive = false;
+    private SabotageType sabotageType;
+
+    public boolean getSabotageActive() { return sabotageActive; }
     public GameMapView getView() { return this.view; }
 
     public GameMap(Scene scene, PlayerInfo info, TaskType[] playerTasks) {
@@ -77,7 +91,7 @@ public class GameMap {
                         break;
                     }case EMPTY_CHUTE:{
                         createInteractableRectangle(5848, 1989, 82, 55, -45, createdTask);
-                        createInteractableRectangle(5110, 4418, 59, 84,0, createdTask);
+                        createInteractableRectangle(5771, 674, 78, 51,45, createdTask);
                         break;
                     }case SUBMIT_SCAN:{
                         createInteractableCircle(3696, 2312, 42, 16, createdTask);
@@ -92,6 +106,7 @@ public class GameMap {
                         createInteractableRectangle(8032,1822, 68, 56, 0, createdTask);
                         break;
                     }case EMPTY_GARBAGE:{
+                        createInteractableRectangle(5110, 4418, 59, 84,0, createdTask);
                         break;
                     }case CLEAN_O2_FILTER:{
                         createInteractableRectangle(6012, 1890, 68, 107, 0, createdTask);
@@ -211,6 +226,63 @@ public class GameMap {
         this.view.onPlayerKilled(newBody);
     }
 
+    public void onSabotageStarted(SabotageType sabotageType) {
+        this.sabotageActive = true;
+        this.sabotageType = sabotageType;
+
+        switch (sabotageType){
+            case NUCLEAR_MELTDOWN:{
+                ReactorSabotage r1 = new ReactorSabotage("reactor1");
+                ReactorSabotage r2 = new ReactorSabotage("reactor2");
+                createInteractableRectangle(1137,1608, 72, 82, 0, r1);
+                createInteractableRectangle(1134,3000, 72, 37, 0, r2);
+
+                this.view.getChildren().addAll(this.reactorShapes.keySet());
+                break;
+            }
+            case OXYGEN_DEPLETED:{
+                OxygenSabotage p1 = new OxygenSabotage();
+                OxygenSabotage p2 = new OxygenSabotage();
+                createInteractableRectangle(6138,2534,53,54,0,p1);
+                createInteractableRectangle(6185,1894,53,54,0,p2);
+                this.view.getChildren().addAll(this.oxygenShapes.keySet());
+                break;
+            }
+            case LIGHTS:{
+                LightSabotage lightSabotage = new LightSabotage();
+                createInteractableRectangle(3173,3128,138,127,0,lightSabotage);
+                this.view.getChildren().addAll(this.lightsShapes.keySet());
+                break;
+            }
+        }
+    }
+
+    public void onSabotageEnded() {
+        this.sabotageActive = false;
+
+        switch (sabotageType){
+            case NUCLEAR_MELTDOWN:{
+                this.view.getChildren().removeAll(this.reactorShapes.keySet());
+                break;
+            }
+            case OXYGEN_DEPLETED:{
+                this.view.getChildren().removeAll(this.oxygenShapes.keySet());
+                break;
+            }
+            case LIGHTS:{
+                this.view.getChildren().removeAll(this.lightsShapes.keySet());
+                break;
+            }
+        }
+
+        this.sabotageType = null;
+    }
+
+    public void onTaskComplete(Map.Entry<Shape, Interactable> entry) {
+        this.view.getChildren().remove(entry.getKey());
+        interactableShapes.remove(entry.getKey(), entry.getValue());
+    }
+
     public boolean checkCollisionWithBodies(CharacterView characterView){
         for (ImageView body : bodies){
             double centreX = body.getLayoutX() + 50;
@@ -225,11 +297,31 @@ public class GameMap {
         return false;
     }
 
-    public Interactable getInteractable(CharacterView characterView){
-        return checkInteractableCollision(characterView, interactableShapes);
+    public Map.Entry<Shape, Interactable> getInteractable(CharacterView characterView){
+
+        Map.Entry<Shape, Interactable> res = null;
+        if (sabotageActive){
+            switch (sabotageType){
+                case LIGHTS: {
+                    res = checkInteractableCollision(characterView, lightsShapes);
+                    break;
+                }
+                case NUCLEAR_MELTDOWN: {
+                    res = checkInteractableCollision(characterView, reactorShapes);
+                    break;
+                }
+                case OXYGEN_DEPLETED: {
+                    res = checkInteractableCollision(characterView, oxygenShapes);
+                    break;
+                }
+            }
+        }
+
+        if (res==null) return checkInteractableCollision(characterView, interactableShapes);
+        else return res;
     }
 
-    public Interactable getVent(CharacterView characterView){
+    public Map.Entry<Shape, Interactable> getVent(CharacterView characterView){
         return checkInteractableCollision(characterView, ventShapes);
     }
 
@@ -250,7 +342,7 @@ public class GameMap {
         return false;
     }
 
-    private Interactable checkInteractableCollision(CharacterView characterView, Map<Shape, Interactable> interactables) {
+    private Map.Entry<Shape, Interactable> checkInteractableCollision(CharacterView characterView, Map<Shape, Interactable> interactables) {
         Bounds playerBounds = characterView.getBoundsInParent();
         Rectangle playerShape = new Rectangle(playerBounds.getMinX(), playerBounds.getMinY(), playerBounds.getWidth(), playerBounds.getHeight());
         this.view.getChildren().add(playerShape);
@@ -259,7 +351,7 @@ public class GameMap {
             Shape intersection = Shape.intersect(playerShape, entry.getKey());
             if(!intersection.getBoundsInLocal().isEmpty()){
                 this.view.getChildren().remove(playerShape);
-                return entry.getValue();
+                return entry;
             }
         }
 
@@ -272,7 +364,7 @@ public class GameMap {
         Rectangle wall = new Rectangle(x, y, width, height);
         wall.setRotate(angle);
         wall.setFill(Color.TRANSPARENT);
-        //wall.setStroke(Color.RED);
+        wall.setStroke(Color.RED);
         this.collisionShapes.add(wall);
     }
 
@@ -280,7 +372,7 @@ public class GameMap {
 
         Ellipse ellipse = new Ellipse(x, y, radiusX, radiusY);
         ellipse.setFill(Color.TRANSPARENT);
-        //ellipse.setStroke(Color.RED);
+        ellipse.setStroke(Color.RED);
         this.collisionShapes.add(ellipse);
 
     }
@@ -289,9 +381,12 @@ public class GameMap {
         Rectangle rect = new Rectangle(x, y, width, height);
         rect.setRotate(angle);
         rect.setFill(Color.TRANSPARENT);
-        //rect.setStroke(Color.BLUE); // debugging
+        rect.setStroke(Color.BLUE); // debugging
 
         if(interactable instanceof Vent) this.ventShapes.put(rect, interactable);
+        else if(interactable instanceof LightSabotage) this.lightsShapes.put(rect, interactable);
+        else if(interactable instanceof ReactorSabotage) this.reactorShapes.put(rect, interactable);
+        else if(interactable instanceof OxygenSabotage) this.oxygenShapes.put(rect, interactable);
         else this.interactableShapes.put(rect, interactable);
     }
 
@@ -299,7 +394,7 @@ public class GameMap {
 
         Ellipse ellipse = new Ellipse(x, y, radiusX, radiusY);
         ellipse.setFill(Color.TRANSPARENT);
-        //ellipse.setStroke(Color.BLUE);
+        ellipse.setStroke(Color.BLUE);
 
         this.interactableShapes.put(ellipse, interactable);
 

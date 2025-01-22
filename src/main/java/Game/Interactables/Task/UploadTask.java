@@ -7,11 +7,12 @@ import org.jspace.Space;
 
 public class UploadTask extends Task {
 
-    private double progress;
+    private double completedSubTasks;
+    private final double totalSubTasks = 3;
 
     public UploadTask() {
         super(TaskType.UPLOAD_DATA);
-        this.progress = 0.0;
+        this.completedSubTasks = 0.0;
     }
 
     @Override
@@ -25,19 +26,27 @@ public class UploadTask extends Task {
     }
 
     @Override
-    public void interact(Player view) {
-
+    public void interact(Player player) {
+        TaskView taskView = new TaskView("Uploading data...", 7, () -> { stopInteraction(player); });
+        player.getPlayerView().setCenter(taskView);
+        player.setInputLocked(true);
     }
 
     @Override
-    public void stopInteraction(Player view) {
-
+    public void stopInteraction(Player player) {
+        player.setInputLocked(false);
+        player.getPlayerView().setCenter(null);
+        if(++completedSubTasks == totalSubTasks) {
+            setCompleted(true);
+            player.completeTask(getTaskType());
+        }else{
+            player.getPlayerView().updateTaskProgress(getTaskType(), completedSubTasks/totalSubTasks);
+        }
     }
 
     @Override
     public boolean canInteract(PlayerInfo info) {
         return !info.isImposter;
     }
-
 
 }
