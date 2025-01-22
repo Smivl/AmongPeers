@@ -26,7 +26,7 @@ public class Player {
 
     private final int SPEED = 650;
     private final int KILL_COOLDOWN_DURATION = 25; // 25
-    private final int SABOTAGE_COOLDOWN_DURATION = 1; // 40
+    private final int SABOTAGE_COOLDOWN_DURATION = 40; // 40
 
     private boolean inputLocked = true;
     private boolean wDown, aDown, sDown, dDown;

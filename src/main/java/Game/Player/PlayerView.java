@@ -19,12 +19,14 @@ import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
+import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
+import utils.Audios;
 
 import java.sql.Time;
 import java.util.*;
@@ -47,6 +49,8 @@ public class PlayerView extends BorderPane {
     private VBox leftPanel;
     private Label sabotageLabel = new Label();
     private SabotageType type;
+    private MediaPlayer alarmsound = Audios.ALARM.getMediaPlayer();{alarmsound.setCycleCount(MediaPlayer.INDEFINITE);}
+
 
     private ProgressBar taskProgressBar;
 
@@ -232,7 +236,7 @@ public class PlayerView extends BorderPane {
         switch (type){
             case OXYGEN_DEPLETED:
             case NUCLEAR_MELTDOWN: {
-
+                alarmsound.play();
                 flashBackground();
                 break;
             }
@@ -244,7 +248,8 @@ public class PlayerView extends BorderPane {
 
     public void sabotageEnded(){
         leftPanel.getChildren().remove(sabotageLabel);
-        sabotageTimeline.stop();
+        if(sabotageTimeline != null) sabotageTimeline.stop();
+        alarmsound.stop();
         setBackground(new Background(new BackgroundFill(Color.TRANSPARENT, null, null)));
     }
 

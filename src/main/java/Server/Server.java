@@ -270,6 +270,11 @@ public class Server {
                                     broadCastClientUpdateIncludingSender(ServerUpdate.KILLED, killedPlayerName);
 
                                     if(checkIfImposterWins()){
+                                        if(sabotageActive){
+                                            this.sabotageActive = false;
+                                            this.sabotageType = null;
+                                            broadCastClientUpdateIncludingSender(ServerUpdate.SABOTAGE_ENDED, playerName);
+                                        }
                                         broadCastClientUpdateIncludingSender(ServerUpdate.IMPOSTERS_WIN, killerPlayerName);
                                     }
                                 }

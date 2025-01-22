@@ -6,6 +6,8 @@ import javafx.scene.media.MediaPlayer;
 public enum Audios {
     BACKGROUND("/audio/Skeld_Ambience_-_Among_Us.mp3"),
     FOOTSTEP("/audio/the-among-us-walking-sound-effect.mp3"),
+    KILL("/audio/kill_sfx.mp3"),
+    ALARM("/audio/alarm_sfx.mp3"),
     MEETING("/audio/emergency-meeting_NTlaXkd.mp3"),
     IMPOSTER_WIN("/audio/uh-oh_8lISF1g.mp3"),
     CREWMATE_WIN("/audio/yay_cRiHGGR.mp3");

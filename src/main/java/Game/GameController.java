@@ -308,13 +308,15 @@ public class GameController {
                         Audios.MEETING.getMediaPlayer().play();
                         Object[] caller = playerSpace.get(new ActualField(ServerUpdate.MEETING_START), new FormalField(String.class));
                         String callerName = (String) caller[1];
+
+                        player.setInputLocked(true);
                         Platform.runLater(() -> {
                             meetingView.show();
                             meetingView.addServerMessage(callerName + " requested requested a meeting.");
                             resetPlayerPositions();
                         });
 
-                        player.setInputLocked(true);
+
                         break;
                     }
                     case MESSAGE: {
@@ -334,8 +336,12 @@ public class GameController {
                         }
                         handleVotedOffUpdate((String)t[1]);
                         Thread.sleep(3000);
-                        Platform.runLater(() -> meetingView.hide());
+                        Platform.runLater(() -> {
+                            meetingView.hide();
+                            resetPlayerPositions();
+                        });
                         // reset players position
+
                         player.setInputLocked(false);
                         player.resetCooldowns();
 
@@ -462,6 +468,7 @@ public class GameController {
 
     public void handleKilledUpdate(String playerName){
         if(playerName.equals(name)) {
+            player.getCharacterView().setKillingVolume(player.getInfo().position, player.getInfo().position);
             player.onKilled();
             map.onPlayerKilled(new double[]{player.getInfo().position[0], player.getInfo().position[1]});
             meetingView.onKilled();
@@ -471,6 +478,7 @@ public class GameController {
         meetingView.killPlayer(playerName);
         for(CharacterView characterView : otherPlayerViews.values()){
             if(characterView.getName().equals(playerName)){
+                characterView.setKillingVolume(new double[]{characterView.getCenterX(), characterView.getCenterY()}, player.getInfo().position);
                 characterView.onKilled();
                 map.onPlayerKilled(new double[]{characterView.getCenterX(), characterView.getCenterY()});
             }
@@ -516,7 +524,6 @@ public class GameController {
     }
 
     private void resetPlayerPositions(){
-        System.out.println("reset Pos");
         player.resetPosition();
         for(String player : otherPlayerViews.keySet()){
             otherPlayerViews.get(player).render(spawnPoints.get(player), new double[]{0,0});
@@ -527,6 +534,7 @@ public class GameController {
     }
 
     private void GameOver(Endgame endgame){
+
         this.running = false;
         gameLoop.stop();
 

@@ -31,6 +31,8 @@ public class CharacterView extends StackPane {
     private double centerY;
     private double[] velocity;
     private MediaPlayer walkingsound = Audios.FOOTSTEP.getMediaPlayer();{walkingsound.setCycleCount(MediaPlayer.INDEFINITE);}
+    private MediaPlayer killingSound = Audios.KILL.getMediaPlayer();{killingSound.setCycleCount(1);}
+
 
     private static final Image[] walkFrames = new Image[] {
             new Image("walk1.png"),
@@ -176,6 +178,7 @@ public class CharacterView extends StackPane {
         this.currentFrameIndex = 0;
         this.isAlive = false;
         walkingsound.stop();
+        killingSound.play();
         movementAnimation.playFromStart();
     }
 
@@ -228,6 +231,19 @@ public class CharacterView extends StackPane {
             walkingsound.setVolume(1 - (distance - innerRadius) / fadeRange); // Linear fade
         } else {
             walkingsound.setVolume(0); // No volume beyond the outer radius
+        }
+    }
+
+    public void setKillingVolume(double[] position1, double[] position2) {
+        double[] distanceVector = new double[]{position1[0]-position2[0], position1[1]-position2[1]};
+        double distance = Math.sqrt(distanceVector[0]*distanceVector[0]+distanceVector[1]*distanceVector[1]);
+        if (distance <= innerRadius) {
+            killingSound.setVolume(1); // Maximum volume within the inner radius
+        } else if (distance <= outerRadius) {
+            double fadeRange = outerRadius - innerRadius;
+            killingSound.setVolume(1 - (distance - innerRadius) / fadeRange); // Linear fade
+        } else {
+            killingSound.setVolume(0); // No volume beyond the outer radius
         }
     }
 }
