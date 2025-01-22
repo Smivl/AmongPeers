@@ -135,7 +135,7 @@ public class GameMap {
             this.createCollisionRectangle(2323, 1487, 535, 349, 0);
             this.createCollisionRectangle(2085, 1693, 307, 498, 0);
             this.createCollisionRectangle(2272, 1800, 295, 132, -45);
-            this.createCollisionRectangle(2704, 1919, 271, 105, 45); // probably wrong
+            this.createCollisionRectangle(2704, 1800, 271, 105, 45);
             this.createCollisionRectangle(2368, 2719, 490, 82, 0);
             this.createCollisionRectangle(2085, 2500, 307, 524, 0);
 
@@ -153,12 +153,56 @@ public class GameMap {
             // electrical
             this.createCollisionRectangle(3858, 2858, 575, 276, -45);
             this.createCollisionRectangle(3845, 3102, 239, 543, 0);
-            this.createCollisionRectangle(3638, 3457, 260, 43, -45);
+            this.createCollisionRectangle(3638, 3547, 260, 43, -45);
+            this.createCollisionRectangle(3159, 3024, 462, 155, 0);
 
             // deposit
             this.createCollisionRectangle(3977, 4362, 525, 83, 45);
             this.createCollisionRectangle(4435, 4560, 758, 59, 0);
             this.createCollisionRectangle(5169, 3732, 102, 887, 0);
+            this.createCollisionRectangle(4418,3326,536,632,0);
+
+            // radio
+            this.createCollisionRectangle(5271, 3723, 523, 173, 0);
+            this.createCollisionRectangle(5271, 3723, 523, 173, 0);
+            this.createCollisionRectangle(6065, 3732, 467, 173, 0);
+            this.createCollisionRectangle(6175, 3905, 139, 472, 0);
+            this.createCollisionRectangle(6175, 3905, 139, 472, 0);
+            this.createCollisionRectangle(5454, 4560, 544, 59, 0);
+            this.createCollisionRectangle(5202, 4461, 274, 82, 45);
+            this.createCollisionRectangle(5979, 4458, 258, 69, -45);
+
+            // scanning room
+            this.createCollisionRectangle(5014, 2804, 356, 146, 0);
+            this.createCollisionRectangle(5169,2950,201,314,0);
+            this.createCollisionRectangle(5169,3264,1108,184,0);
+            this.createCollisionRectangle(5169,3264,1108,184,0);
+            this.createCollisionRectangle(6085,3162,260,65,-45);
+
+            // Bottom right
+            this.createCollisionRectangle(6314, 4102, 405, 63, 0);
+            this.createCollisionRectangle(6851, 3401, 251, 611, 0);
+            this.createCollisionRectangle(7102, 3120, 80, 612, 0);
+            this.createCollisionRectangle(6851, 2686, 460, 486, 0);
+            this.createCollisionRectangle(6677, 4035, 228, 58, -45);
+
+            // corridor from bottom right up
+            this.createCollisionRectangle(6273,2338,295,1110,0);
+            this.createCollisionRectangle(6406, 2143,597,241,0);
+
+            // navigation
+            this.createCollisionRectangle(7286,2384,530,302,0);
+            this.createCollisionRectangle(7286, 1773, 530, 320,0);
+            this.createCollisionRectangle(7816, 2626, 343,60, 0);
+            this.createCollisionRectangle(7816, 1725, 343,112, 0);
+            this.createCollisionRectangle(8353,2030,162,398,0);
+            this.createCollisionRectangle(8104,1863,415,102,45);
+            this.createCollisionRectangle(9098, 2506, 433, 105, -45);
+
+            // rockets
+            this.createCollisionRectangle(6849,1134,437,703,0);
+            this.createCollisionRectangle(6849,1134,437,703,0);
+            this.createCollisionRectangle(6602,735,660,122,45);
 
 
             //
@@ -189,6 +233,27 @@ public class GameMap {
             this.createCollisionRectangle(6379, 594, 385, 47, 0);
 
             this.createCollisionCircle(6668, 1103, 55, 50);
+
+            // Reactors (from bottom up)
+            this.createCollisionRectangle(1697,3921,630,74,0);
+            this.createCollisionRectangle(1427,3826,281,61,38);
+            this.createCollisionRectangle(1258,2719,227,1027,0);
+            this.createCollisionRectangle(1544,2500,272,219,0);
+            this.createCollisionRectangle(1485,2719,331,305,0);
+            this.createCollisionRectangle(1485,3233,678,397,0);
+            this.createCollisionRectangle(1544,1693,272,498,0);
+            this.createCollisionRectangle(1258,1693,286,249,0);
+            this.createCollisionRectangle(1258,929,227,764,0);
+            this.createCollisionRectangle(1702,667,621,130,0);
+            this.createCollisionRectangle(1443,832,280,53,-38);
+            this.createCollisionRectangle(1485,1054,675,378,0);
+            this.createCollisionRectangle(686,1737,201,1287,0);
+            this.createCollisionRectangle(887,2017,161,456,0);
+            this.createCollisionRectangle(1078,3024,180,92,0);
+            this.createCollisionRectangle(845,2959,255,69,35);
+            this.createCollisionRectangle(1072,1504,186,108,0);
+            this.createCollisionRectangle(737,1639,421,75,-32);
+
         }
 
         this.view.getChildren().addAll(this.collisionShapes);
