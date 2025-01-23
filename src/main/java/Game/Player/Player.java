@@ -397,7 +397,7 @@ public class Player {
     }
 
     public void completeSubTask(TaskType taskType){
-        map.onTaskComplete(interactableInFocus);
+        map.onCompleteSubTask(interactableInFocus);
         interactableInFocus = null;
     }
 

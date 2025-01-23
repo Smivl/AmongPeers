@@ -49,7 +49,7 @@ public class GameController {
     private static double LIGHTS_VISION = 250;
     private static double IMPOSTER_VISION = 950;
     private static double DEFAULT_VISION = 650;
-    private static final int TARGET_FPS = 45; // Desired frames per second
+    private static final int TARGET_FPS = 30; // Desired frames per second
     private static final long FRAME_INTERVAL = 1_000_000_000 / TARGET_FPS; // Frame interval in nanoseconds
 
     // game controls

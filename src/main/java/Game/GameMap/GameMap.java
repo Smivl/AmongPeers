@@ -2,10 +2,7 @@ package Game.GameMap;
 
 import Game.GameCharacter.CharacterView;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import Game.Interactables.Interactable;
 import Game.Interactables.Meeting;
@@ -344,6 +341,17 @@ public class GameMap {
     }
 
     public void onTaskComplete(Map.Entry<Shape, Interactable> entry) {
+        Iterator<Map.Entry<Shape, Interactable>> iterator = interactableShapes.entrySet().iterator();
+        while (iterator.hasNext()) {
+            Map.Entry<Shape, Interactable> valueToRemove = iterator.next();
+            if (valueToRemove.getValue().equals(entry.getValue())) {
+                this.view.getChildren().remove(valueToRemove.getKey());
+                iterator.remove(); // Safe removal during iteration
+            }
+        }
+    }
+
+    public void onCompleteSubTask(Map.Entry<Shape, Interactable> entry) {
         this.view.getChildren().remove(entry.getKey());
         interactableShapes.remove(entry.getKey(), entry.getValue());
     }
